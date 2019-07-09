@@ -1,0 +1,523 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(../../static/images/hero_bg_2.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+          <div class="col-md-10">
+            <h1 class="mb-2">Sell </h1>
+            <div><a href="{% url 'home:home' %}">Home</a> <span class="mx-2 text-white">&bullet;</span> <strong class="text-white">Sell</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+<div class="site-section">
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+
+<!-- <div class="col-md-12"  data-aos="fade-up" data-aos-delay="200">
+<div class="site-section-title mb-3">
+  <h2>Our Price</h2>
+  <p><b>You registered your brand as individual, below is our price list for individuals</b></p>
+</div>
+
+<p>
+    Normal users can only post one ad at a time, they can't post another until the first one expires.
+</p>
+<p>Become a member and enjoy unlimited ads for 90days for $550
+<a href="#">Get started</a>
+</p>
+
+
+</div> -->
+
+
+<!--
+<div class="card card-body"><b>Become a memnber and enjoy unlimited ads for 90 days for $550</b>
+<button class="btn btn-primary">Get Started</button>
+</div>
+
+<div class="card card-body"><b>Post ads for 90 days for $150</b>
+<button class="btn btn-primary">Get Started</button>
+</div>
+
+<div class="card card-body"><b>Become a memnber and enjoy unlimited ads for 90 days for $550</b>
+<button class="btn btn-primary">Get Started</button>
+</div> -->
+
+<!-- <form autocomplete="off" action="/action_page.php">
+  <div class="autocomplete" style="width:300px;">
+    <input id="myInput" type="text" name="myCountry" placeholder="Country">
+  </div>
+  <input type="submit">
+</form> -->
+
+
+            <form method="post" enctype='multipart/form-data'> {% csrf_token %}
+<div>
+{% if form.errors %}
+{% for field in form %}
+{% for error in field.errors %}
+<p style="color: red;"> {{ error }} </p>
+{% endfor %}
+{% endfor %}
+{% endif %}
+</div>
+
+
+<center><h3>Address Details</h3></center> 
+
+
+
+                <div class="form-group row">
+<div class="col-sm-3">
+
+  <label for="selectstate">Select State:</label>
+  <select class="form-control" id="selectstate" name="state" >
+  {% for i in state %}
+    <option>{{i}}</option>
+{% endfor %}
+  </select>
+  <label for="state" style="color: red; font-size: 10px; display: none;" id="statestatus"></label>
+</div>
+
+<div class="col-sm-3">
+
+  <label for="selectpostcode">Select Postcode:</label>
+  <select class="form-control" id="selectpostcode" name="postcode" >
+  
+    <option>____</option>
+
+  </select>
+</div>
+
+<div class="col-sm-3">
+  <label for="selectsuburb">Select Suburb:</label>
+  <select class="form-control" id="selectsuburb" name="suburb">  
+  <option>____</option>
+  </select>
+</div>
+                
+
+                </div>
+
+
+
+                <div class="form-group row">
+
+                    <div class="col-sm-3">
+                        {{form.unit|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.street_number|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.street_name|as_crispy_field}}
+                    </div>
+
+                    <div class="col-sm-3">
+                    {{form.land_size|as_crispy_field}}
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.Price|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.Property_type|as_crispy_field}}
+                    </div>
+
+                    <div class="col-sm-3">
+                         {{form.Bedrooms|as_crispy_field}}
+                    </div>
+
+                    <div class="col-sm-3">
+                         {{form.Bathrooms|as_crispy_field}}
+                    </div>
+
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.Car_spaces|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.new_or_established|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.plan|as_crispy_field}}
+                    </div>
+                </div>
+<hr>
+
+
+
+               <h4><center>Additional Images(Optional) </center></h4>
+               
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.image1|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image2|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image3|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image4|as_crispy_field}}
+                    </div>
+                </div>
+
+
+               <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.image5|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image6|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image7|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image8|as_crispy_field}}
+                    </div>
+                </div>
+
+
+               <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.image9|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image10|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image11|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image12|as_crispy_field}}
+                    </div>
+                </div>
+
+
+               <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.image13|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image14|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image15|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image16|as_crispy_field}}
+                    </div>
+                </div>
+
+ <div class="form-group row">
+                    <div class="col-sm-3">
+                         {{form.image17|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-3">
+                        {{form.image18|as_crispy_field}}
+                    </div>
+
+                </div>
+
+
+
+<hr>
+                <h4><center>Additional Informations</center></h4>
+
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                         {{form.Swimming_pool|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Garage|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Balcony|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Outdoor_area|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Undercover_parking|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                         {{form.Fully_fenced|as_crispy_field}}
+                    </div>
+
+
+                </div>
+
+<hr>
+                 <div class="form-group row">
+                    <div class="col-sm-2">
+                         {{form.Outdoor_spa|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Tennis_court|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Ensuite|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.DishWasher|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                       {{form.Study|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                         {{form.Alarm_system|as_crispy_field}}
+                    </div>
+
+
+                </div>
+
+
+
+<hr>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                          {{form.Broadband|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Floorboards|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Gym|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Rumpus_room|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                       {{form.Workshop|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                         {{form.Air_conditioning|as_crispy_field}}
+                    </div>
+
+
+                </div>
+
+<hr>
+
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                         {{form.Solar_panels|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.Heating|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{form.High_energy_efficiency|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                       {{form.Water_tank|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-2">
+                       {{form.Solar_hot_water|as_crispy_field}}
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <button type="Submit" class="btn btn-primary px-4 float-right">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div> <!-- site section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+var selectstate = document.querySelector("#selectstate")
+selectstate.addEventListener('change', fetchFunction)
+
+// this function is to filter the suburb and postcode by the state
+function fetchFunction(){
+
+document.querySelector("#statestatus").style.display='block'
+document.querySelector("#statestatus").style.color='black'
+document.querySelector("#statestatus").innerHTML = 'Validating...'
+// var stateval = document.querySelector("input[name='state']").value;
+
+var token = document.querySelector("input[name='csrfmiddlewaretoken']").value
+var url = 'http://127.0.0.1:8000/filterstate/'
+var stateIndex = document.querySelector('#selectstate').selectedIndex;
+var selectedstate = document.querySelector('#selectstate').options[stateIndex].text;
+var myForm = new FormData();
+myForm.append('state', selectedstate);
+
+// console.log(selectedstate)
+
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onload = function(){
+
+        if(xhr.status == 200){
+
+            response = JSON.parse(xhr.responseText);
+            var length = response.length
+// $('selectstate').children().remove();
+// $('selectstate').append('<option id="foo">foo</option>');
+// $('#selectstate').focus();
+
+postal_list = []
+suburb_list = []
+
+
+// the forloop is to seperate the Postcode and suburb from the response gotten
+for(i=0; i<length;i++){
+  postal_list.push(response[i].postcode)
+  suburb_list.push(response[i].suburb)
+
+}
+
+
+
+// const numbers = [2,3,4,4,2,3,3,4,4,5,5,6,6,7,5,32];
+
+var postal_list2 = removeDups(postal_list)
+var suburb_list2 = removeDups(suburb_list)
+
+// console.log("compare", postal_list2.length, suburb_list.length, suburb_list)
+
+
+$('#selectpostcode').find('option').remove();
+$('#selectsuburb').find('option').remove();
+
+
+
+for(i=0; i<postal_list2.length; i++){
+var option = document.createElement("option");
+var option2 = document.createElement("option");
+
+option.text = postal_list2[i]
+option.value = postal_list2[i]
+var select = document.querySelector("#selectpostcode")
+select.appendChild(option);
+
+option2.text = suburb_list2[i]
+option2.value = suburb_list2[i]
+var select2 = document.querySelector("#selectsuburb")
+select2.appendChild(option2);
+
+
+} 
+// end of forloop
+
+
+document.querySelector("#statestatus").style.color='green'
+document.querySelector("#statestatus").innerHTML = 'Done'
+
+
+
+
+        }
+    }
+
+    xhr.open('POST',url,true);
+    xhr.setRequestHeader('X-CSRFTOKEN',token)
+    xhr.send(myForm);
+
+
+
+}
+
+
+
+
+
+
+// this functin is to remove duplicates
+function removeDups(names) {
+  let unique = {};
+  names.forEach(function(i) {
+    if(!unique[i]) {
+      unique[i] = true;
+    }
+  });
+  return Object.keys(unique);
+}
+
+
+
+function validateState(){
+    var stateval = document.querySelector("#state").value;
+
+    var status2 = document.querySelector("#statestatus");
+    var test2 = state.includes(stateval);
+    if (test2==true){
+        status2.style.color='green'
+        status2.innerHTML = 'Valid State'
+        fetchFunction()
+
+    }
+    else{
+        status2.style.color='red'
+        status2.innerHTML = 'Enter a valid state'
+    }
+}
+
+
+function validateSuburb(){
+    var suburbval = document.querySelector("#suburb").value;
+    var status3 = document.querySelector("#suburbstatus");
+    var test3 = suburb.includes(suburbval);
+    if (test3==true){
+    status3.style.color='green'
+    status3.innerHTML = 'Valid Suburb'
+    }
+    else{
+    status3.style.color='red'
+    status3.innerHTML = 'Enter a valid suburb'
+    }
+}
+</script>
+
+
+
+{% endblock %}

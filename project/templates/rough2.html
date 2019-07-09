@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% block navbar %}
+
+<style>
+  .span4 img {
+    margin-right: 10px;
+}
+.span4 .img-left {
+    float: left;
+}
+</style>
+
+
+
+
+
+
+
+<div class="container-fluid" style="background-image: url(../static/images/background8.jpg); height: 550px;">
+  <div class="row" style="">
+    
+
+<div class="container-fluid">
+
+
+
+
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+    <div class="bd-transparent top-bar">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-6 col-md-6">
+            <p class="mb-0">
+              <a href="#" class="mr-3"><span class="text-black fl-bigmug-line-phone351"></span> <span class="d-none d-md-inline-block ml-2">+2349032841265</span></a>
+              <a href="#"><span class="text-black fl-bigmug-line-email64"></span> <span class="d-none d-md-inline-block ml-2">gospeltruth18@gmail.com</span></a>
+            </p>  
+          </div>
+          <div class="col-6 col-md-6 text-right">
+            <a href="#" class="mr-3"><span class="text-black icon-facebook"></span></a>
+            <a href="#" class="mr-3"><span class="text-black icon-twitter"></span></a>
+            <a href="#" class="mr-0"><span class="text-black icon-linkedin"></span></a>
+            <a href="#" class="mr-0"><span class="">{{request.user.username}}</span></a>
+        
+
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+
+    <div class="site-navbar " style="background-color: rgba(0,0,0,0); border-top-color: rgba(0,0,0,0); color: white;">
+        <div class="container-fluid py-1">
+          <div class="row align-items-center ">
+            <div class="col-8 col-md-8 col-lg-4 bd-transparent">
+              <h1 class=""><a href="{% url 'home:home' %}" class="h5 text-uppercase text-black"><strong style="color: white;">Anand<span class="text-danger">.</span></strong></a></h1>
+            </div>
+            <div class="col-4 col-md-4 col-lg-8">
+              <nav class="site-navigation text-right text-md-right " role="navigation">
+
+                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+
+                <ul class="site-menu js-clone-nav d-none d-lg-block" style="color: white;">
+                  <li class="active">
+
+                    <a href="{% url 'home:home' %}">Home</a>
+                  </li>
+                  <li class="has-children">
+                    <a href="" style="color: orange;">Properties</a>
+                    <ul class="dropdown">
+                      
+                      {% if request.user.user_category.category == "Seller"  %}
+                      <li ><a href="{% url 'home:post' %}" >Sell</a></li>
+                      {% endif %}
+                      <li><a href="#">Buy</a></li>
+                    
+                      <li><a href="#">Find Agents</a></li>
+
+                    </ul>
+                  </li>
+                  <li ><a href="" style="color: orange;">Blog</a></li>
+                  <li><a href="{% url 'home:about' %}" style="color: orange;">About</a></li>
+                  <li><a href="{% url 'home:contact' %}" style="color: orange;">Contact</a></li>
+                
+                {% if request.user.is_authenticated %}
+                
+                 <li><a href=""><i class="fa fa-bell fa-lg" style="color: orange;"></i></a></li>
+<!--                   <li class="has-children">
+                    <a href="' %}"><i class="fa fa-bell fa-lg"></i><span style="color: red"><b></b></span></a>
+                    <ul class="dropdown">
+   
+                    
+                      <li><a href="#">Upgrade account</a></li>
+
+                    </ul>
+                  </li> -->
+
+                  <li class="has-children">
+                  <a href=""><i class="fa fa-user-circle-o fa-lg" style="color: orange;"></i></a>
+                  <ul class="dropdown">
+                  {% if request.user.user_category.category == "Seller"  %}
+                  <li><a href="{% url 'home:mypost' %}"><i class="fa fa-save"></i>My Post</a></li>
+                  {% endif %}
+                  <li><a href="#"><i class="fa fa-home"></i> My Property</a></li>
+                  <li><a href="#"><i class="fa fa-money"></i> My Finances</a></li>
+                  <li><a href="{% url 'account:profile' %}"><i class="fa fa-user"></i> My {{request.user.user_category.category}} Profile</a></li>
+                  <li><a href="#"><i class="fa fa-gear"></i> Account Settings</a></li>
+                  <li><a href="{% url 'account:logout' %}"> <i class="fa fa-sign-out"></i> Logout</a></li>
+                <li><a href="{% url 'account:change_password' %}"> <i class="fa fa-key"></i> Change Password</a></li>
+
+                  </ul>
+                  </li>
+
+
+                  {% else %}
+                  <li><a href="{% url 'account:login' %}">Login</a></li>
+                  <li><a href="{% url 'account:register' %}">Register</a></li>
+                {% endif %}
+
+                  
+                
+                </ul>
+              </nav>
+            </div>
+           
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+<div class="jumbotron" style="background-color: rgba(0,0,0,.5); color: white;">
+  <h3>Search properties for sale</h3>
+  <nav class="nav nav-tabs" style="border-bottom-color: black;">
+    <a href="#" class="nav-item nav-link active">
+        Buy
+    </a>
+    <a href="#" class="nav-item nav-link">
+       Rent
+    </a>
+    <a href="#" class="nav-item nav-link">
+       </i> Sold
+    </a>
+
+  </nav>
+
+<div class="form-group row">
+<div class="col-sm-10"> 
+
+
+<input type="text" placeholder="search by state, studio or postcode" class="form-control-plaintext form-control-lg" style="background-color: rgba(255,255,255, 0.9); margin-top: 5px;">
+
+</div>
+<div class="col-sm-2">  
+<input type="button" class="btn btn-primary btn-lg" value="Search" name="" style="margin-top: 5px;">
+</div>
+</div>
+
+<a data-toggle="collapse" data-target="#demo" style="color: orange;">Property type  <i class="fa fa-caret-down"></i>  &nbsp&nbsp </a>
+<a data-toggle="collapse" data-target="#studio" style="color: orange;">Studio  <i class="fa fa-caret-down"></i>  &nbsp&nbsp </a>
+<a data-toggle="collapse" data-target="#demo" style="color: orange;">Beds  <i class="fa fa-caret-down"></i>  &nbsp&nbsp </a>
+<a data-toggle="collapse" data-target="#demo" style="color: orange;">Price(min)  <i class="fa fa-caret-down"></i>  &nbsp&nbsp </a>
+<a data-toggle="collapse" data-target="#demo" style="color: orange;">Price(max)  <i class="fa fa-caret-down"></i>  &nbsp&nbsp </a>
+
+<br>
+
+<div id="demo" class="collapse">
+  <form action="">
+    <div class="custom-control custom-checkbox mb-3">
+
+  <input type="checkbox" class="custom-control-input" id="all" name="all">
+  <label class="custom-control-label" for="all"> All Property Types</label>
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" id="house" name="house">
+  <label class="custom-control-label" for="house">House</label> 
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" id="apartment" name="apartment">
+  <label class="custom-control-label" for="apartment">Apartment & unit </label> 
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" id="townhouse" name="example1">
+  <label class="custom-control-label" for="townhouse">Townhouse</label>
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" id="villa" name="example1">
+  <label class="custom-control-label" for="villa">Villa</label>
+</div>
+
+
+<div class="custom-control custom-checkbox mb-3">
+<input type="checkbox" class="custom-control-input" id="land" name="example1">
+<label class="custom-control-label" for="land"> Land</label>
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+<input type="checkbox" class="custom-control-input" id="acreage" name="example1">
+<label class="custom-control-label" for="acreage">Acreage</label>
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+     <input type="checkbox" class="custom-control-input" id="rural" name="example1">
+      <label class="custom-control-label" for="rural">Rural</label> 
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" id="block" name="example1">
+  <label class="custom-control-label" for="block">Block Of Units</label>
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" id="retirement" name="example1">
+  <label class="custom-control-label" for="retirement">Retirement Living</label>
+</div>
+
+   </div>
+
+
+
+<div id="studio" class="collapse">
+
+  <a>Studio</a>
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+<!-- container -->
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+{% endblock navbar %}
+
+
+
+{% block body %}
+<div class="container" style="margin-top: 50px;">
+  <div class="row">
+    <div class="col-md-12">
+<h2>Latest Property News</h2>
+
+<div class="block">
+<div class="row">
+<div class="span4">
+<img class="img-left img-thumbnail" src="../static/images/background8.jpg" style="height: 200px; widows: 200px;" />
+<div class="content-heading"><h3 style="font-family: Baufra;">5 STEPS TO ENSURE YOUR HOME IS A GOOD BUY &nbsp </h3></div>
+<p>Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+<p>Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+
+</div>
+</div>
+
+</div>
+
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

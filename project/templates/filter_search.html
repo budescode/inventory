@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			
+		{% for i in generallist %}
+			<div class="card" style="margin-top: 40px; margin-bottom: 40px;">
+				<div class="card-header">
+					Budescode
+				</div>
+				<div class="card-body">
+					<img class="img-fluid img-thumbnail" src="{{i.image.url}}">
+				</div>
+				<div class="card-footer">
+					<b>{{i.Price}}</b>
+					<p>{{i.state}} {{i.suburb}} {{i.postcode}}</p>
+				</div>
+			</div>
+		{% endfor %}
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
