@@ -9,7 +9,7 @@ import uuid
 class PasswordResetEmail(models.Model):
 	email = models.EmailField()
 class ChangePasswordCode(models.Model):
-	user_email = models.EmailField(max_length=50)
+	username = models.CharField(max_length=50)
 	user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 class ChangePassword(models.Model):
 	new_password = models.CharField(max_length=50, blank = False, null = False)
@@ -17,12 +17,10 @@ class ChangePassword(models.Model):
 
 
 class Profile(models.Model):
-	choices = (('Buyer', 'Buyer'),('Seller', 'Seller'))
-	select_choices = (('Individual', 'Individual'),('Agency', 'Agency'))
-
-	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_category')
-	category = models.CharField(max_length=30, choices=choices)
-	brand = models.CharField(max_length=30, choices=select_choices, blank=True, help_text='Select Your brand')
+	name = models.CharField(max_length=100)
+	title = models.CharField(max_length=100)
+	description = models.TextField()
+	photo=models.FileField()
 
 
 class UserRegister(models.Model):
@@ -40,9 +38,9 @@ class UserRegister(models.Model):
 # 		user_profile.save()
 # post_save.connect(create_profile, sender=User)
 
-# def create_user_profile(sender, instance, created, **kwargs):  
-#     if created:  
-#        profile, created = Profile.objects.get_or_create(user=instance) 
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#        profile, created = Profile.objects.get_or_create(user=instance)
 
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):

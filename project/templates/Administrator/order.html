@@ -2,40 +2,21 @@
 {% load staticfiles %}
 {% block body %}
 <style>
-  .full-screen{
-    width: 80%;
-    height: 80%;
-    margin-left: 40;
-    top: 0;
-    left: 0;
-
-  }
-
-
-
-@media only screen and (max-width: 768px) {
-#plan_img{
-display: none;
-}
-#post_img1{
-display: none;
-}
-#plan_text{
-display: none;
-}
-#post_text{
-display: none;
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
 }
 
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }
 
-.green{
-  color: green;
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
-
-
-
-
 </style>
 
 <body>
@@ -66,53 +47,62 @@ display: none;
         <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel">
-              <table class="table table-striped table-advance table-hover">
-                <h4>  Receipt</h4>
-                <p>Name: <span class="badge cart_total1" id="cart_total1">{{name}}</span></p>
-                 <p>Phone: <span class="badge cart_price">{{phonenumber}}</span></p>
-                 <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{total_cart}}</span></p>
-                 <p>Total Price: <span class="badge cart_price">{{total_price}}</span></p>
+              <table class="table table-striped table-advance table-hover" style='font-family: arial, sans-serif; border-collapse: collapse;  width: 100%;'>
+                  <span style='float:left'>{{date}}</span><br>
+                  <span style='float:right'>Sales Receipt {{i.price}}t</span>
+                  <center><img src='/home/budescode/inventory/project/static/images/logo.png' style="width: 100px; height: 100px" />
+                  <br>
+                  <h2>1K CLOTHING</h2>
+                  <span>4, Oko ogba, Airport road, Benin City Edo State </span>
+                  <br>
+                  07039137349  09018524839
+
+                  </center>
+
+
+                 <p><h1>Total Items: <span class="badge cart_total1" id="cart_total1">{{total_cart}}</span></h1> </p>
+                 <p> <h1> Total Price: <span class="badge cart_price">{{total_price}}</span> </h1></p>
                 <hr>
                 <thead>
                   <tr>
-                    <th><i class="fa fa-user"></i> Category</th>
-                    <th class="hidden-phone"><i class="fa fa-calendar"></i> Description</th>
-                    <th><i class="fa fa-credit-card"></i>Single Price</th>
-                
-                    <th><i class=" fa fa-edit"></i> Qty</th>
-					<th><i class=" fa fa-card"></i> Total Price</th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class="fa fa-user"></i> Category</th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;' class="hidden-phone"><i class="fa fa-calendar"></i> Description</th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class="fa fa-credit-card"></i>Single Price</th>
 
-                    
-                    <th></th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class=" fa fa-edit"></i> Qty</th>
+					<th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class=" fa fa-card"></i> Total Price</th>
+
+
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'></th>
                   </tr>
                 </thead>{% csrf_token %}
                 <tbody>
                 {% for i in qs %}
                   <tr class="post{{i.pk}}" name=>
-                    <td>
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
                       <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.category}}</a>
                     </td>
-                    <td>
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
                       {{i.description}}
                     </td>
-                    
-                    <td><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
-                  
-                    <td>
-                    <div class="form-group row">
-                    <div class="col-sm-6">
+
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
+
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
                     <span> {{i.qty}}</span>
-                    
-                    </div>
-                    </div>
+
                     </td>
-                    <td> <span id="price{{i.pk}}"> {{i.price}} </span></td>
-              
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'> <span id="price{{i.pk}}"> {{i.price}} </span></td>
+
                   </tr>
 
 {% endfor %}
+
                 </tbody>
               </table>
+             <center> <h1>Thanks For Your Patronage</h1>
+<img src='/home/budescode/inventory/project/static/images/barcode.png' style='width: 350px; height:160px' />
+</center>
 
             </div>
             <!-- /content-panel -->

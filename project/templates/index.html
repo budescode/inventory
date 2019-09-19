@@ -125,7 +125,7 @@
 
                   {% else %}
                   <li><a href="{% url 'account:login' %}">Login</a></li>
-                  <li><a href="{% url 'account:register' %}">Register</a></li>
+
                 {% endif %}
 
 
@@ -189,7 +189,7 @@
 <!-- this is where all you searched for will be displayed -->
 
 <div id="searchitem" style="display: none;">
-  
+
 </div>
 <input type="text" name="hiddensearch" id="hiddensearch" style="display: none;" value="">
 <input type="text" name="propertytype1" id="propertytype1" style="display: none;" value="Property type">
@@ -467,7 +467,7 @@ function InputChange(){
 
     var inputedvalue = document.querySelector("#search").value
 
-     
+
     if (inputedvalue){
     var length = searchlist.length
     var searchitem = document.querySelector("#searchitem")
@@ -476,18 +476,18 @@ function InputChange(){
     spanelement.setAttribute("class", "badge badge-primary");
     // var addlength =  length
     spanelement.setAttribute("id", 'itemid'+length);
-    
-    
+
+
 
     spanelement.style.marginLeft = '3px';
     spanelement.style.marginRight = '3px';
-    spanelement.addEventListener('click', 
+    spanelement.addEventListener('click',
     function(){
     var id = this.innerHTML.slice(0,-2)
 
     // var element = document.querySelector(id);
 
-    
+
     var index = searchlist.indexOf(id)
     searchlist.splice( index, 1 );
     var propertyarray = []
@@ -501,7 +501,7 @@ function InputChange(){
     var bedmax1 = document.querySelector("#bedmax1").value = document.querySelector(".bedmax").innerHTML.trim().slice(0, 1);
     var pricemin1 = document.querySelector("#pricemin1").value = document.querySelector(".pricemin")
     var pricemax1 = document.querySelector("#pricemax1").value = document.querySelector(".pricemax")
-    
+
     this.remove()
 
     var hiddensearch= document.querySelector("#hiddensearch").value = searchlist
@@ -512,7 +512,7 @@ function InputChange(){
     var cancel = document.createTextNode(' X')
     spanelement.appendChild(testnode)
     spanelement.appendChild(cancel)
-    searchitem.appendChild(spanelement)      
+    searchitem.appendChild(spanelement)
     searchlist[length] = spanelement.innerHTML
     console.log(searchlist)
     // console.log(searchlist)
@@ -645,7 +645,7 @@ function autocomplete(inp, arr) {
     spanelement.style.marginLeft = '3px';
     spanelement.style.marginRight = '3px';
 
-    spanelement.addEventListener('click', 
+    spanelement.addEventListener('click',
     function(){
     var id = this.innerHTML.slice(0,-2)
     var index = searchlist.indexOf(id)
@@ -678,10 +678,10 @@ function autocomplete(inp, arr) {
 
     // console.log(spanelement)
 
-    searchitem.appendChild(spanelement)   
+    searchitem.appendChild(spanelement)
     searchlist[length] = spanelement.innerHTML
     var hiddensearch= document.querySelector("#hiddensearch").value = searchlist
-    
+
     var propertyarray = []
     var checkboxes = document.querySelectorAll('input[type=checkbox][name=propertycheck]:checked')
 
@@ -707,7 +707,7 @@ function autocomplete(inp, arr) {
 /*An array containing all the country names in the world:*/
 var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
 // var countries = [
-var list1 = [ 
+var list1 = [
 {% for i in qs %}
 "{{i.postcode}}",
 
@@ -741,7 +741,7 @@ document.querySelector("#pricemax1").value = pricemax
 console.log(document.querySelector("#bedmin1").value, document.querySelector("#bedmax1").value, document.querySelector("#pricemin1").value, document.querySelector("#pricemax1").value)
 }
 function changebedmin(e){
- 
+
 document.querySelector(".bedmin").innerHTML = e
 document.querySelector("#bedmin1").value = e.trim().slice(0, 1);
 

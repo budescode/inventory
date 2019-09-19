@@ -67,6 +67,7 @@ display: none;
         <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel">
+            <div class="table-responsive">
               <table class="table table-striped table-advance table-hover">
                 <h4>  Cart</h4>
                 <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{context_cart}}</span></p>
@@ -75,9 +76,11 @@ display: none;
                 <thead>
                   <tr>
                     <th><i class="fa fa-user"></i> Category</th>
-                    <th class="hidden-phone"><i class="fa fa-calendar"></i> Description</th>
+                    <th class=""><i class="fa fa-calendar"></i> Description</th>
+                    <th class=""><i class="fa fa-calendar"></i> Size</th>
+
                     <th><i class="fa fa-credit-card"></i>Single Price</th>
-                
+
                     <th><i class=" fa fa-edit"></i> Qty</th>
 					<th><i class=" fa fa-card"></i> Total Price</th>
 
@@ -94,40 +97,37 @@ display: none;
                     <td>
                       {{i.description}}
                     </td>
-                    
+
+                    <td>
+                      {{i.size}}
+                    </td>
+
+
                     <td><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
-                  
+
                     <td>
                     <div class="form-group row">
-                    <div class="col-sm-6">
-                    <input class="form-control" type="text" name="" value="{{i.qty}}" id="qty{{i.pk}}">
-                    <button class="btn btn-default" id="qty{{i.pk}}" onclick="editcartFunction(this.id)">Update <img style="display: none;" id="editimg{{i.pk}}" src="{% static 'images/gif.gif' %}"></button>
+                    <div class="col-md-3">
+                    <input class="form-control" type="text" name="" value="{{i.qty}}" id="qt{{i.product_id}}">
+                    <button class="btn btn-default" id="qty{{i.id}}" onclick="editcartFunction({{i.product_id}}, {{i.id}})">Update <img style="display: none;" id="editimg{{i.id}}" src="{% static 'images/gif.gif' %}"></button>
                     </div>
                     </div>
                     </td>
-                    <td> <span id="price{{i.pk}}"> {{i.price}} </span></td>
-                    <td id="td{{i.pk}}">                             
-                 
-                      <button class="btn btn-danger btn-sm" id={{i.pk}} onclick="deletecartFunction(this.id)"><i class="fa fa-shop "></i>Delete <img style="display: none;" id="img{{i.pk}}" src="{% static 'images/gif.gif' %}"> </button>
+                    <td> <span id="price{{i.id}}"> {{i.price}} </span></td>
+                    <td id="td{{i.pk}}">
+
+                      <a href='{% url 'administrator:deletecart' i.id i.product_id %}'> <button class="btn btn-danger btn-sm" id={{i.pk}} ><i class="fa fa-shop "></i>Delete <img style="display: none;" id="img{{i.pk}}" src="{% static 'images/gif.gif' %}"> </button></a>
                     </td>
                   </tr>
 
 {% endfor %}
                 </tbody>
               </table>
-              <form method="post" action="{% url 'administrator:pay' %}">{% csrf_token %}
-  <div class="form-group row">
-  <div class="col-sm-3">
-    
-  
-    <label for="name">Name</label>
-    <input type="text" id="name" class="form-control" name="name">
-    <label for="name">Phone Number</label>
-    <input type="text" id="name" class="form-control" name="phone">
-    </div>
-  </div>
-  <button class="btn btn-success" type="submit">Submit</button>
-</form>
+              </div>
+
+<a href='{% url 'administrator:pay' %}'>  <button class="btn btn-success">Print Receipt</button></a>
+<!--<a href='{% url 'administrator:deleteallcart' %}'>  <button class="btn btn-danger">Clear Cart</button></a>-->
+
 
         <!--     <a href="">  <button class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" >Pay</button></a> -->
             </div>
@@ -160,7 +160,7 @@ display: none;
 
       <!-- Modal footer -->
       <div class="modal-footer">
-      
+
       <!--   <button type="button" class="btn btn-primary pk" id="" data-dismiss="modal">Delete</button> -->
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>

@@ -27,7 +27,7 @@ SECRET_KEY = '8^ddocc&9lq5$%h32fgt_j-7##0-o!h2vgh-!_j5u2wc3er0ih'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['budescode.pythonanywhere.com']
 
 
 # Application definition
@@ -141,11 +141,11 @@ AUTHENTICATION_BACKENDS = (
 )
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = '/home/budescode/inventory/project/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+MEDIA_ROOT = '/home/budescode/inventory/project/media_cdn'
 CRISPY_TEMPLATE_PACK='bootstrap4'
 
 

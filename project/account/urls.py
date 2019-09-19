@@ -6,7 +6,7 @@ from django.contrib.auth import views
 from . import views
 from django.contrib.auth import views as auth_views
 
- 
+
 
 from django.contrib.auth.views import PasswordResetView
 
@@ -19,20 +19,23 @@ urlpatterns = [
 
 
 	path('login/', views.login_page, name='login'),
-	path('logout/', views.logout_page, name='logout'),	
-	path('register/', views.register, name='register'),
+	path('logout/', views.logout_page, name='logout'),
+ 	path('register/', views.register, name='register'),
 	path('profile/', views.profile, name="profile" ),
+	path('edit_profile/<slug:id>/', views.edit_profile, name="edit_profile" ),
+	path('delete_profile/<slug:id>/', views.delete_profile, name="delete_profile" ),
+
 	path('upgrade/', views.Upgrade, name="upgrade" ),
 	path('register_success/', views.registration_success, name='registration_success'),
 	path('change_password/', views.change_password, name='change_password'),
 	path('change_password_confirm/', views.change_password_confirm, name='change_password_confirm'),
-	path('<slug:pk>', views.change_password_code, name='change_password_code'),
+	path('<slug:pk>/<slug:username>/', views.change_password_code, name='change_password_code'),
 	path('change_password_success/', views.change_password_success, name='change_password_success'),
 
 
 
 
-] 
+]
 
 
 

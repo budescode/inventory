@@ -1,289 +1,226 @@
-{% extends 'base.html' %}
+{% extends 'Administrator/base.html' %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
 {% block body %}
-
 <style>
-    
-
-.card {
-    padding-top: 20px;
-    margin: 10px 0 20px 0;
-    background-color: rgba(214, 224, 226, 0.2);
-    border-top-width: 0;
-    border-bottom-width: 2px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.card .card-heading {
-    padding: 0 20px;
-    margin: 0;
-}
-
-.card .card-heading.simple {
-    font-size: 20px;
-    font-weight: 300;
-    color: #777;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.card .card-heading.image img {
-    display: inline-block;
-    width: 46px;
-    height: 46px;
-    margin-right: 15px;
-    vertical-align: top;
-    border: 0;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-}
-
-.card .card-heading.image .card-heading-header {
-    display: inline-block;
-    vertical-align: top;
-}
-
-.card .card-heading.image .card-heading-header h3 {
-    margin: 0;
-    font-size: 14px;
-    line-height: 16px;
-    color: #262626;
-}
-
-.card .card-heading.image .card-heading-header span {
-    font-size: 12px;
-    color: #999999;
-}
-
-.card .card-body {
-    padding: 0 20px;
-    margin-top: 20px;
-}
-
-.card .card-media {
-    padding: 0 20px;
-    margin: 0 -14px;
-}
-
-.card .card-media img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.card .card-actions {
-    min-height: 30px;
-    padding: 0 20px 20px 20px;
-    margin: 20px 0 0 0;
-}
-
-.card .card-comments {
-    padding: 20px;
-    margin: 0;
-    background-color: #f8f8f8;
-}
-
-.card .card-comments .comments-collapse-toggle {
-    padding: 0;
-    margin: 0 20px 12px 20px;
-}
-
-.card .card-comments .comments-collapse-toggle a,
-.card .card-comments .comments-collapse-toggle span {
-    padding-right: 5px;
-    overflow: hidden;
-    font-size: 12px;
-    color: #999;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.card-comments .media-heading {
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.card.people {
-    position: relative;
-    display: inline-block;
-    width: 170px;
-    height: 300px;
-    padding-top: 0;
-    margin-left: 20px;
-    overflow: hidden;
-    vertical-align: top;
-}
-
-.card.people:first-child {
-    margin-left: 0;
-}
-
-.card.people .card-top {
-    position: absolute;
+  .full-screen{
+    width: 80%;
+    height: 80%;
+    margin-left: 40;
     top: 0;
     left: 0;
-    display: inline-block;
-    width: 170px;
-    height: 150px;
-    background-color: #ffffff;
+
+  }
+
+
+
+@media only screen and (max-width: 768px) {
+#plan_img{
+display: none;
+}
+#post_img1{
+display: none;
+}
+#plan_text{
+display: none;
+}
+#post_text{
+display: none;
 }
 
-.card.people .card-top.green {
-    background-color: #53a93f;
 }
 
-.card.people .card-top.blue {
-    background-color: #427fed;
-}
-
-.card.people .card-info {
-    position: absolute;
-    top: 150px;
-    display: inline-block;
-    width: 100%;
-    height: 101px;
-    overflow: hidden;
-    background: #ffffff;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.card.people .card-info .title {
-    display: block;
-    margin: 8px 14px 0 14px;
-    overflow: hidden;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 18px;
-    color: #404040;
-}
-
-.card.people .card-info .desc {
-    display: block;
-    margin: 8px 14px 0 14px;
-    overflow: hidden;
-    font-size: 12px;
-    line-height: 16px;
-    color: #737373;
-    text-overflow: ellipsis;
-}
-
-.card.people .card-bottom {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    display: inline-block;
-    width: 100%;
-    padding: 10px 20px;
-    line-height: 29px;
-    text-align: center;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.card.hovercard {
-    position: relative;
-    padding-top: 60px;
-    overflow: hidden;
-    text-align: center;
-    background-color: rgba(214, 224, 226, 0.2);
+.green{
+  color: green;
 }
 
 
 
-.card.hovercard .avatar {
-    position: relative;
-    top: -50px;
-    margin-bottom: -50px;
-}
-
-.card.hovercard .avatar img {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    border: 5px solid rgba(255,255,255,0.5);
-}
-
-.card.hovercard .info {
-    padding: 4px 8px 10px;
-}
-
-.card.hovercard .info .title {
-    margin-bottom: 4px;
-    font-size: 24px;
-    line-height: 1;
-    color: #262626;
-    vertical-align: middle;
-}
-
-.card.hovercard .info .desc {
-    overflow: hidden;
-    font-size: 12px;
-    line-height: 20px;
-    color: #737373;
-    text-overflow: ellipsis;
-}
-
-.card.hovercard .bottom {
-    padding: 0 20px;
-    margin-bottom: 17px;
-}
-
-.btn{ border-radius: 50%; width:32px; height:32px; line-height:18px;  }
 
 </style>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-sm-6">
+<body>
 
-        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(images/hero_bg_2.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
-        <div class="container">
-        <div class="row align-items-center justify-content-center text-center">
-        <div class="col-md-10">
-        <h1 class="mb-2">Profile</h1>
-        <div><a href="{% url 'home:home' %}">Home</a> <span class="mx-2 text-white">&bullet;</span> <strong class="text-white">Profile</strong></div>
-        </div>
-        </div>
-        </div>
-        </div>
 
-            <div class="card hovercard">
-  <!--               <div class="cardheader">
 
-                </div> -->
-                <div class="avatar">
-                    <img alt="" src="{% static 'images/user.png' %}">
-                </div>
-                <div class="info">
-                    <div class="title">
-                        <a href="">{{request.user.first_name}} {{request.user.last_name}}</a>
-                    </div>
-                    <div class="desc"><h5>Email: {{request.user.email}}</h5></div>
-                    <div class="desc"><h5>Tel: {{request.user.username}}</h5></div>
-                    <div class="desc"><h5>Category: {{request.user.user_category.category}} | {{request.user.user_category.select}} </h5></div>
-                    
-                </div>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
 
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+
+{% include 'Administrator/header.html' %}
+{% include 'Administrator/sidebar.html' %}
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+
+        <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel table-responsive">
+              <table class="table table-striped table-advance table-hover table-responsive">
+              <h4>  Profile</h4>
+              <!--<p>Total Items: <span class="badge cart_total1" id="cart_total1">{{context_cart}}</span></p>-->
+              <!--<p>Total Price: <span class="badge cart_price">{{total_price}}</span></p>-->
+                <hr>
+                <thead>
+                  <tr>
+                    <th> Name</th>
+                    <th class="">Title</th>
+                    <th> Description</th>
+                    <th>Image</th>
+                    <!--<th>Edit</th>-->
+                    <th>Delete</th>
+
+
+                  </tr>
+                </thead>{% csrf_token %}
+                <tbody>
+                {% for i in qs %}
+                  <tr class="post{{i.pk}}" name=>
+                    <td>
+                      <a id="{{i.pk}}">{{i.name}}</a>
+                    </td>
+                    <td>
+                      {{i.title}}
+                    </td>
+
+                    <td>{{i.description}} </td>
+
+                    <td id="">
+                     <img src='{{i.photo.url}}' class='img-fluid' style='width:90px; height:90px;'>
+                    </td>
+                    <!--<td id="">-->
+                    <!--<a href='{% url 'account:edit_profile' i.id %}'> <button class='btn btn-primary'>Edit</button></a>-->
+                    <!--</td>-->
+                    <td id="">
+                    <a href='{% url 'account:delete_profile' i.id %}'><button class='btn btn-danger'>Delete</button></a>
+                    </td>
+
+                  </tr>
+
+{% endfor %}
+<a href='{% url 'account:register' %}'><button class='btn btn-success'>Add Profile</button></a>
+                </tbody>
+              </table>
             </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
 
- </div>
- </div>
- </div>   
 
-    
+            <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Post Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-md-2 col-sm-4 col-xs-4" >
+
+    <img src="" class="img-fluid img-thumbnail"  id="post_img1">
+    <div class="caption" id="post_text">Image</div>
+
+  <img src="" class="figure-img img-fluid img-thumbnail" alt="plan" id="plan_img">
+  <div class="caption" id="plan_text">Plan</div>
+    <!-- <img src="" class="img-fluid img-thumbnail"  id="plan_img"> -->
+
+  </div>
+
+  <div class="col-md-10">
+
+
+    <img src="" class="img-fluid img-thumbnail"  id="main_img">
+    <br>
+ <b>  <h5>
+<!--   User: <span id="user" class="green"></span><br> -->
+  Active: <span id="Active" class="green"></span><br>
+  Address: <span id="address" class="green"></span><br>
+  Property Type: <span id="property_type" class="green"></span> <br>
+  Price: $<span id="Price" class="green"></span> <br>
+  Bedrooms: <span id="Bedrooms" class="green"></span> <br>
+  Bathrooms: <span id="Bathrooms" class="green"></span> <br>
+  Car Spaces: <span id="Car_spaces" class="green"></span> <br>
+  New Or Established: <span id="new_or_established" class="green"></span> <br>
+</h5>
+
+  <h3>OTHER INFORMATIONS</h3>
+  Swimming Pool : <span id="Swimming_pool" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Garage: <span id="Garage" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Balcony: <span id="Balcony" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Outdoor Area: <span id="Outdoor_area" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Undercover Parking: <span id="Undercover_parking" class="green"></span> &nbsp&nbsp&nbsp&nbsp <br>
+
+  Shed : <span id="Shed" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Fully Fenced : <span id="Fully_fenced" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Outdoor Spa : <span id="Outdoor_spa" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Tennis_court: <span id="Tennis_court" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Ensuite : <span id="Ensuite" class="green"></span> &nbsp&nbsp&nbsp&nbsp <br>
+
+  DishWasher : <span id="DishWasher" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+
+  Study : <span id="Study" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Built In Robes : <span id="Built_in_robes" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Alarm System : <span id="Alarm_system" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Broadband : <span id="Broadband" class="green"></span> &nbsp&nbsp&nbsp&nbsp <br>
+
+  Floorboards : <span id="Floorboards" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Gym : <span id="Gym" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Rumpus Room : <span id="Rumpus_room" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Workshop : <span id="Workshop" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Air Conditioning : <span id="Air_conditioning" class="green"></span> &nbsp&nbsp&nbsp&nbsp  <br>
+
+  Solar Panels : <span id="Solar_panels" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Heating : <span id="Heating" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  High Energy Efficiency : <span id="High_energy_efficiency" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Water Tank : <span id="Water_tank" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Solar Hot Water : <span id="Solar_hot_water" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  <!--   <i class="fa fa-bath fa-lg"></i>  <i class="fa fa-bed fa-lg"></i>  <i class="fa fa-garage fa-lg"></i> -->
+  </b>
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+
+      <!--   <button type="button" class="btn btn-primary pk" id="" data-dismiss="modal">Delete</button> -->
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+        </div>
+        <!-- /row -->
+      </section>
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+
+</body>
 {% endblock %}

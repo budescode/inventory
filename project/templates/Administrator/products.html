@@ -66,16 +66,19 @@ display: none;
 
         <div class="row mt">
           <div class="col-md-12">
-            <div class="content-panel">
+            <div class="content-panel table-responsive">
               <table class="table table-striped table-advance table-hover table-responsive">
-              <h4>  Cart</h4>
+              <h4>  Products For Sale</h4>
               <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{context_cart}}</span></p>
               <p>Total Price: <span class="badge cart_price">{{total_price}}</span></p>
+              <p><a href='{% url 'administrator:cart' %}'> <button class='btn btn-success' >Sell</button> </a></p>
                 <hr>
                 <thead>
                   <tr>
                     <th><i class="fa fa-user"></i> User</th>
-                    <th class="hidden-phone"><i class="fa fa-calendar"></i> Description</th>
+                    <th class=""><i class="fa fa-calendar"></i> Description</th>
+                    <th class=""><i class="fa fa-calendar"></i> Size</th>
+
                     <th><i class="fa fa-credit-card"></i> Price</th>
                     <th><i class=" fa fa-edit"></i> Product Available</th>
                     <th><i class=" fa fa-edit"></i> Qty</th>
@@ -93,9 +96,12 @@ display: none;
                     <td>
                       {{i.description}}
                     </td>
-                    
-                    <td>${{i.price}} </td>
-                    <td><button class="btn btn-success btn-xs ">{{i.stock}}</button></td>
+                    <td>
+                    {{i.size}}
+                    </td>
+
+                    <td>{{i.price}} </td>
+                    <td><button class="btn btn-success btn-xs " id='stock{{i.id}}'>{{i.stock}}</button></td>
                     <td>
                     <div class="form-group row">
                     <div class="col-sm-6">
@@ -103,8 +109,8 @@ display: none;
                     </div>
                     </div>
                     </td>
-                    <td id="testing">                             
-                 
+                    <td id="testing">
+
                       <button class="btn btn-primary btn-lg" id={{i.pk}} onclick="addtocartFunction(this.id)"><i class="fa fa-shop "></i>Cart <img style="display: none;" id="img{{i.pk}}" src="{% static 'images/gif.gif' %}"></button>
                     </td>
                   </tr>
@@ -161,7 +167,7 @@ display: none;
   New Or Established: <span id="new_or_established" class="green"></span> <br>
 </h5>
 
-  <h3>OTHER INFORMATIONS</h3> 
+  <h3>OTHER INFORMATIONS</h3>
   Swimming Pool : <span id="Swimming_pool" class="green"></span> &nbsp&nbsp&nbsp&nbsp
   Garage: <span id="Garage" class="green"></span> &nbsp&nbsp&nbsp&nbsp
   Balcony: <span id="Balcony" class="green"></span> &nbsp&nbsp&nbsp&nbsp
@@ -178,24 +184,24 @@ display: none;
 
   Study : <span id="Study" class="green"></span> &nbsp&nbsp&nbsp&nbsp
   Built In Robes : <span id="Built_in_robes" class="green"></span> &nbsp&nbsp&nbsp&nbsp
-  Alarm System : <span id="Alarm_system" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
+  Alarm System : <span id="Alarm_system" class="green"></span> &nbsp&nbsp&nbsp&nbsp
   Broadband : <span id="Broadband" class="green"></span> &nbsp&nbsp&nbsp&nbsp <br>
 
   Floorboards : <span id="Floorboards" class="green"></span> &nbsp&nbsp&nbsp&nbsp
-  Gym : <span id="Gym" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
-  Rumpus Room : <span id="Rumpus_room" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
-  Workshop : <span id="Workshop" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
+  Gym : <span id="Gym" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Rumpus Room : <span id="Rumpus_room" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Workshop : <span id="Workshop" class="green"></span> &nbsp&nbsp&nbsp&nbsp
   Air Conditioning : <span id="Air_conditioning" class="green"></span> &nbsp&nbsp&nbsp&nbsp  <br>
 
-  Solar Panels : <span id="Solar_panels" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
-  Heating : <span id="Heating" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
-  High Energy Efficiency : <span id="High_energy_efficiency" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
-  Water Tank : <span id="Water_tank" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
-  Solar Hot Water : <span id="Solar_hot_water" class="green"></span> &nbsp&nbsp&nbsp&nbsp 
+  Solar Panels : <span id="Solar_panels" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Heating : <span id="Heating" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  High Energy Efficiency : <span id="High_energy_efficiency" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Water Tank : <span id="Water_tank" class="green"></span> &nbsp&nbsp&nbsp&nbsp
+  Solar Hot Water : <span id="Solar_hot_water" class="green"></span> &nbsp&nbsp&nbsp&nbsp
   <!--   <i class="fa fa-bath fa-lg"></i>  <i class="fa fa-bed fa-lg"></i>  <i class="fa fa-garage fa-lg"></i> -->
   </b>
   </div>
-    
+
   </div>
 </div>
 
@@ -203,7 +209,7 @@ display: none;
 
       <!-- Modal footer -->
       <div class="modal-footer">
-      
+
       <!--   <button type="button" class="btn btn-primary pk" id="" data-dismiss="modal">Delete</button> -->
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>

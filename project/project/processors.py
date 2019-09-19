@@ -1,5 +1,8 @@
 from administrator.models import Cart
+from datetime import datetime
+
 def PosterContextProcessors(request):
+	date = datetime.today().strftime('%Y-%m-%d')
 	sales_count = Cart.objects.filter(paid=True).count()
 	cart = Cart.objects.filter(paid=False).count()
 	total_price1 = Cart.objects.filter(paid=False)
@@ -12,4 +15,4 @@ def PosterContextProcessors(request):
 	for i in sales_price1:
 		b = b+i.price
 
-	return {'context_cart': cart, 'total_price':a, 'sales_count':sales_count, 'sales_price':b}
+	return {'date':date ,'context_cart': cart, 'total_price':a, 'sales_count':sales_count, 'sales_price':b}

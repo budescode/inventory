@@ -11,6 +11,7 @@ from .models import Poster
 import json
 from administrator.models import CountryDetails
 from django.db.models import Q
+import barcode
 
 
 def home(request):
@@ -33,12 +34,12 @@ def filter_search(request):
 	hiddensearch = request.POST.get("hiddensearch") #it brings a string of the postalcode
 	hiddensearch1 =  hiddensearch.split('X')
 
-	propertytype1 = request.POST.get("propertytype1")		
+	propertytype1 = request.POST.get("propertytype1")
 	propertytype1 =  propertytype1.split(',')
 	# print(propertytype1, 'propertytypw')
 	bedmin1 = request.POST.get("bedmin1")
 
-	bedmax1 = request.POST.get("bedmax1")	
+	bedmax1 = request.POST.get("bedmax1")
 	pricemax1 = request.POST.get("pricemax1")
 	pricemax1 = ''.join(pricemax1.split())
 	pricemax1 = ''.join(pricemax1.split(','))
@@ -47,7 +48,7 @@ def filter_search(request):
 
 
 
-	pricemin1 = request.POST.get("pricemin1")	
+	pricemin1 = request.POST.get("pricemin1")
 	pricemin1 = ''.join(pricemin1.split())
 	pricemin1 = ''.join(pricemin1.split(','))
 	pricemin1 = pricemin1[1:]
@@ -94,12 +95,12 @@ def filter_search(request):
 
 
 	generallist = []
-	# this is the list where all the filtered items will be 
-	
+	# this is the list where all the filtered items will be
+
 	mylist = list(dict.fromkeys(hiddensearch1))
 	# it'll remove duplicate from the list that has the postal code
 
-	searchlist = []	
+	searchlist = []
 	# this list contains all the Poster that has the postal code needed
 	mylist = ['NT DARWIN', 'TAS GLEBE']
 	for i in mylist:
@@ -107,18 +108,18 @@ def filter_search(request):
 		state = i[0:findvalue].strip()
 		suburb = i[findvalue+1:].strip()
 
-		
+
 		post = Poster.objects.filter(state=state, suburb=suburb)
 		if post:
 			searchlist.extend(post)
 
-	
+
 	searchlist = list(dict.fromkeys(searchlist))
 	# print('searchlist', searchlist, len(searchlist))
 	# print(bedminsearch, bedmaxsearch, priceminsearch, pricemaxsearch)
 	for i in searchlist:
-		
-		if propertytype1[0]=='' or propertytype1[0]== 'All property types':			
+
+		if propertytype1[0]=='' or propertytype1[0]== 'All property types':
 			if int(i.Bedrooms) >= int(bedminsearch) and int(i.Bedrooms) <= int(bedmaxsearch) and int(i.Price)>=priceminsearch and int(i.Price)<=pricemaxsearch:
 				print("yes", i.Property_type, i.Price)
 				generallist.append(i)
@@ -151,21 +152,21 @@ def filter_search(request):
 def post(request):
 	# qs = CountryDetails.objects.all()
 	state = CountryDetails.objects.values_list('state', flat=True).distinct()
-	
+
 	# for i in qs:
 	# 	print(qs)
 	user = User.objects.get(username=request.user.username)
-	if request.method == 'POST':		
+	if request.method == 'POST':
 		form = PosterForm(request.POST or None, request.FILES or None)
 		if form.is_valid():
 			qs = form.save(commit=False)
-			
+
 			user = User.objects.get(username=request.user.username)
 			qs.user = user
 			qs.save()
 			return render(request, 'post_success.html')
 	else:
-		form = PosterForm() 
+		form = PosterForm()
 	context = {"state": state, 'form':form}
 	return render(request, "sell.html", context)
 
@@ -204,11 +205,11 @@ def Delete(request, id):
 def Edit(request, id):
 	user = User.objects.get(username=request.user.username)
 	qs = Poster.objects.get(id_user=id,  user=user)
-	if request.method == 'POST':		
+	if request.method == 'POST':
 		form = PosterForm(request.POST or None, request.FILES or None, instance=qs)
 		if form.is_valid():
 			qs = form.save(commit=False)
-			
+
 			user = User.objects.get(username=request.user.username)
 			qs.user = user
 			qs.save()

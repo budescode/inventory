@@ -6,16 +6,71 @@ from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponse,JsonResponse
 import csv, io
 from django.contrib import messages
-from .models import CountryDetails, MyItems, Cart
+from .models import Category, MyItems, Cart, Image, PettyCash
 from project.utils import render_to_pdf
 from django.template.loader import get_template
 from django.utils import timezone
+from datetime import datetime
+import barcode
+from barcode.writer import ImageWriter
+# from StringIO import StringIO
+import random
+from django.db.models import Avg, Sum, Count
+from .forms import PettyCashForm
+from django.conf import settings
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from django.core.mail import EmailMultiAlternatives
 
+
+
+
+
+@login_required(login_url='/account/login/')
+def home(request):
+
+    if request.user.username == 'cashier':
+        return redirect('administrator:products')
+
+    else:
+	    return render(request, 'Administrator/index1.html')
+
+
+
+def dailyReportView(request):
+	total_price = 0
+	date = datetime.now()
+	cart1 = Cart.objects.filter(date=datetime.now(), paid=True)
+	total_cart = Cart.objects.filter(date=datetime.now(), paid=True).count()
+	for i in cart1:
+		total_price = total_price+i.price
+
+	subject = "Daily Sales"
+	from_email = settings.EMAIL_HOST_USER
+	# Now we get the list of emails in a list form.
+	to_email = ['aceplayhousehq@gmail.com']
+	#Opening a file in python, with closes the file when its done running
+# 	detail2 = "http://budescode.pythonanywhere.com/account/"+ str(test.user_id) + '/' + username
+	with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
+	    sign_up_message = sign_up_email_txt_file.read()
+	message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
+	html_template = get_template("Administrator/dailyreport.html").render({'qs':cart1, 'total_cart':total_cart, 'total_price':total_price, 'date':date})
+	message.attach_alternative(html_template, "text/html")
+	message.send()
+	return render(request, 'Administrator/dailyreportsuccess.html')
 
 # Create your views here.
-# @login_required(login_url='/account/login/')
+@login_required(login_url='/account/login/')
 def administrator(request):
+
+	# print('time', datetime.today().strftime('%Y-%m-%d'))
+	if request.user.username == 'cashier':
+	    return redirect('administrator:products')
 	totalitems = MyItems.objects.all()
+	date = datetime.now()
+	cart = Cart.objects.filter(date=datetime.now())
+
 
 	Trouser_total = MyItems.objects.filter(category="Trouser").count()
 	Sales_Trouser_total = Cart.objects.filter(category="Trouser", paid=True).count()
@@ -28,7 +83,7 @@ def administrator(request):
 	Sales_T_Shirts_total = Cart.objects.filter(category="T-Shirts", paid=True).count()
 	T_Shirts_total = MyItems.objects.filter(category="T-Shirts").count()
 	T_Shirts_percentage = (T_Shirts_total/2000)*100
-	
+
 	Sales_Shoe_total = Cart.objects.filter(category="Shoe", paid=True).count()
 	Shoe_total = MyItems.objects.filter(category="Shoe").count()
 	Shoe_percentage = (Shoe_total/2000)*100
@@ -52,66 +107,99 @@ def administrator(request):
 	sales_Socks_total = Cart.objects.filter(category="Socks", paid=True).count()
 	Socks_total = MyItems.objects.filter(category="Socks").count()
 	Socks_percentage = (Socks_total/2000)*100
-	context = { 'sales_Socks_total':sales_Socks_total,'sales_Pant_total':sales_Pant_total,'sales_Boxer_total':sales_Boxer_total,'sales_Singlet_total':sales_Singlet_total,'sales_Underwear_total':sales_Underwear_total,'Sales_Shoe_total':Sales_Shoe_total,'Sales_T_Shirts_total':Sales_T_Shirts_total ,'Shorts_total':Shorts_total ,'Sales_Trouser_total':Sales_Trouser_total, 'totalitems':totalitems, 'Socks_total':Socks_total, 'Socks_percentage':Socks_percentage,'Pant_total':Pant_total, 'Pant_percentage':Pant_percentage, 'Boxer_total':Boxer_total, 'Boxer_percentage':Boxer_percentage, 'Singlet_total':Singlet_total, 'Singlet_percentage':Singlet_percentage, 'Underwear_total':Underwear_total, 'Underwear_percentage':Underwear_percentage, 'Shoe_total':Shoe_total, 'Shoe_percentage':Shoe_percentage, 'T_Shirts_total':T_Shirts_total, 'T_Shirts_percentage':T_Shirts_percentage, 'Trouser_percentage':Trouser_percentage,'Trouser_total':Trouser_total, 'Trouser_percentage':Trouser_percentage, 'Shorts_total':Shorts_total, 'Shorts_percentage':Shorts_percentage}
-	# post_active_total = Poster.objects.filter(active=True).count()
-	# post_active_total_percentage = (post_active_total/10000)*100
-
-	# post_disabled_total = Poster.objects.filter(active=False).count()
-	# post_disabled_total_percentage = (post_disabled_total/10000)*100
-
-	# total_post = Poster.objects.all().count()
-	# total_post_percentage = (total_post/10000)*100
-	#context = {'totalitems':totalitems, 'total_post_percentage':total_post_percentage, 'post_disabled_total_percentage':post_disabled_total_percentage,'post_active_total_percentage':post_active_total_percentage, 'user_total_percentage':user_total_percentage, 'user_total':user_total, 'post_active_total':post_active_total, 'post_disabled_total':post_disabled_total, 'total_post':total_post}
+	category = Category.objects.all()
+	context = {'category':category, 'sales_Socks_total':sales_Socks_total,'sales_Pant_total':sales_Pant_total,'sales_Boxer_total':sales_Boxer_total,'sales_Singlet_total':sales_Singlet_total,'sales_Underwear_total':sales_Underwear_total,'Sales_Shoe_total':Sales_Shoe_total,'Sales_T_Shirts_total':Sales_T_Shirts_total ,'Shorts_total':Shorts_total ,'Sales_Trouser_total':Sales_Trouser_total, 'totalitems':totalitems, 'Socks_total':Socks_total, 'Socks_percentage':Socks_percentage,'Pant_total':Pant_total, 'Pant_percentage':Pant_percentage, 'Boxer_total':Boxer_total, 'Boxer_percentage':Boxer_percentage, 'Singlet_total':Singlet_total, 'Singlet_percentage':Singlet_percentage, 'Underwear_total':Underwear_total, 'Underwear_percentage':Underwear_percentage, 'Shoe_total':Shoe_total, 'Shoe_percentage':Shoe_percentage, 'T_Shirts_total':T_Shirts_total, 'T_Shirts_percentage':T_Shirts_percentage, 'Trouser_percentage':Trouser_percentage,'Trouser_total':Trouser_total, 'Trouser_percentage':Trouser_percentage, 'Shorts_total':Shorts_total, 'Shorts_percentage':Shorts_percentage}
 	return render(request, 'Administrator/index.html', context)
 
+
+
+
+@login_required(login_url='/account/login/')
+def category(request):
+    qs = Category.objects.all()
+    return render(request, 'Administrator/category.html', {'qs':qs})
+
+
+
+def addtoCategory(request):
+	category = request.POST.get("category")
+	qs = Category.objects.create(name=category)
+	return JsonResponse({"category":category})
+
+
+
+
+
 # @login_required(login_url='/account/login/')
+@login_required(login_url='/account/login/')
 def userpostsview(request):
 	qs = MyItems.objects.all()
 	context = {"qs":qs}
 	return render(request, 'Administrator/products.html', context)
+
 
 def addtoCart(request):
 	post_pk = request.POST.get("post_pk")
 	qty1 = request.POST.get("qty")
 	qty = int(qty1)
 	qs = MyItems.objects.get(pk=post_pk)
-	Cart.objects.create(category=qs.category, description=qs.description, qty=qty, price=qs.price*qty, single_price=qs.price, date=timezone.now())
+	qs.stock = qs.stock-qty
+	qs.save()
+	Cart.objects.create(category=qs.category, description=qs.description, qty=qty, price=qs.price*qty, single_price=qs.price, date=timezone.now(), product_id=post_pk)
+
 	cart = Cart.objects.filter(paid=False).count()
 	total_price1 = Cart.objects.filter(paid=False)
 	a = 0
 	for i in total_price1:
 		a = a+i.price
-	return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a, 'qty':qty})
+	return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a, 'qty':qty, 'qs':qs.stock})
 
 
 def editCart(request):
 	post_pk = request.POST.get("post_pk")
+	post_pk = int(post_pk)
 	qty1 = request.POST.get("qty")
+	qty1 = int(qty1)
+	itemid = request.POST.get("id")
+	itemid = int(itemid)
+
+	print('tttttt', post_pk, qty1)
 	qty = int(qty1)
-	print('qty', qty)
-	qs = Cart.objects.get(pk=post_pk)
+	qs = Cart.objects.get(product_id = post_pk, id=itemid, paid=False)
 	qs.price = qs.single_price * qty
+	qs1 = MyItems.objects.get(pk=post_pk)
+	print('old stock', qs1.stock)
+	qs1.stock = qs1.stock - qs.qty
+	qs1.save()
+	print('removed stock', qs1.stock)
+
 	qs.qty = qty
 	qs.save()
+
+	qs = Cart.objects.get(product_id = post_pk, id=itemid, paid=False)
+	qs1.stock = qs1.stock + qty
+	qs1.save()
+	print('new stock', qs1.stock)
+
+
 	cart = Cart.objects.filter(paid=False).count()
 	total_price1 = Cart.objects.filter(paid=False)
 	a = 0
 	for i in total_price1:
 		a = a+i.price
 	print(qs.single_price)
-	return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a, 'qty':qty, 'price':qs.price, 'single_price':qs.single_price})
+	return JsonResponse({"cart_total":cart, 'id':itemid, 'total_price':a, 'qty':qty, 'price':qs.price, 'single_price':qs.single_price})
 
-def deleteCart(request):
+def deleteCart(request, id, product_id):
 
-	post_pk = request.POST.get("post_pk")
-	qs = Cart.objects.get(pk=post_pk)
+	#post_pk = request.POST.get("post_pk")
+	qs = Cart.objects.get(id=id)
+	qs1 = MyItems.objects.get(id=product_id)
+	qs1.stock = qs1.stock + qs.qty
+	qs1.save()
 	qs.delete()
-	cart = Cart.objects.filter(paid=False).count()
-	total_price1 = Cart.objects.filter(paid=False)
-	a = 0
-	for i in total_price1:
-		a = a+i.price
-	return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a})
+	return redirect('administrator:cart')
+	#return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a})
 
 
 def cart(request):
@@ -119,7 +207,7 @@ def cart(request):
 	return render(request, 'Administrator/cart.html', {"qs":qs})
 
 def mysales(request):
-	qs = Cart.objects.filter(paid=True)
+	qs = Cart.objects.filter(paid=True).order_by('-date')
 	return render(request, 'Administrator/mysales.html', {"qs":qs})
 
 def viewDetails(request):
@@ -129,32 +217,27 @@ def viewDetails(request):
 	return JsonResponse({"data":data})
 
 def additems(request):
-	category = request.POST.get("category")
-	description = request.POST.get("description")
-	price = request.POST.get("price")
-	stock = request.POST.get("stock")
-	newitem = MyItems.objects.create(category=category, description=description, price=price, stock=stock)
-	newitem.save()
-	print('id', newitem.id)
-
-
-	return JsonResponse({"category":category, 'description':description, 'price':price, 'stock':stock, 'product_id':newitem.id})
+    if request.user.username == 'cashier':
+        return redirect('administrator:products')
+    category = request.POST.get("category")
+    description = request.POST.get("description")
+    size = request.POST.get("size")
+    price = request.POST.get("price")
+    stock = request.POST.get("stock")
+    newitem = MyItems.objects.create(category=category, description=description, price=price, stock=stock, size=size)
+    newitem.save()
+    return JsonResponse({"category":category, 'description':description, 'price':price, 'stock':stock, 'product_id':newitem.id})
 
 
 def editItems(request):
-	category = request.POST.get("category")
-	description = request.POST.get("description")
-	price = request.POST.get("price")
+	if request.user.username == 'cashier':
+		return redirect('administrator:products')
 	stock = request.POST.get("stock")
 	product_id = request.POST.get("product_id")
-	myitems = MyItems.objects.get(pk=product_id)
-	myitems.category = category
-	myitems.description = description
-	myitems.price = price
-	myitems.stock = stock
+	myitems = MyItems.objects.get(pk=int(product_id))
+	myitems.stock = int(myitems.stock) + int(stock)
 	myitems.save()
-
-	return JsonResponse({"category":category, 'description':description, 'price':price, 'stock':stock, 'product_id':product_id})
+	return JsonResponse({'stock':myitems.stock, 'product_id':product_id})
 
 
 def deletemyItems(request):
@@ -182,9 +265,9 @@ def upload_csv(request):
 			suburb = column[1],
 			state = column[2],
 			dc = column[3],
-			detail_type = column[4], 
+			detail_type = column[4],
 			lat = column[5],
-			ion = column[6],			
+			ion = column[6],
 			)
 	context = {}
 	return HttpResponse("done")
@@ -192,6 +275,8 @@ def upload_csv(request):
 def generatePdf(request):
 	total_cart = Cart.objects.filter(paid=False).count()
 	total_price = Cart.objects.filter(paid=False)
+
+
 	a = 0
 	for i in total_price:
 		a = a+i.price
@@ -213,40 +298,82 @@ def generatePdf(request):
 	return HttpResponse("Not found")
 
 
+def pettyCash(request):
+    if request.user.username == 'cashier':
+        return redirect('administrator:products')
+    qs=PettyCash.objects.all()
+    return render(request, 'Administrator/pettycash.html', {'qs':qs})
+
+def addpettyCash(request):
+    if request.user.username == 'cashier':
+        return redirect('administrator:products')
+    if request.method == 'POST':
+        form = PettyCashForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            form.save()
+            return redirect('administrator:pettycash')
+    else:
+        form = PettyCashForm(request.POST or None)
+    context = {"form": form}
+    return render(request, "Administrator/addpettycash.html", context)
+
+def delete_pettycash(request, id):
+    if request.user.username == 'cashier':
+        return redirect('administrator:products')
+    qs = PettyCash.objects.get(id=id)
+    qs.delete()
+    return redirect('administrator:pettycash')
+
+def edit_pettycash(request, id):
+    if request.user.username == 'cashier':
+        return redirect('administrator:products')
+    qs = PettyCash.objects.get(id=id)
+    #if request.method == 'POST':
+    form = PettyCashForm(request.POST or None, request.FILES or None, instance=qs)
+    if form.is_valid():
+
+        description = form.cleaned_data.get('description')
+        price = form.cleaned_data.get('price')
+        qs.description = description
+        qs.price = price
+        qs.save()
+
+        return redirect('administrator:pettycash')
+    #else:
+        #form = ProfileForm(request.POST or None, instance=qs)
+    context = {"form": form}
+    return render(request, "administrator/editpettycash.html", context)
+
+def deleteAllCart(request):
+    qs = Cart.objects.filter(paid=False)
+    for i in qs:
+        i.paid=True
+        i.save()
+    return redirect('administrator:products')
+
+
+
+
 def pay(request):
 	sum = 0
-	name = request.POST.get('name')
-	phone = request.POST.get('phone')
-	cart = Cart.objects.filter(paid=False)
-	for i in cart:
-		i.name = name
-		cart1 = Cart.objects.get(paid=False, category=i.category, description=i.description, pk=i.pk)
-		
-		# for i in cart1:
-		# 	sum = sum + i.qty
-		
-
-		myItems = MyItems.objects.get(category=i.category, description=i.description)
-		# print('aa',myItems.stock)
-
-		myItems.stock = myItems.stock - cart1.qty
-		
-		myItems.save()
-		# print('bb',cart1.qty, myItems.stock)
-		i.phonenumber = phone 
-		i.paid = True
-		i.date = timezone.now()
-	
-		i.save()
+	date=datetime.now()
+	num = random.randrange(12345678910234)
+	ean = barcode.get('ean13', str(num), writer=ImageWriter())
+	filename = ean.save('ean13')
+	file = open('/home/budescode/inventory/project/static/images/barcode.png', 'wb')
+	ean.write(file)
+	qs = Cart.objects.filter(paid=False)
 	total_cart = Cart.objects.filter(paid=False).count()
-	total_price = Cart.objects.filter(paid=True, name=name, phonenumber=phone)
-	a = 0
-	for i in total_price:
-		a = a+i.price
-	qs = Cart.objects.filter(paid=True, name=name, phonenumber=phone)
-	
+	total_price = 0
+	image = Image.objects.get(id=1)
+	for i in qs:
+	    total_price = total_price + (i.price)
 	template = get_template('Administrator/order.html')
-	context={'qs':qs, 'total_cart':total_cart, 'total_price':a, 'name':name, 'phonenumber':phone}
+	context={'qs':qs, 'total_cart':total_cart, 'total_price':total_price, 'date':date}
+	#return render (request, 'Administrator/order.html', context)
+	for i in qs:
+	    i.paid = True
+	    i.save()
 	html = template.render(context)
 	pdf = render_to_pdf('Administrator/order.html', context)
 	if pdf:
@@ -261,4 +388,9 @@ def pay(request):
 		return response
 	return HttpResponse("Not found")
 
-
+@login_required(login_url='/account/login/')
+def filtersales(request):
+	date = request.POST.get('date')
+	print(date)
+	qs = Cart.objects.filter(paid=True, date=str(date)).order_by('-date')
+	return render(request, 'Administrator/filtersales.html', {"qs":qs})
