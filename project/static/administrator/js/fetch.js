@@ -66,10 +66,18 @@ function editMyItems(value){
 	})
 }
 
+
+
 function addItems(){
-	console.log('ok')
+
+document.querySelector('#loading').style.display = 'block'
+
 var categoryIndex1 = document.querySelector('#add_select_category').selectedIndex;
 var category =  document.querySelector('#add_select_category').options[categoryIndex1].text
+
+var subcategoryIndex1 = document.querySelector('#add_sub_category').selectedIndex;
+var subcategory =  document.querySelector('#add_sub_category').options[subcategoryIndex1].text
+
 var additemdescription = document.querySelector('#additemdescription').value
 var additemsize = document.querySelector('#additemsize').value
 
@@ -80,10 +88,66 @@ var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 var url = 'http://budescode.pythonanywhere.com/additems/'
 let  formData = new FormData()
 formData.append('category', category)
-formData.append('description', additemdescription)
+formData.append('subcategory', subcategory)
+
+formData.append('sex', additemdescription)
 formData.append('size', additemsize)
 formData.append('price', additemprice)
 formData.append('stock', additemavailable)
+
+fetch(url,
+{
+body: new URLSearchParams(formData),
+method: 'post',
+headers:{
+'X-CSRFTOKEN': token
+}
+
+
+}).then(res => res.json()).then(function(data) {
+
+if(data.error == 'Category and subcategory mismatch') {
+    document.querySelector('#loading').style.display = 'block'
+    document.querySelector('#loading').style.color = 'red'
+
+    document.querySelector('#loading').innerHTML = 'Category and subcategory mismatch'
+}
+else{
+document.location.reload(true)
+}
+
+
+})
+
+}
+// end addItems
+
+
+
+//this function is to edit the items in the dashboard
+function editMyItems1(){
+
+var editcategoryid = document.querySelector('#editcategoryid').innerHTML
+var editsubcategoryid = document.querySelector('#editsubcategoryid').innerHTML
+var editsex = document.querySelector('#editsex').innerHTML.toUpperCase()
+
+var editsize = document.querySelector('#editsize').innerHTML.toUpperCase()
+var editstock = document.querySelector('#editstock').value
+
+document.querySelector('#loading').style.display = 'block'
+//console.log(editcategoryid, editsubcategoryid, editsex, editsize, editstock,'yahhhhh')
+var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+var url = 'http://budescode.pythonanywhere.com/editmyitems/'
+let  formData = new FormData()
+formData.append('editcategoryid', editcategoryid)
+formData.append('editsubcategoryid', editsubcategoryid)
+
+formData.append('editsex', editsex)
+formData.append('editsize', editsize)
+formData.append('editstock', editstock)
+
+// formData.append('price', additemprice)
+// formData.append('stock', additemavailable)
 
 fetch(url,
 {
@@ -103,7 +167,10 @@ document.location.reload(true)
 })
 
 }
-// end addItems
+// end editItems
+
+
+
 
 
 
@@ -134,6 +201,35 @@ document.location.reload(true)
 
 })
 }
+
+function addSubCategory(){
+
+var subcategory = document.querySelector('#addsubcategory').value
+
+var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+var url = 'http://budescode.pythonanywhere.com/addsubcategory/'
+let  formData = new FormData()
+formData.append('subcategory', subcategory)
+
+
+fetch(url,
+{
+body: new URLSearchParams(formData),
+method: 'post',
+headers:{
+'X-CSRFTOKEN': token
+}
+
+
+}).then(res => res.json()).then(function(data) {
+
+document.location.reload(true)
+
+
+
+})
+}
+
 
 
 function deleteMyitems(value){
@@ -175,19 +271,33 @@ tr.remove()
 
 
 function addtocartFunction(value){
-	// console.log(value)
-	// var data = "post"+value
-	// var element = document.querySelector("[class= " +  data+ "]")
-	// element.remove()
-	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+    report = document.querySelector('#record')
+    report.style.display = 'none'
+    categoryid = '#category'+ value
+    subcategoryid = '#subcategory'+ value
+    sexid = '#sex'+ value
+    sizeid = '#size'+ value
+
+
+    category = document.querySelector(categoryid).innerHTML
+    subcategory = document.querySelector(subcategoryid).value
+    sex = document.querySelector(sexid).value
+    size = document.querySelector(sizeid).value
 	qty1 = '#qty'+value
 	qty = document.querySelector(qty1).value
+	console.log(category, subcategory, sex, size, qty)
+	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	// var token = document.querySelector("#token").value
-	console.log(qty)
+// 	console.log(qty)
 	var url = 'http://budescode.pythonanywhere.com/addtocart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 	formData.append('qty', qty)
+	formData.append('category', category)
+	formData.append('subcategory', subcategory)
+	formData.append('sex', sex)
+	formData.append('size', size)
+
 	var id = '#img'+value
 	document.querySelector(id).style.display = 'block'
 
@@ -203,6 +313,15 @@ function addtocartFunction(value){
 
 
 	}).then(res => res.json()).then(function(data) {
+	    if (data.report == 'No Records found'){
+	        report = document.querySelector('#record')
+	        report.style.display = 'block'
+            var id = '#img'+data.id
+            document.querySelector(id).style.display = 'none'
+
+
+	    }
+	    else{
 		var id = '#img'+data.id
 		var id2 = '#stock'+data.id
 		document.querySelector(id).style.display = 'none'
@@ -211,8 +330,9 @@ function addtocartFunction(value){
 		document.querySelector('.cart_total1').innerHTML = data.cart_total
 		document.querySelector('.cart_price').innerHTML = data.total_price
 		document.querySelector('.cart_price1').innerHTML = data.total_price
-        document.querySelector(id2).innerHTML = data.qs
+        document.querySelector(id2).innerHTML = data.stock
 		console.log(data)
+	    }
 	})
 }
 

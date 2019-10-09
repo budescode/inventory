@@ -1,0 +1,447 @@
+{% extends 'Administrator/base.html' %}
+{% load staticfiles %}
+
+
+{% block body %}
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+{% include 'Administrator/header.html' %}
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+{% include 'Administrator/sidebar.html' %}
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-12 main-chart">
+
+
+
+          </div>
+          <!-- /col-lg-9 END SECTION MIDDLE -->
+          <!-- **********************************************************************************************************************************************************
+              RIGHT SIDEBAR CONTENT
+              *********************************************************************************************************************************************************** -->
+
+        </div>
+        <!-- /row -->
+
+
+<div class="row">
+            <div class="col-md-12">
+            <div class="content-panel table-responsive">
+              <table class="table table-striped table-advance table-hover">
+                <h4>  MY ITEMS</h4>
+                     <hr>
+                <thead>
+                  <tr>
+                    <th><!-- <i class="fa fa-user"></i> --> CATRGORY</th>
+
+                  </tr>
+                </thead>{% csrf_token %}
+                <tbody id="tablebody">
+                {% for i in totalitems %}
+                  <tr class="post{{i.pk}}" name=''>
+                    <td>
+                      <a id="category{{i.pk}}" data-toggle="collapse" data-target="#demo{{i.id}}" style='cursor:pointer'>{{i.category}}</a>
+                        <!--<button data-toggle="collapse" data-target="#demo">Collapsible</button>-->
+
+                        <div id="demo{{i.id}}" class="collapse">
+
+                            <div class='row'>
+                                <div class='col-md-6 md-offset-3' style='margin-left:30px;'>
+                                    <hr>
+                                    <h6><b>Sub Category</b></h6>
+                                 {% for a in subcategory %}
+                            <a data-toggle="collapse" data-target="#demo1{{a.id}}{{i.id}}" style='cursor:pointer'>{{a}}</a><br><br>
+                                <div id="demo1{{a.id}}{{i.id}}" class="collapse" style='margin-left:30px;'>
+                                <h6 style='color:green'><b>Select Sex</b></h6>
+                                <p style='color:green;cursor:pointer' data-toggle="collapse" data-target="#sizem{{a.id}}{{i.id}}"  onclick='categoryChange("{{i.category}}", "{{a.name}}", "M", "{{i.id}}{{a.id}}", "{{i.size}}")'>M </p>
+                                <p style='color:green;cursor:pointer' data-toggle="collapse" data-target="#sizef{{a.id}}{{i.id}}" onclick='categoryChange("{{i.category}}", "{{a.name}}", "F", "{{i.id}}{{a.id}}", "{{i.size}}")'>F </p>
+
+                                    <div id="sizem{{a.id}}{{i.id}}" class="collapse" style='margin-left:60px;'>
+                                        <h6><b>Select Size For Male</b></h6>
+<div class="table-responsive">
+<table class="table table-borderless">
+<thead>
+<tr>
+<th>Size</th>
+<th>item(s)</th>
+<th>Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td id='sm{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+<tr>
+<td>M</td>
+<td id='mm{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+
+<tr>
+<td>L</td>
+<td id='lm{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+<tr>
+<td>xL</td>
+<td id='xlm{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="sizef{{a.id}}{{i.id}}" class="collapse" style='margin-left:60px;'>
+<h6><b>Details for <span>category</span> <span>sub category</span> <span>Sex</span></b></h6>
+
+<div class="table-responsive">
+<table class="table table-borderless">
+<thead>
+<tr>
+<th>Size</th>
+<th>item(s)</th>
+<th>Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td id='sf{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+<tr>
+<td>M</td>
+<td id='mf{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+
+<tr>
+<td>L</td>
+<td id='lf{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+<tr>
+<td>xL</td>
+<td id='xlf{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success'>Add</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+                              {% endfor %}
+
+                              </div>
+                              </div>
+
+
+                        </div>
+                    </td>
+
+                  </tr>
+
+                {% endfor %}
+                </tbody>
+              </table>
+              <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Add Item</button>
+
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+</div>
+<!-- end of row -->
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Myitem Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form> {% csrf_token %}
+<center><h3 id="edititemscategory"></h3></center>
+  <div class="form-group">
+  <label for="editavail">Goods available</label>
+  <input type="text" class="form-control" name="" id="editavail">
+  </div>
+
+
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary editsubmitbutton" data-dismiss="modal" onclick="editMyItems(this.id)" id="">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal2">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Item</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form>
+
+
+<div class="form-group">
+<label for="select_class">Category:</label>
+<select class="form-control" id="add_select_category">
+{% for i in category %}
+<option>{{i.name}}</option>
+{% endfor %}
+</select>
+
+</div>
+
+  <div class="form-group">
+  <label for="description">Sex</label>
+  <!--<input type="text" class="form-control" name="" id="additemdescription">-->
+
+  <select class="form-control" id="additemdescription">
+    <option>M</option>
+    <option>F</option>
+
+  </select>
+  </div>
+
+<div class="form-group">
+<label for="size">Size</label>
+<input type="text" class="form-control" name="" id="additemsize">
+</div>
+
+  <div class="form-group">
+  <label for="price">Price</label>
+  <input type="text" class="form-control" name="" value=1000 id="additemprice">
+  </div>
+
+  <div class="form-group">
+  <label for="available">Stock available</label>
+  <input type="text" class="form-control" name="" id="additemavailable">
+  </div>
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="submititem" onclick="addItems()">Submit</button>
+
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+
+
+
+      </section>
+    </section>
+    <!--main content end-->
+
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+
+
+
+
+
+<script>
+
+
+
+
+list1 = []
+{% for i in totalitems %}
+
+dict1 = {'category':'{{i.category}}', 'subcategory': '{{i.subcategory}}', 'sex': '{{i.sex}}', 'size':'{{i.size}}', 'price':'{{i.price}}', 'stock':'{{i.stock}}', 'id':'{{i.id}}'}
+list1.push(dict1)
+{% endfor %}
+
+console.log(list1)
+function categoryChange(category, subcategory, sex, id, size){
+    console.log(category, subcategory, sex, id, size)
+    for(i=0;i<list1.length;i++){
+        category1 = list1[i].category
+        subcategory1 = list1[i].subcategory
+        sex1 = list1[i].sex
+        size1 = list1[i].size
+        stock = list1[i].stock
+        sf = "#sf"+id
+        mf = "#mf"+id
+        lf = "#lf"+id
+        xlf = "#xlf"+id
+
+        sm = "#sm"+id
+        mm = "#mm"+id
+        lm = "#lm"+id
+        xlm = "#xlm"+id
+
+        // s1 = document.querySelector(s).innerHTML
+        // m1 = document.querySelector(m).innerHTML
+        // l1 = document.querySelector(l).innerHTML
+        // xl1 = document.querySelector(xl).innerHTML
+        // console.log(s1, m1, l1, xl1)
+        if(category == category1 ){
+            if(subcategory == subcategory1 ){
+                if(sex==sex1){
+                console.log('yeahh', category, subcategory, sex1, size1, stock)
+                if(size=='S'){
+
+                    if(sex1 == 'F'){
+                        document.querySelector(sf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(sm).innerHTML = stock
+                    }
+
+
+
+                }
+                else if(size=='M'){
+
+                    if(sex1 == 'F'){
+                        document.querySelector(mf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(mm).innerHTML = stock
+                    }
+
+                }
+                else if(size=='L'){
+                    // document.querySelector(l).innerHTML = stock
+                    if(sex1 == 'F'){
+                        document.querySelector(lf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(lm).innerHTML = stock
+                    }
+                }
+               else if(size=='XL'){
+                    console.log('extralarge')
+                    // document.querySelector(xl).innerHTML = stock
+                    if(sex1 == 'F'){
+                        document.querySelector(xlf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xlm).innerHTML = stock
+                    }
+
+                }
+
+
+                }
+
+            }
+
+
+        }
+    //   obj1 =  Object.keys(obj)[1]
+    //   console.log(getKeyByValue(dict1,"2"));
+      //  console.log('yhhhh', category, subcategory,sex,size)
+        // console.log(obj1)
+        // console.log(Object.keys(list1[i])[0])
+    }
+
+}
+function category(){
+
+}
+
+function subcategory(){
+
+}
+function subcategory(){
+
+}
+
+
+</script>
+
+
+
+{% endblock body %}
+
+</body>
+
+</html>

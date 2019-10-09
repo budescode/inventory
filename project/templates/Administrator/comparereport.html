@@ -1,0 +1,103 @@
+{% extends 'Administrator/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<style>
+  .full-screen{
+    width: 80%;
+    height: 80%;
+    margin-left: 40;
+    top: 0;
+    left: 0;
+
+  }
+
+
+
+@media only screen and (max-width: 768px) {
+#plan_img{
+display: none;
+}
+#post_img1{
+display: none;
+}
+#plan_text{
+display: none;
+}
+#post_text{
+display: none;
+}
+
+}
+
+.green{
+  color: green;
+}
+
+
+
+
+</style>
+
+<body>
+
+
+
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+
+{% include 'Administrator/header.html' %}
+{% include 'Administrator/sidebar.html' %}
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+
+        <div class="row mt">
+          <div class="col-md-6">
+
+
+
+<form action="{% url 'administrator:comparereport' %}" method='post'> {% csrf_token %}
+  <div class="form-group">
+    <label for="email">From</label>
+    <input type="text" class="form-control" name='from' value='{{time}}'>
+  </div>
+  <div class="form-group">
+    <label for="pwd">To:</label>
+    <input type="text" class="form-control" name='to' value='{{time}}'>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+          </div>
+          <!-- /col-md-12 -->
+
+
+
+
+
+
+
+        </div>
+        <!-- /row -->
+      </section>
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+
+</body>
+
+
+{% endblock %}

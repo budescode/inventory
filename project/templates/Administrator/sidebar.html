@@ -13,6 +13,26 @@
           </li>
 
 
+          <li>
+            <a href="{% url 'administrator:category' %}">
+              <i class="fa fa-list-alt"></i>
+              <span>CATEGORIES </span>
+
+              <span class="label label-theme pull-right mail-info"></span>
+              </a>
+          </li>
+
+
+          <li>
+            <a href="{% url 'administrator:subcategory' %}">
+              <i class="fa fa-list-alt"></i>
+              <span>SUBCATEGORIES </span>
+
+              <span class="label label-theme pull-right mail-info"></span>
+              </a>
+          </li>
+
+
         <!--<li class="">-->
         <!--<a class="" href="{% url 'administrator:home' %}">-->
         <!--<i class="fa fa-home"></i>-->
@@ -37,23 +57,14 @@
                                 </a>
                                 <div class="dropdown-menu" style='font-size:11px'>
 
-                                <a class="dropdown-item" href="">Daily Report</a>
-                                <a class="dropdown-item" href="#">Weekly Report</a>
-                                <a class="dropdown-item" href="#">Monthly Report</a>
-                                <a class="dropdown-item" href="#">Yearly Report</a>
+                                <a class="dropdown-item" href="{% url 'administrator:todaysreport' %}">Daily Report</a>
+                                <a class="dropdown-item" href="{% url 'administrator:weeklyreport' %}">Weekly Report</a>
+                                <a class="dropdown-item" href="{% url 'administrator:monthlyreport' %}">Monthly Report</a>
+                                <a class="dropdown-item" href="{% url 'administrator:yearlyreport' %}">Yearly Report</a>
+                                <a class="dropdown-item" href="{% url 'administrator:comparereport' %}">Compare Report</a>
+
                                 </div>
                                 </li>
-
-          <li>
-            <a href="{% url 'administrator:category' %}">
-              <i class="fa fa-list-alt"></i>
-              <span>CATEGORIES </span>
-
-              <span class="label label-theme pull-right mail-info"></span>
-              </a>
-          </li>
-
-
 
           <li>
           <a href="{% url 'administrator:cart' %}">
@@ -66,17 +77,17 @@
           </a>
           </li>
 
-          <li>
-          <a href="{% url 'administrator:mysales' %}">
+          <!--<li>-->
+          <!--<a href="{% url 'administrator:mysales' %}">-->
 
-          <i class="fa fa-rss-square"></i>
-          <span>MY SALES  </span>
+          <!--<i class="fa fa-rss-square"></i>-->
+          <!--<span>MY SALES  </span>-->
 
-          <span class="label label-theme pull-right mail-info" id="cart_total">{{sales_count}}</span>
-          <span class="label label-theme pull-right mail-info cart_price1" id="">{{sales_price}}</span>
+          <!--<span class="label label-theme pull-right mail-info" id="cart_total">{{sales_count}}</span>-->
+          <!--<span class="label label-theme pull-right mail-info cart_price1" id="">{{sales_price}}</span>-->
 
-          </a>
-          </li>
+          <!--</a>-->
+          <!--</li>-->
           {% if request.user.username == 'cashier' %}
 
           {% else %}

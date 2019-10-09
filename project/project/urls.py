@@ -22,8 +22,8 @@ from django.urls import reverse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path("", include('index.urls')),
-    path("", include('administrator.urls')),
+    path("", include('index.urls')),
+    path("administrator/", include('administrator.urls')),
     path("account/", include('account.urls')),
     path("oauth/", include('social_django.urls', namespace='social')),
     # url(r'^oauth/', include('social_django.urls', namespace='social')),
@@ -33,4 +33,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

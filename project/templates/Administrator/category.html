@@ -58,7 +58,7 @@
                       <a id="category{{i.pk}}">{{i.name}}</a>
                     </td>
                     <td>
-                      <a id="{{i.pk}}"><i class='fa fa-trash'></i>Delete </a>
+                      <a id="{{i.pk}}" href="{% url 'administrator:deletecategory' i.id %}"><i class='fa fa-trash'></i>Delete </a>
                     </td>
 
 

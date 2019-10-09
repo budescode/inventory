@@ -65,12 +65,18 @@ tr:nth-child(even) {
                 <hr>
                 <thead>
                   <tr>
-                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class="fa fa-user"></i> Category</th>
-                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;' class="hidden-phone"><i class="fa fa-calendar"></i> Description</th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class="fa fa-list-alt"></i> Category</th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class="fa fa-list-alt"></i> SubCategory</th>
+
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;' class="hidden-phone"><i class="fa fa-calendar"></i> Sex</th>
+                    <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;' class="hidden-phone"><i class="fa fa-calendar"></i> Size</th>
+
                     <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class="fa fa-credit-card"></i>Single Price</th>
 
                     <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class=" fa fa-edit"></i> Qty</th>
 					<th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class=" fa fa-card"></i> Total Price</th>
+					<th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><i class=" fa fa-card"></i> Payment Option</th>
+
 
 
                     <th style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'></th>
@@ -80,11 +86,19 @@ tr:nth-child(even) {
                 {% for i in qs %}
                   <tr class="post{{i.pk}}" name=>
                     <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
-                      <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.category}}</a>
+                      <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.category}}</a>
                     </td>
                     <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
-                      {{i.description}}
+                      <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.subcategory}}</a>
                     </td>
+
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
+                      {{i.sex}}
+                    </td>
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'>
+                      {{i.size}}
+                    </td>
+
 
                     <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
 
@@ -93,6 +107,8 @@ tr:nth-child(even) {
 
                     </td>
                     <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'> <span id="price{{i.pk}}"> {{i.price}} </span></td>
+                    <td style ='border: 1px solid #dddddd;  text-align: left;  padding: 8px;'> <span id="price{{i.pk}}"> {{paymentoption}} </span></td>
+
 
                   </tr>
 

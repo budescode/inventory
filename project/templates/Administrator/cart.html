@@ -75,8 +75,10 @@ display: none;
                 <hr>
                 <thead>
                   <tr>
-                    <th><i class="fa fa-user"></i> Category</th>
-                    <th class=""><i class="fa fa-calendar"></i> Description</th>
+                    <th><i class="fa fa-list-alt"></i> Category</th>
+                    <th><i class="fa fa-list-alt"></i> SubCategory</th>
+
+                    <th class=""><i class="fa fa-calendar"></i> Sex</th>
                     <th class=""><i class="fa fa-calendar"></i> Size</th>
 
                     <th><i class="fa fa-credit-card"></i>Single Price</th>
@@ -95,7 +97,11 @@ display: none;
                       <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.category}}</a>
                     </td>
                     <td>
-                      {{i.description}}
+                      <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.subcategory}}</a>
+                    </td>
+
+                    <td>
+                      {{i.sex}}
                     </td>
 
                     <td>
@@ -125,14 +131,33 @@ display: none;
               </table>
               </div>
 
-<a href='{% url 'administrator:pay' %}'>  <button class="btn btn-success">Print Receipt</button></a>
-<!--<a href='{% url 'administrator:deleteallcart' %}'>  <button class="btn btn-danger">Clear Cart</button></a>-->
+
+        <div class="form-group row">
+        <form action='{% url 'administrator:pay' %}' method='post'> {% csrf_token %}
+        <div class='col-md-3'>
+        <label for="">PAYMENT OPTION</label>
+        <select class="form-control" id="" name='paymentoption'>
+        <option>Cash</option>
+        <option>Card</option>
+        <option>Transfer</option>
+        </select>
+          <br>
+         <button type='submit' class="btn btn-success">Print Receipt</button>
+
+        </div>
+
+        </form>
+
+        </div>
 
 
-        <!--     <a href="">  <button class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" >Pay</button></a> -->
             </div>
-            <!-- data-toggle="modal" data-target="#myModal" -->
-            <!-- /content-panel -->
+
+
+
+
+
+
           </div>
           <!-- /col-md-12 -->
 
@@ -174,6 +199,13 @@ display: none;
 
         </div>
         <!-- /row -->
+
+
+
+
+
+
+
       </section>
     </section>
     <!-- /MAIN CONTENT -->

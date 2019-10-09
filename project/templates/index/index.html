@@ -1,0 +1,116 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'index/fonts/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
+    <title>Welcome to 1k Shop</title>
+
+    <meta name="title" content="Welcome to 1k Shop">
+    <meta name="description" content="Buy any piece of clothing for just 1k,
+    shopping for more quality with less">
+
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <!-- For apple devices -->
+    <link rel="apple-touch-icon" type="image/png" href="img/logo.png" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#44AC33">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#44AC33">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#44AC33">
+</head>
+
+<body>
+    <div id="app">
+        <header class="k-header">
+            <div class="logo">
+                <figure class="img-responsive">
+                    <img src="{% static 'index/img/logo.png' %}" alt="k website logo">
+                </figure>
+            </div>
+            <div class="social social-row social-hide-sm">
+                <p>Follow us on social media</p>
+                <ul>
+                    <li>
+                        <a href="#" title="facebook" aria-details="facebook"><span class="flaticon-facebook"></span></a>
+                        <a href="#" title="instagram" aria-details="instagram"><span
+                                class="flaticon-instagram"></span></a>
+                        <a href="#" title="twitter" aria-details="twitter"><span class="flaticon-twitter"></span></a>
+                    </li>
+                    <li></li>
+                </ul>
+            </div>
+        </header>
+        <section class="k-container">
+            <div class="k-content">
+                <!--Countdown timer section (for Desktop view)-->
+                <div class="countdown">
+                    <p class="countdown-title">Our store will open in...</p>
+                    <!--Vue countdown component-->
+                    <countdown count-down-date="Oct 12, 2019 00:00:25" />
+                </div>
+                <!--Hero-->
+                <div class="hero">
+                    <!--Hero header-->
+                    <div class="hero-header">
+                        <h1>
+                            Everything you need for 1k
+                        </h1>
+                    </div>
+                    <!--Hero Image (for mobile view)-->
+                    <div class="hero-img">
+                        <figure class="img-responsive">
+                            <img src="{% static 'index/img/5d9536571d156-removebg.png' %}" alt="Ik shop countdown Image">
+                        </figure>
+                    </div>
+                </div>
+
+                <!--Caption-->
+                <p class="caption">
+                    Buy any piece of clothing for just 1k,<br />
+                    shopping for more quality with less.
+                </p>
+
+                <!--Address-->
+                <div class="address">
+                    <h2>You can find us at @</h2>
+                    <address>
+                        4 Oko ogbo, Airport road, Benin city, Edo state.
+                    </address>
+                </div>
+
+                <!--Social Links (for mobile only)-->
+                <div class="social social-hide-lg social-col">
+                    <p>Follow us on social media</p>
+                    <ul>
+                        <li>
+                            <a href="#" title="facebook" aria-details="facebook"><span
+                                    class="flaticon-facebook"></span></a>
+                            <a href="#" title="instagram" aria-details="instagram"><span
+                                    class="flaticon-instagram"></span></a>
+                            <a href="#" title="twitter" aria-details="twitter"><span
+                                    class="flaticon-twitter"></span></a>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="k-illustration">
+                <figure class="img-responsive">
+                    <img src="{% static 'index/img/5d9536571d156-removebg.png' %}" title="Cloth prices that will blow your mind" alt="Ik shop countdown Image">
+                </figure>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="{% static 'index/js/app.js' %}"></script>
+
+</html>
