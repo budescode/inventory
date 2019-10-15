@@ -28,20 +28,12 @@ function editItems(value){
 
 
 function editMyItems(value){
-	console.log(value)
-	// document.querySelector("#edititemscategory").innerHTML = category;
-	// document.querySelector("#edititemscategory").innerHTML = category;
-	// var categoryIndex = document.querySelector('#select_category').selectedIndex;
-	// var category = document.querySelector('#select_category').options[categoryIndex].text
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	var stock = document.querySelector('#editavail').value
-	var url = 'http://budescode.pythonanywhere.com/edititems/'
+	var url = 'http://www.1kshop.online/administrator/edititems/'
 	let  formData = new FormData()
-
 	formData.append('stock', stock)
 	formData.append('product_id', value)
-
-
 	fetch(url,
 	{
 	body: new URLSearchParams(formData),
@@ -49,20 +41,11 @@ function editMyItems(value){
 	headers:{
 	'X-CSRFTOKEN': token
 	}
-
-
 	}).then(res => res.json()).then(function(data) {
-
-
-		console.log(data)
 	var id  = data.product_id
 	var stock1 = '#stock' + id
 	document.querySelector(stock1).innerHTML = data.stock
 	document.querySelector('#editavail').value = ''
-
-
-
-
 	})
 }
 
@@ -85,7 +68,7 @@ var additemprice = document.querySelector('#additemprice').value
 var additemavailable = document.querySelector('#additemavailable').value
 console.log(category, additemdescription, additemprice, additemavailable)
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://budescode.pythonanywhere.com/additems/'
+var url = 'http://www.1kshop.online/administrator/additems/'
 let  formData = new FormData()
 formData.append('category', category)
 formData.append('subcategory', subcategory)
@@ -137,7 +120,7 @@ var editstock = document.querySelector('#editstock').value
 document.querySelector('#loading').style.display = 'block'
 //console.log(editcategoryid, editsubcategoryid, editsex, editsize, editstock,'yahhhhh')
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://budescode.pythonanywhere.com/editmyitems/'
+var url = 'http://www.1kshop.online/administrator/editmyitems/'
 let  formData = new FormData()
 formData.append('editcategoryid', editcategoryid)
 formData.append('editsubcategoryid', editsubcategoryid)
@@ -177,11 +160,15 @@ document.location.reload(true)
 function addCategory(){
 
 var category = document.querySelector('#addcategory').value
+var stock = document.querySelector('#addstockavailable').value
+
 
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://budescode.pythonanywhere.com/addtocategory/'
+var url = 'http://www.1kshop.online/administrator/addtocategory/'
 let  formData = new FormData()
 formData.append('category', category)
+formData.append('stock', stock)
+
 
 
 fetch(url,
@@ -207,7 +194,7 @@ function addSubCategory(){
 var subcategory = document.querySelector('#addsubcategory').value
 
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://budescode.pythonanywhere.com/addsubcategory/'
+var url = 'http://www.1kshop.online/administrator/addsubcategory/'
 let  formData = new FormData()
 formData.append('subcategory', subcategory)
 
@@ -237,7 +224,7 @@ function deleteMyitems(value){
 var id = value.slice(11)
 console.log(id)
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://budescode.pythonanywhere.com/deletemyitems/'
+var url = 'http://www.1kshop.online/administrator/deletemyitems/'
 let  formData = new FormData()
 formData.append('product_id', id)
 
@@ -277,19 +264,14 @@ function addtocartFunction(value){
     subcategoryid = '#subcategory'+ value
     sexid = '#sex'+ value
     sizeid = '#size'+ value
-
-
     category = document.querySelector(categoryid).innerHTML
     subcategory = document.querySelector(subcategoryid).value
     sex = document.querySelector(sexid).value
     size = document.querySelector(sizeid).value
 	qty1 = '#qty'+value
 	qty = document.querySelector(qty1).value
-	console.log(category, subcategory, sex, size, qty)
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-	// var token = document.querySelector("#token").value
-// 	console.log(qty)
-	var url = 'http://budescode.pythonanywhere.com/addtocart/'
+	var url = 'http://www.1kshop.online/administrator/addtocart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 	formData.append('qty', qty)
@@ -297,12 +279,8 @@ function addtocartFunction(value){
 	formData.append('subcategory', subcategory)
 	formData.append('sex', sex)
 	formData.append('size', size)
-
 	var id = '#img'+value
 	document.querySelector(id).style.display = 'block'
-
-
-
 	fetch(url,
 	{
 	body: new URLSearchParams(formData),
@@ -318,20 +296,17 @@ function addtocartFunction(value){
 	        report.style.display = 'block'
             var id = '#img'+data.id
             document.querySelector(id).style.display = 'none'
-
-
 	    }
+
 	    else{
 		var id = '#img'+data.id
 		var id2 = '#stock'+data.id
 		document.querySelector(id).style.display = 'none'
-
 		document.querySelector('#cart_total').innerHTML = data.cart_total
 		document.querySelector('.cart_total1').innerHTML = data.cart_total
 		document.querySelector('.cart_price').innerHTML = data.total_price
 		document.querySelector('.cart_price1').innerHTML = data.total_price
         document.querySelector(id2).innerHTML = data.stock
-		console.log(data)
 	    }
 	})
 }
@@ -339,33 +314,17 @@ function addtocartFunction(value){
 
 
 function editcartFunction(value, id){
-	// console.log(value)
-	// var data = "post"+value
-	// var element = document.querySelector("[class= " +  data+ "]")
-	// element.remove()'
 	var qs = '#' + 'qt' + value
 	var qty = document.querySelector(qs).value
 	var img = '#editimg' + id
 	var editimg = document.querySelector(img).style.display = 'block'
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	qty1 = '#'+value
-	//console.log(value.slice(3))
-	console.log(qty, qs, value)
-	//qty = document.querySelector(qty1).value
-	// var token = document.querySelector("#token").value
-	// console.log(qty)
-	var url = 'http://budescode.pythonanywhere.com/editcart/'
+	var url = 'http://www.1kshop.online/administrator/editcart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 	formData.append('qty', qty)
 	formData.append('id', id)
-
-	//var id = value.slice(3,-1)
-	//console.log(id)
-	// document.querySelector(id).style.display = 'block'
-
-
-
 	fetch(url,
 	{
 	body: new URLSearchParams(formData),
@@ -387,16 +346,12 @@ function editcartFunction(value, id){
 
 		document.querySelector('.cart_price').innerHTML = data.total_price
 		document.querySelector('.cart_price1').innerHTML = data.total_price
-
-		//document.querySelector(single_price).innerHTML = data.single_price
 		document.querySelector(price).innerHTML = data.price
 
 		var input = document.querySelector(input1).value = data.qty
 		var img = '#editimg' + data.id
 		var editimg = document.querySelector(img).style.display = 'none'
 		var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-
-		console.log(data)
 	})
 }
 
@@ -408,7 +363,7 @@ function deletecartFunction(value){
 	document.querySelector(id).style.display = 'block'
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 
-	var url = 'http://budescode.pythonanywhere.com/deletecart/'
+	var url = 'http://www.1kshop.online/administrator/deletecart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 
@@ -448,7 +403,7 @@ function viewDetails(value){
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	// var token = document.querySelector("#token").value
 	console.log(value)
-	var url = 'http://budescode.pythonanywhere.com/administrator/viewdetails/'
+	var url = 'http://www.1kshop.online/administrator/viewdetails/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 

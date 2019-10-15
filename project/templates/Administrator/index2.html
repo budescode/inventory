@@ -1,42 +1,12 @@
 {% extends 'Administrator/base.html' %}
 {% load staticfiles %}
-
-
 {% block body %}
 <body>
   <section id="container">
-    <!-- **********************************************************************************************************************************************************
-        TOP BAR CONTENT & NOTIFICATIONS
-        *********************************************************************************************************************************************************** -->
-    <!--header start-->
 {% include 'Administrator/header.html' %}
-    <!--header end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN SIDEBAR MENU
-        *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
 {% include 'Administrator/sidebar.html' %}
-    <!--sidebar end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN CONTENT
-        *********************************************************************************************************************************************************** -->
-    <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <div class="row">
-          <div class="col-lg-12 main-chart">
-
-
-
-          </div>
-          <!-- /col-lg-9 END SECTION MIDDLE -->
-          <!-- **********************************************************************************************************************************************************
-              RIGHT SIDEBAR CONTENT
-              *********************************************************************************************************************************************************** -->
-
-        </div>
-        <!-- /row -->
-
 
 <div class="row">
             <div class="col-md-12">
@@ -46,7 +16,7 @@
                      <hr>
                 <thead>
                   <tr>
-                    <th><!-- <i class="fa fa-user"></i> --> CATRGORY</th>
+                    <th>CATRGORY</th>
 
                   </tr>
                 </thead>{% csrf_token %}
@@ -337,10 +307,7 @@ list1 = []
 dict1 = {'category':'{{i.category}}', 'subcategory': '{{i.subcategory}}', 'sex': '{{i.sex}}', 'size':'{{i.size}}', 'price':'{{i.price}}', 'stock':'{{i.stock}}', 'id':'{{i.id}}'}
 list1.push(dict1)
 {% endfor %}
-
-console.log(list1)
 function categoryChange(category, subcategory, sex, id, size){
-    console.log(category, subcategory, sex, id, size)
     for(i=0;i<list1.length;i++){
         category1 = list1[i].category
         subcategory1 = list1[i].subcategory
@@ -357,15 +324,9 @@ function categoryChange(category, subcategory, sex, id, size){
         lm = "#lm"+id
         xlm = "#xlm"+id
 
-        // s1 = document.querySelector(s).innerHTML
-        // m1 = document.querySelector(m).innerHTML
-        // l1 = document.querySelector(l).innerHTML
-        // xl1 = document.querySelector(xl).innerHTML
-        // console.log(s1, m1, l1, xl1)
         if(category == category1 ){
             if(subcategory == subcategory1 ){
                 if(sex==sex1){
-                console.log('yeahh', category, subcategory, sex1, size1, stock)
                 if(size=='S'){
 
                     if(sex1 == 'F'){
@@ -398,8 +359,7 @@ function categoryChange(category, subcategory, sex, id, size){
                     }
                 }
                else if(size=='XL'){
-                    console.log('extralarge')
-                    // document.querySelector(xl).innerHTML = stock
+
                     if(sex1 == 'F'){
                         document.querySelector(xlf).innerHTML = stock
                     }
@@ -416,29 +376,13 @@ function categoryChange(category, subcategory, sex, id, size){
 
 
         }
-    //   obj1 =  Object.keys(obj)[1]
-    //   console.log(getKeyByValue(dict1,"2"));
-      //  console.log('yhhhh', category, subcategory,sex,size)
-        // console.log(obj1)
-        // console.log(Object.keys(list1[i])[0])
+
     }
-
-}
-function category(){
-
-}
-
-function subcategory(){
-
-}
-function subcategory(){
 
 }
 
 
 </script>
-
-
 
 {% endblock body %}
 

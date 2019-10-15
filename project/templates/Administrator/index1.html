@@ -1,42 +1,13 @@
 {% extends 'Administrator/base.html' %}
 {% load staticfiles %}
-
-
 {% block body %}
 <body>
   <section id="container">
-    <!-- **********************************************************************************************************************************************************
-        TOP BAR CONTENT & NOTIFICATIONS
-        *********************************************************************************************************************************************************** -->
-    <!--header start-->
 {% include 'Administrator/header.html' %}
-    <!--header end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN SIDEBAR MENU
-        *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
 {% include 'Administrator/sidebar.html' %}
-    <!--sidebar end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN CONTENT
-        *********************************************************************************************************************************************************** -->
-    <!--main content start-->
+
     <section id="main-content">
       <section class="wrapper">
-        <div class="row">
-          <div class="col-lg-12 main-chart">
-
-
-
-          </div>
-          <!-- /col-lg-9 END SECTION MIDDLE -->
-          <!-- **********************************************************************************************************************************************************
-              RIGHT SIDEBAR CONTENT
-              *********************************************************************************************************************************************************** -->
-
-        </div>
-        <!-- /row -->
-
 
 <div class="row">
             <div class="col-md-12">
@@ -46,7 +17,7 @@
                      <hr>
                 <thead>
                   <tr>
-                    <th><!-- <i class="fa fa-user"></i> --> CATRGORY</th>
+                    <th>CATRGORY</th>
 
                   </tr>
                 </thead>{% csrf_token %}
@@ -102,11 +73,31 @@
 <td id='lm{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "l", "m")'>Add</button></td>
 </tr>
+
 <tr>
 <td>XL</td>
 <td id='xlm{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl", "m")'>Add</button></td>
 </tr>
+
+<tr>
+<td>2XL</td>
+<td id='xl2m{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl2", "m")'>Add</button></td>
+</tr>
+
+<tr>
+<td>3XL</td>
+<td id='xl3m{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl3", "m")'>Add</button></td>
+</tr>
+
+<tr>
+<td>4XL</td>
+<td id='xl4m{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4", "m")'>Add</button></td>
+</tr>
+
 </tbody>
 </table>
 </div>
@@ -146,6 +137,19 @@
 <td id='xlf{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl", "f")'>Add</button></td>
 </tr>
+<td>2XL</td>
+<td id='xl2f{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl2", "f")'>Add</button></td>
+</tr>
+<td>3XL</td>
+<td id='xl3f{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl3", "f")'>Add</button></td>
+</tr>
+<td>4XL</td>
+<td id='xl4f{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4s", "f")'>Add</button></td>
+</tr>
+
 </tbody>
 </table>
 </div>
@@ -229,10 +233,6 @@
 
 
 
-
-
-
-
             <!-- The Modal -->
 <div class="modal" id="myModal2">
   <div class="modal-dialog full-screen">
@@ -295,6 +295,9 @@
     <option>M</option>
     <option>L</option>
     <option>XL</option>
+    <option>2XL</option>
+    <option>3XL</option>
+    <option>4XL</option>
 
 
   </select>
@@ -436,50 +439,23 @@ subcategorylist.push(dict3)
 {% endfor %}
 
 
-// console.log(categorylist)
-// console.log(list1)
-console.log(subcategorylist)
-
-
-
-
-
-// console.log(list1)
 for (i=0;i<categorylist.length;i++){
     for (a=0; a<list1.length; a++){
         if(categorylist[i].category == list1[a].category ){
-            // amount = 0
             amount = Number(list1[i].stock)
-            // data = '#totalcategory'+categorylist[i].categoryid
-
-            // totalcategory = document.querySelector(data).innerHTML
-            // console.log(totalcategory, amount, list1[i].category, list1[i].subcategory)
-            // document.querySelector(data).innerHTML = Number(totalcategory) + amount
-            //console.log(amount)
-            //console.log(categorylist[i].category, list1[i].category, data, totalcategory, amount)
-
-
         }
-    // totalcategory1 = ''
 
     }
 }
 
 
 function subCategoryDetails(category, categoryid){
-    // totalsubcategory = '#totalsubcategory'+categoryid
-    // totalsubcategory = document.querySelector(totalsubcategory).innerHTML
-
-    // for(i=0; i<list1.length; i++){
-        // console.log(list1[i])
         subcategorylist1 = []
         for(a=0; a<subcategorylist.length; a++){
             if (subcategorylist[a].category == category){
                 //if(list1[i].category == category){
                     dict = {'category':subcategorylist[a].category, 'subcategory':subcategorylist[a].subcategory}
                    subcategorylist1.push(dict)
-                    // console.log('yeahhh',subcategorylist1)
-               // }
 
 
             }//endif
@@ -493,111 +469,37 @@ function subCategoryDetails(category, categoryid){
 
             dict11 = {'category':list1[i].category, 'subcategory':list1[i].subcategory}
             list2 = [dict11]
-            // console.log('yaaa', list2)
-
             for(a=0; a<subcategorylist1.length; a++){
-                // console.log(list1[i], 'andd', subcategorylist1[a] )
 
             if (list1[i].subcategory == subcategorylist1[a].subcategory ){
-                // console.log('yeahhhhhhhh', list1[i].subcategory, subcategorylist1[a].subcategory )
-                // totalsubcategory = '#totalsubcategory'+list1[i].subcategoryid
-                // qs = document.querySelector(totalsubcategory).innerHTML
-                // qs = Number(qs) + Number(list1[i].stock)
-                // console.log(qs, Number(list1[i].stock))
+
             }
 
             }
-            //newlist.push(dict11)
 
-            // for(a=0;a<newlist.length;a++){
-
-            // console.log(newlist[a])
-
-            // if (subcategorylist1.includes(newlist[a])){
-            //      console.log('true')
-                // console.log(newlist[a], )
-                // newlist2.push(newlist[a])
-            // }
-            // }
-            //console.log(newlist2)
-
-            // var n = fruits.includes("Mango");
-            // for(i=0;i<subcategorylist1.length;i++){
-            //     if(list1[i].category == subcategorylist1[i].category ){
-            //         console.log(list1[i].category, subcategorylist1[i].category )
-            //     }
-            // }
         }
-        //  console.log('subcategorylist', subcategorylist1)
-         //console.log('subcategorylist1', subcategorylist1)
 
-        // console.log('subcategorylist', subcategorylist)
-        // console.log('list1', list1)
-
-        // for(i=0; i<list1.length; i++){
-
-        //     if(subcategorylist[i].category == category ){
-        //         console.log("yahhhh", subcategorylist[i].category, category, list1[i].subcategory, list1[i].category)
-        //         // list1[b].subcategory
-
-
-        //     }
-
-        // }
-
-
-        // for(a=0; a<list1.length; a++){
-        //     if (subcategorylist[i].category == category){
-        //         console.log(category,subcategorylist[i] )
-
-        //     }
-
-        // }
-
-    //}
-
-
-// console.log(category, categoryid)
 }
 
 function AddItems1(category, categoryid, subcategory, subcategoryid, size, sex ){
 
     "{{i.name}}", "{{a.name}}", "F", "{{i.id}}{{a.id}}"
     qs = "#"+size+sex + categoryid + subcategoryid
-    // mf = "#mf" + categoryid + subcategoryid
-    // lf = "#lf" + categoryid + subcategoryid
-    // xlf = "#xlf" + categoryid + subcategoryid
-
-    // sm = "#sm" + categoryid + subcategoryid
-    // mm = "#mm" + categoryid + subcategoryid
-    // lm = "#lm" + categoryid + subcategoryid
-    // xlm = "#xlm" + categoryid + subcategoryid
-    // if (sex == M){
-    //     qs = document.querySelector()
-    // }
     qs = document.querySelector(qs).innerHTML
     document.querySelector('#editcategoryid').innerHTML = categoryid
     document.querySelector('#editsubcategoryid').innerHTML = subcategoryid
     document.querySelector('#editsex').innerHTML = sex
     document.querySelector('#editsize').innerHTML = size
-
     qs1 = document.querySelector('#editstock').value = qs
-
-
-    console.log(qs)
-    //console.log('okkk', category,categoryid, subcategory, subcategoryid, size, sex)
-
 
 }
 
 function sexDetails(category, subcategory, categoryid, subcategoryid){
-    console.log(category, subcategory)
     M = 0
     F = 0
     for(i=0;i<list1.length;i++){
 
         if(list1[i].subcategory == subcategory){
-            console.log(list1[i].subcategory)
             if (list1[i].sex == 'M'){
                M = M + Number(list1[i].stock)
                data = '#sexm' + categoryid + subcategoryid
@@ -608,8 +510,7 @@ function sexDetails(category, subcategory, categoryid, subcategoryid){
                data = '#sexf' + categoryid + subcategoryid
                document.querySelector(data).innerHTML = F
             }
-            console.log(M, F)
-        }
+         }
     }
 
 
@@ -618,7 +519,6 @@ function sexDetails(category, subcategory, categoryid, subcategoryid){
 }
 
 function categoryChange(category, subcategory, sex, id){
-    console.log(category, subcategory, sex, id)
     for(i=0;i<list1.length;i++){
         category1 = list1[i].category
         subcategory1 = list1[i].subcategory
@@ -630,21 +530,23 @@ function categoryChange(category, subcategory, sex, id){
         mf = "#mf"+id
         lf = "#lf"+id
         xlf = "#xlf"+id
+        xl2f = "#xl2f"+id
+        xl3f = "#xl3f"+id
+        xl4f = "#xl4f"+id
+
+
 
         sm = "#sm"+id
         mm = "#mm"+id
         lm = "#lm"+id
         xlm = "#xlm"+id
+        xl2m = "#xl2m"+id
+        xl3m = "#xl3m"+id
+        xl4m = "#xl4m"+id
 
-        // s1 = document.querySelector(s).innerHTML
-        // m1 = document.querySelector(m).innerHTML
-        // l1 = document.querySelector(l).innerHTML
-        // xl1 = document.querySelector(xl).innerHTML
-        // console.log(s1, m1, l1, xl1)
         if(category == category1 ){
             if(subcategory == subcategory1 ){
                 if(sex==sex1){
-                console.log('yeahh', category, subcategory, sex1, size1, stock)
                 if(size1=='S'){
 
                     if(sex1 == 'F'){
@@ -653,9 +555,6 @@ function categoryChange(category, subcategory, sex, id){
                     else if(sex1 == 'M'){
                         document.querySelector(sm).innerHTML = stock
                     }
-
-
-
                 }
                 else if(size1=='M'){
 
@@ -668,7 +567,6 @@ function categoryChange(category, subcategory, sex, id){
 
                 }
                 else if(size1=='L'){
-                    // document.querySelector(l).innerHTML = stock
                     if(sex1 == 'F'){
                         document.querySelector(lf).innerHTML = stock
                     }
@@ -677,13 +575,40 @@ function categoryChange(category, subcategory, sex, id){
                     }
                 }
                else if(size1=='XL'){
-                    console.log('extralarge')
-                    // document.querySelector(xl).innerHTML = stock
                     if(sex1 == 'F'){
                         document.querySelector(xlf).innerHTML = stock
                     }
                     else if(sex1 == 'M'){
                         document.querySelector(xlm).innerHTML = stock
+                    }
+
+                }
+               else if(size1=='2XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl2f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl2m).innerHTML = stock
+                    }
+
+                }
+
+               else if(size1=='3XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl3f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl3m).innerHTML = stock
+                    }
+
+                }
+
+               else if(size1=='4XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl4f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl4m).innerHTML = stock
                     }
 
                 }
@@ -695,11 +620,7 @@ function categoryChange(category, subcategory, sex, id){
 
 
         }
-    //   obj1 =  Object.keys(obj)[1]
-    //   console.log(getKeyByValue(dict1,"2"));
-      //  console.log('yhhhh', category, subcategory,sex,size)
-        // console.log(obj1)
-        // console.log(Object.keys(list1[i])[0])
+
     }
 
 }

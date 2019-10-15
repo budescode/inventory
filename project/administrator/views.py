@@ -31,7 +31,6 @@ def comparereport(request):
 	if request.method == 'POST':
 		date_from = request.POST.get('from')
 		date_to = request.POST.get('to')
-		print(date_from, date_to)
 		qs = Category.objects.all()
 		cart = Cart.objects.filter(date=timezone.now())
 		Trouser = Cart.objects.filter(paid=True, category='Trouser', date__gte=date_from, date__lte = date_to)
@@ -153,7 +152,6 @@ def weeklyreport(request):
     qs2 = []
     for i in Socks:
         SocksPrice = SocksPrice + i.price
-    #print(TrouserPrice)
     context = {'cart':cart,'qs':qs, 'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
     return render(request, 'Administrator/weeklyreport.html', context)
 
@@ -215,7 +213,6 @@ def monthlyreport(request):
     qs2 = []
     for i in Socks:
         SocksPrice = SocksPrice + i.price
-    #print(TrouserPrice)
     context = {'cart':cart,'qs':qs, 'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
     return render(request, 'Administrator/monthlyreport.html', context)
 
@@ -286,13 +283,11 @@ def yearlyreport(request):
 
 @login_required(login_url='/account/login/')
 def todaysreport(request):
-    #print('yaya')
     today = date.today()
     category = Category.objects.all()
     subcategory = SubCategory.objects.all()
     cart = Cart.objects.filter(date=timezone.now(), paid=True)
     carttotal = Cart.objects.filter(date=timezone.now()).count()
-    #print(cart)
     details = []
     finallist = []
     for i in category:
@@ -300,111 +295,25 @@ def todaysreport(request):
             if a.mycategory == i:
                 details.append({i.name:a.name})
                 finallist.append({str(i.name) + '(' + str(a.name) + ')':0})
-
-
-    print('details', details)
-    print('finallist', finallist)
-
     for i in details:
-
-
         for key in i:
             category1 = Category.objects.get(name=key)
             subcategory1 = SubCategory.objects.get(name=i[key])
-            #print(category1, subcategory1)
             count = Cart.objects.filter(date__year=today.year,
                                        date__month=today.month,
                                        date__day=today.day,category=category1, subcategory=subcategory1, paid=True)
             for t in count:
                 dict2 = str(key) + '(' + str(i[key])+ ')'
-                print('tata', dict2)
-
-
-            print(key, i[key])
-        #     for a in cart:
-        #         if a.category.name == key and a.subcategory.name == i[key]:
-        #             print('yahhh')
-    #                 for c in finallist:
-    #                     if 'T-shirt (test001)' in c:
-    #                         print('yaaa', key, i[key])
-                    # dict1 = {key(i[key])}
-    # for i in cart:
-    #     for a in details:
-    #         if i.category ==
 
     context = {'category':category, 'carttotal':carttotal, 'cart':cart,'subcategory':subcategory} #'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
-    #print(finallist)
     return render(request, 'Administrator/todaysreport.html', context)
-
-    # cartprice = 0
-    # for i in cart:
-    #     cartprice = cartprice+ i.price
-
-    # Trouser = Cart.objects.filter(paid=True, category='Trouser', date=timezone.now())
-    # TrouserPrice = 0
-    # qs2 = []
-    # for i in Trouser:
-    #     TrouserPrice = TrouserPrice + i.price
-
-    # Shorts = Cart.objects.filter(paid=True, category='Shorts', date=timezone.now())
-    # ShortsPrice = 0
-    # for i in Shorts:
-    #     ShortsPrice = ShortsPrice + i.price
-
-    # TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date=timezone.now())
-    # TShirtsPrice = 0
-    # for i in TShirts:
-    #     TShirtsPrice = TShirtsPrice + i.price
-
-    # Shoe = Cart.objects.filter(paid=True, category='Shoe', date=timezone.now())
-    # ShoePrice = 0
-    # for i in Shoe:
-    #     ShoePrice = ShoePrice + i.price
-
-    # Underwear = Cart.objects.filter(paid=True, category='Underwear', date=timezone.now())
-    # UnderwearPrice = 0
-    # qs2 = []
-    # for i in Underwear:
-    #     UnderwearPrice = UnderwearPrice + i.price
-
-    # Boxer = Cart.objects.filter(paid=True, category='Boxer', date=timezone.now())
-    # BoxerPrice = 0
-    # qs2 = []
-    # for i in Boxer:
-    #     BoxerPrice = BoxerPrice + i.price
-
-
-    # Singlet = Cart.objects.filter(paid=True, category='Singlet', date=timezone.now())
-    # SingletPrice = 0
-    # qs2 = []
-    # for i in Singlet:
-    #     SingletPrice = SingletPrice + i.price
-
-
-
-    # Pant = Cart.objects.filter(paid=True, category='Pant', date=timezone.now())
-    # PantPrice = 0
-    # qs2 = []
-    # for i in Pant:
-    #     PantPrice = PantPrice + i.price
-
-    # Socks = Cart.objects.filter(paid=True, category='Socks', date=timezone.now())
-    # SocksPrice = 0
-    # qs2 = []
-    # for i in Socks:
-    #     SocksPrice = SocksPrice + i.price
-    #print(TrouserPrice)
-
-
 
 
 
 @login_required(login_url='/account/login/')
 def home(request):
-
     if request.user.username == 'cashier':
         return redirect('administrator:products')
-
     else:
 	    return render(request, 'Administrator/index.html')
 
@@ -437,63 +346,20 @@ def filter_index(request):
     size = request.POST.get('size')
     category = request.POST.get('category')
     subcategory = request.POST.get('subcategory')
-    print(sex, size, category, subcategory)
-
-
     return render (request, 'index_filter.html')
 
 
 # Create your views here.
 @login_required(login_url='/account/login/')
 def administrator(request):
-
-    # print('time', datetime.today().strftime('%Y-%m-%d'))
 	if request.user.username == 'cashier':
 	    return redirect('administrator:products')
+	elif request.user.username == 'cashier02':
+	    return redirect('administrator:products')
 	totalitems = MyItems.objects.all()
-	date = datetime.now()
-	cart = Cart.objects.filter(date=datetime.now())
-
-
-# 	Trouser_total = MyItems.objects.filter(category="Trouser").count()
-# 	Sales_Trouser_total = Cart.objects.filter(category="Trouser", paid=True).count()
-# 	Trouser_percentage = (Trouser_total/2000)*100
-
-# 	Shorts_total = Cart.objects.filter(category="Shorts", paid=True).count()
-# 	sales_Shorts_total = MyItems.objects.filter(category="Shorts").count()
-# 	Shorts_percentage = (Shorts_total/2000)*100
-
-# 	Sales_T_Shirts_total = Cart.objects.filter(category="T-Shirts", paid=True).count()
-# 	T_Shirts_total = MyItems.objects.filter(category="T-Shirts").count()
-# 	T_Shirts_percentage = (T_Shirts_total/2000)*100
-
-# 	Sales_Shoe_total = Cart.objects.filter(category="Shoe", paid=True).count()
-# 	Shoe_total = MyItems.objects.filter(category="Shoe").count()
-# 	Shoe_percentage = (Shoe_total/2000)*100
-
-# 	sales_Underwear_total = Cart.objects.filter(category="Underwear", paid=True).count()
-# 	Underwear_total = MyItems.objects.filter(category="Underwear").count()
-# 	Underwear_percentage = (Underwear_total/2000)*100
-
-# 	sales_Singlet_total = Cart.objects.filter(category="Singlet", paid=True).count()
-# 	Singlet_total = MyItems.objects.filter(category="Singlet").count()
-# 	Singlet_percentage = (Singlet_total/2000)*100
-
-# 	sales_Boxer_total = Cart.objects.filter(category="Boxer", paid=True).count()
-# 	Boxer_total = MyItems.objects.filter(category="Boxer").count()
-# 	Boxer_percentage = (Boxer_total/2000)*100
-
-# 	sales_Pant_total = Cart.objects.filter(category="Pant", paid=True).count()
-# 	Pant_total = MyItems.objects.filter(category="Pant").count()
-# 	Pant_percentage = (Pant_total/2000)*100
-
-# 	sales_Socks_total = Cart.objects.filter(category="Socks", paid=True).count()
-# 	Socks_total = MyItems.objects.filter(category="Socks").count()
-# 	Socks_percentage = (Socks_total/2000)*100
 	category = Category.objects.all()
 	subcategory = SubCategory.objects.all()
 	context = {'subcategory':subcategory, 'category':category, 'totalitems':totalitems}
-	#context = {'subcategory':subcategory, 'category':category, 'sales_Socks_total':sales_Socks_total,'sales_Pant_total':sales_Pant_total,'sales_Boxer_total':sales_Boxer_total,'sales_Singlet_total':sales_Singlet_total,'sales_Underwear_total':sales_Underwear_total,'Sales_Shoe_total':Sales_Shoe_total,'Sales_T_Shirts_total':Sales_T_Shirts_total ,'Shorts_total':Shorts_total ,'Sales_Trouser_total':Sales_Trouser_total, 'totalitems':totalitems, 'Socks_total':Socks_total, 'Socks_percentage':Socks_percentage,'Pant_total':Pant_total, 'Pant_percentage':Pant_percentage, 'Boxer_total':Boxer_total, 'Boxer_percentage':Boxer_percentage, 'Singlet_total':Singlet_total, 'Singlet_percentage':Singlet_percentage, 'Underwear_total':Underwear_total, 'Underwear_percentage':Underwear_percentage, 'Shoe_total':Shoe_total, 'Shoe_percentage':Shoe_percentage, 'T_Shirts_total':T_Shirts_total, 'T_Shirts_percentage':T_Shirts_percentage, 'Trouser_percentage':Trouser_percentage,'Trouser_total':Trouser_total, 'Trouser_percentage':Trouser_percentage, 'Shorts_total':Shorts_total, 'Shorts_percentage':Shorts_percentage}
 	return render(request, 'Administrator/index1.html', context)
 
 
@@ -532,7 +398,9 @@ def deletesubcategory(request, id):
 
 def addtoCategory(request):
 	category = request.POST.get("category")
-	qs = Category.objects.create(name=category)
+	stock = request.POST.get("stock")
+
+	qs = Category.objects.create(name=category, total_count=int(stock))
 	return JsonResponse({"category":category})
 
 def addSubCategory(request):
@@ -556,37 +424,37 @@ def userpostsview(request):
 
 #this function is to add to items
 def editmyitems(request):
-    editcategoryid = request.POST.get('editcategoryid')
-    editsubcategoryid = request.POST.get('editsubcategoryid')
-    editsex = request.POST.get('editsex')
-    editsize = request.POST.get('editsize')
-    editstock = request.POST.get('editstock')
+	editcategoryid = request.POST.get('editcategoryid')
+	editsubcategoryid = request.POST.get('editsubcategoryid')
+	editsex = request.POST.get('editsex')
+	editsize = request.POST.get('editsize')
+	if editsize == 'XL2':
+		editsize = '2XL'
+	elif editsize == 'XL3':
+		editsize = '3XL'
+	elif editsize == 'XL4':
+		editsize = '4XL'
+	else:
+		editsize = editsize
+	editstock = request.POST.get('editstock')
+	category = Category.objects.get(id=int(editcategoryid))
+	subcategory = SubCategory.objects.get(id=int(editsubcategoryid))
+	try:
+		qs = MyItems.objects.get(category=category, subcategory=subcategory, sex=editsex, size = editsize)
+		qs.stock = qs.stock + int(editstock)
+		qs.save()
+		category.total_count = category.total_count + int(editstock)
+		subcategory.total_count = subcategory.total_count + int(editstock)
+		category.save()
+		subcategory.save()
+	except MyItems.DoesNotExist:
+		qs = MyItems.objects.create(category=category, subcategory=subcategory, sex=editsex, size = editsize, stock=int(editstock), price=1000)
+		category.total_count = category.total_count + int(editstock)
 
-    category = Category.objects.get(id=int(editcategoryid))
-    subcategory = SubCategory.objects.get(id=int(editsubcategoryid))
-    try:
-        qs = MyItems.objects.get(category=category, subcategory=subcategory, sex=editsex, size = editsize)
-        qs.stock = qs.stock + int(editstock)
-        qs.save()
-        category.total_count = category.total_count + int(editstock)
-        subcategory.total_count = subcategory.total_count + int(editstock)
-        category.save()
-        subcategory.save()
-
-        print('its there')
-    except MyItems.DoesNotExist:
-        qs = MyItems.objects.create(category=category, subcategory=subcategory, sex=editsex, size = editsize, stock=int(editstock), price=1000)
-        category.total_count = category.total_count + int(editstock)
-
-        subcategory.total_count = subcategory.total_count + int(editstock)
-        category.save()
-        subcategory.save()
-        print('not there')
-
-
-    print(qs)
-    #print(editcategoryid, editsubcategoryid, editsex, editsize, editcategoryid, editsubcategoryid)
-    return JsonResponse({'editcategoryid':editcategoryid, 'editsubcategoryid':editsubcategoryid, 'editsex':editsex, 'editsize':editsize })
+		subcategory.total_count = subcategory.total_count + int(editstock)
+		category.save()
+		subcategory.save()
+	return JsonResponse({'editcategoryid':editcategoryid, 'editsubcategoryid':editsubcategoryid, 'editsex':editsex, 'editsize':editsize })
 
 
 
@@ -595,10 +463,8 @@ def addtoCart(request):
 	post_pk = request.POST.get("post_pk")
 	qty1 = request.POST.get("qty")
 	qty = int(qty1)
-
 	category1 = request.POST.get('category')
 	category = Category.objects.get(name=category1)
-
 	subcategory1 = request.POST.get('subcategory')
 	subcategory = SubCategory.objects.get(name = subcategory1, mycategory=category)
 	sex = request.POST.get('sex')
@@ -607,11 +473,7 @@ def addtoCart(request):
 	    qs = MyItems.objects.get(sex=sex, category=category, subcategory=subcategory, size=size)
 	    qs.stock = qs.stock-qty
 	    qs.save()
-	    category.total_count = category.total_count - qty
-	    category.save()
-	    subcategory.total_count = subcategory.total_count - qty
-	    subcategory.save()
-	    Cart.objects.create(category=category, size=size, subcategory=subcategory,  sex=sex, qty=qty, price= 1000 * qty, single_price=1000, date=timezone.now(), product_id=post_pk)
+	    Cart.objects.create(user = request.user, category=category, size=size, subcategory=subcategory,  sex=sex, qty=qty, price= 1000 * qty, single_price=1000, date=timezone.now(), product_id=post_pk)
 	    report =  "Record Created"
 	    cart = Cart.objects.filter(paid=False).count()
 	    total_price1 = Cart.objects.filter(paid=False)
@@ -623,23 +485,6 @@ def addtoCart(request):
 	    report = 'No Records found'
 	    return JsonResponse({'report':report, 'id':post_pk,})
 
-# 	qs.stock = qs.stock-qty
-# 	qs.save()
-# 	category = Category.objects.get(name=qs.category)
-# 	category.total_count = category.total_count - qty
-# 	category.save()
-
-# 	subcategory = SubCategory.objects.get(name = qs.subcategory, mycategory=category)
-# 	subcategory.total_count = subcategory.total_count - qty
-# 	subcategory.save()
-# 	Cart.objects.create(category=category, size=qs.size, subcategory=subcategory,  sex=qs.sex, qty=qty, price=qs.price*qty, single_price=qs.price, date=timezone.now(), product_id=post_pk)
-
-# 	cart = Cart.objects.filter(paid=False).count()
-# 	total_price1 = Cart.objects.filter(paid=False)
-# 	a = 0
-# 	for i in total_price1:
-# 		a = a+i.price
-# 	return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a, 'qty':qty, 'qs':qs.stock})
 
 
 def editCart(request):
@@ -649,37 +494,26 @@ def editCart(request):
 	qty1 = int(qty1)
 	itemid = request.POST.get("id")
 	itemid = int(itemid)
-
-	print('tttttt', post_pk, qty1)
 	qty = int(qty1)
+	#update old details
 	qs = Cart.objects.get(product_id = post_pk, id=itemid, paid=False)
 	qs.price = qs.single_price * qty
 	qs1 = MyItems.objects.get(pk=post_pk)
-	print('old stock', qs1.stock)
 	qs1.stock = qs1.stock - qs.qty
 	qs1.save()
-	print('removed stock', qs1.stock)
-
 	qs.qty = qty
 	qs.save()
-
 	qs = Cart.objects.get(product_id = post_pk, id=itemid, paid=False)
 	qs1.stock = qs1.stock + qty
 	qs1.save()
-	print('new stock', qs1.stock)
-
-
 	cart = Cart.objects.filter(paid=False).count()
-	total_price1 = Cart.objects.filter(paid=False)
+	total_price1 = Cart.objects.filter(paid=False, user=request.user)
 	a = 0
 	for i in total_price1:
 		a = a+i.price
-	print(qs.single_price)
 	return JsonResponse({"cart_total":cart, 'id':itemid, 'total_price':a, 'qty':qty, 'price':qs.price, 'single_price':qs.single_price})
 
 def deleteCart(request, id, product_id):
-
-	#post_pk = request.POST.get("post_pk")
 	qs = Cart.objects.get(id=id)
 	qs1 = MyItems.objects.get(id=product_id)
 	qs1.stock = qs1.stock + qs.qty
@@ -690,7 +524,7 @@ def deleteCart(request, id, product_id):
 
 
 def cart(request):
-	qs = Cart.objects.filter(paid=False)
+	qs = Cart.objects.filter(paid=False, user=request.user)
 	return render(request, 'Administrator/cart.html', {"qs":qs})
 
 def mysales(request):
@@ -723,8 +557,6 @@ def additems(request):
             i.save()
             sub.total_count = int(sub.total_count) + int(stock)
             category.total_count = int(category.total_count) + int(stock)
-            print('sub2', sub.total_count)
-            print('category2', category.total_count)
             sub.save()
             category.save()
 
@@ -759,35 +591,10 @@ def deletemyItems(request):
 
 
 
-@permission_required('admin.can_add_log_entry')
-def upload_csv(request):
-	if request.method == 'GET':
-		return render(request, 'Administrator/upload_csv.html')
-	csv_file = request.FILES['file']
-	if not csv_file.name.endswith('.csv'):
-		messages.error(request, "This is not a csv file")
-	data_set = csv_file.read().decode('UTF-8')
-	io_string = io.StringIO(data_set)
-	next(io_string)
-	for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-		print(column[0], column[1], column[2], column[3], column[4], column[5], column[6])
-		_, created = CountryDetailsTest.objects.update_or_create(
-			postcode = column[0],
-			suburb = column[1],
-			state = column[2],
-			dc = column[3],
-			detail_type = column[4],
-			lat = column[5],
-			ion = column[6],
-			)
-	context = {}
-	return HttpResponse("done")
 
 def generatePdf(request):
 	total_cart = Cart.objects.filter(paid=False).count()
 	total_price = Cart.objects.filter(paid=False)
-
-
 	a = 0
 	for i in total_price:
 		a = a+i.price
@@ -798,7 +605,6 @@ def generatePdf(request):
 	pdf = render_to_pdf('Administrator/order.html', context)
 	if pdf:
 		response = HttpResponse(pdf, content_type='application/pdf')
-
 		filename = "%s_receipt.pdf" %('1k-clothes')
 		content = "inline; filename=%s" %(filename)
 		download = request.GET.get("download")
@@ -867,7 +673,6 @@ def deleteAllCart(request):
 
 def pay(request):
 	sum = 0
-	qs2 = Cart.objects.filter(paid=False)
 	paymentoption = request.POST.get('paymentoption')
 	date=datetime.now()
 	num = random.randrange(12345678910234)
@@ -875,26 +680,24 @@ def pay(request):
 	filename = ean.save('ean13')
 	file = open('/home/budescode/inventory/project/static/images/barcode.png', 'wb')
 	ean.write(file)
-	qs = Cart.objects.filter(paid=False)
-
-
-	total_cart = Cart.objects.filter(paid=False).count()
+	qs = Cart.objects.filter(paid=False, user=request.user)
+	total_cart = Cart.objects.filter(paid=False, user=request.user).count()
 	total_price = 0
 	image = Image.objects.get(id=1)
 	qs1 = []
-	for i in qs2:
-	    total_price = total_price + (i.price)
-	   # qs1.append(i)
 	for i in qs:
+		total_price = total_price + (i.price)
 		i.paid = True
 		qs1.append(i)
 		i.paymentoption = paymentoption
+		cate = Category.objects.get(id=i.category.id)
+		subcate = SubCategory.objects.get(id=i.subcategory.id)
+		cate.total_count = cate.total_count -  i.qty
+		cate.save()
+		subcate.total_count = subcate.total_count -  i.qty
+		subcate.save()
 		i.save()
-# 			print(qs1, '1111')
-# 		for i in qs:
-# 			i.paid = False
-# 			i.paymentoption = paymentoption
-		print(qs1, '1111')
+
 	template = get_template('Administrator/order.html')
 	context={'qs':qs1, 'total_cart':total_cart, 'total_price':total_price, 'date':date, 'paymentoption':paymentoption}
 	#return render (request, 'Administrator/order.html', context)
@@ -911,15 +714,11 @@ def pay(request):
 		if download:
 			content = "attachment; filename='%s'" %(filename)
 		response['Content-Disposition'] = content
-
-
-		print(qs1, 'na')
 		return response
 	return HttpResponse("Not found")
 
 @login_required(login_url='/account/login/')
 def filtersales(request):
 	date = request.POST.get('date')
-	print(date)
 	qs = Cart.objects.filter(paid=True, date=str(date)).order_by('-date')
 	return render(request, 'Administrator/filtersales.html', {"qs":qs})

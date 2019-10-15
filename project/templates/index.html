@@ -1,866 +1,124 @@
-{% extends 'base.html' %}
-{% block navbar %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
 
-<style>
-  .span4 img {
-    margin-right: 10px;
-}
-.span4 .img-left {
-    float: left;
-}
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'index/fonts/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'index/style.css' %}">
+    <title>Welcome to 1k Shop</title>
 
+    <meta name="title" content="Welcome to 1k Shop">
+    <meta name="description" content="Buy any piece of clothing for just 1k,
+    shopping for more quality with less">
 
+    <link rel="icon" type="image/png" href="{% static 'index/img/logo.png' %}">
+    <!-- For apple devices -->
+    <link rel="apple-touch-icon" type="image/png" href="{% static 'index/img/logo.png' %}" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#44AC33">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#44AC33">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#44AC33">
+</head>
 
+<body>
+    <div id="app">
+        <header class="k-header">
 
-
-
-
-<div class="container-fluid" style="background-image: url(../static/images/background8.jpg); height: 550px;">
-  <div class="row" style="">
-
-
-<div class="container-fluid">
-
-
-
-
-
-  <div class="site-wrap">
-
-    <div class="site-mobile-menu">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
-        </div>
-      </div>
-      <div class="site-mobile-menu-body"></div>
-    </div> <!-- .site-mobile-menu -->
-
-    <div class="bd-transparent top-bar">
-      <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-6 col-md-6">
-            <p class="mb-0">
-              <a href="#" class="mr-3"><span class="text-black fl-bigmug-line-phone351"></span> <span class="d-none d-md-inline-block ml-2">+2349032841265</span></a>
-              <a href="#"><span class="text-black fl-bigmug-line-email64"></span> <span class="d-none d-md-inline-block ml-2">gospeltruth18@gmail.com</span></a>
-            </p>
-          </div>
-          <div class="col-6 col-md-6 text-right">
-            <a href="#" class="mr-3"><span class="text-black icon-facebook"></span></a>
-            <a href="#" class="mr-3"><span class="text-black icon-twitter"></span></a>
-            <a href="#" class="mr-0"><span class="text-black icon-linkedin"></span></a>
-            <a href="#" class="mr-0"><span class="">{{request.user.username}}</span></a>
-
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="site-navbar " style="background-color: rgba(0,0,0,0); border-top-color: rgba(0,0,0,0); color: white;">
-        <div class="container-fluid py-1">
-          <div class="row align-items-center ">
-            <div class="col-8 col-md-8 col-lg-4 bd-transparent">
-              <h1 class=""><a href="{% url 'home:home' %}" class="h5 text-uppercase text-black"><strong style="color: white;">Anand<span class="text-danger">.</span></strong></a></h1>
-            </div>
-            <div class="col-4 col-md-4 col-lg-8">
-              <nav class="site-navigation text-right text-md-right " role="navigation">
-
-                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3" style="color: white;"></span></a></div>
-
-                <ul class="site-menu js-clone-nav d-none d-lg-block" style="color: white;">
-                  <li class="active">
-
-                    <a href="{% url 'home:home' %}">Home</a>
-                  </li>
-                  <li class="has-children">
-                    <a href="" style="color: orange;">Properties</a>
-                    <ul class="dropdown">
-
-                      {% if request.user.user_category.category == "Seller"  %}
-                      <li ><a href="{% url 'home:post' %}" >Sell</a></li>
-                      {% endif %}
-                      <li><a href="#">Buy</a></li>
-
-                      <li><a href="#">Find Agents</a></li>
-
-                    </ul>
-                  </li>
-                  <li ><a href="" style="color: orange;">Blog</a></li>
-                  <li><a href="{% url 'home:about' %}" style="color: orange;">About</a></li>
-                  <li><a href="{% url 'home:contact' %}" style="color: orange;">Contact</a></li>
-
-                {% if request.user.is_authenticated %}
-
-                 <li><a href=""><i class="fa fa-bell fa-lg" style="color: orange;"></i></a></li>
-<!--                   <li class="has-children">
-                    <a href="' %}"><i class="fa fa-bell fa-lg"></i><span style="color: red"><b></b></span></a>
-                    <ul class="dropdown">
-
-
-                      <li><a href="#">Upgrade account</a></li>
-
-                    </ul>
-                  </li> -->
-
-                  <li class="has-children">
-                  <a href=""><i class="fa fa-user-circle-o fa-lg" style="color: orange;"></i></a>
-                  <ul class="dropdown">
-                  {% if request.user.user_category.category == "Seller"  %}
-                  <li><a href="{% url 'home:mypost' %}"><i class="fa fa-save"></i>My Post</a></li>
-                  {% endif %}
-                  <li><a href="#"><i class="fa fa-home"></i> My Property</a></li>
-                  <li><a href="#"><i class="fa fa-money"></i> My Finances</a></li>
-                  <li><a href="{% url 'account:profile' %}"><i class="fa fa-user"></i> My {{request.user.user_category.category}} Profile</a></li>
-                  <li><a href="#"><i class="fa fa-gear"></i> Account Settings</a></li>
-                  <li><a href="{% url 'account:logout' %}"> <i class="fa fa-sign-out"></i> Logout</a></li>
-                <li><a href="{% url 'account:change_password' %}"> <i class="fa fa-key"></i> Change Password</a></li>
-
-                  </ul>
-                  </li>
-
-
-                  {% else %}
-                  <li><a href="{% url 'account:login' %}">Login</a></li>
-
-                {% endif %}
-
-
-
+            <div class="social social-row social-hide-sm">
+                <p>Follow us on social media</p>
+                <ul>
+                    <li>
+                        <a href="#" title="facebook" aria-details="facebook"><span class="flaticon-facebook"></span></a>
+                        <a href="#" title="instagram" aria-details="instagram"><span
+                                class="flaticon-instagram"></span></a>
+                        <a href="#" title="twitter" aria-details="twitter"><span class="flaticon-twitter"></span></a>
+                    </li>
+                    <li></li>
                 </ul>
-              </nav>
             </div>
+        </header>
+        <section class="k-container">
+            <div class="k-content">
+                <!--Hero-->
+                <div class="hero">
+                    <!--Hero header-->
+                    <div class="hero-header">
+                        <h1>
+                            Everything you need for 1k
+                        </h1>
+                    </div>
+                    <!--Hero Image (for mobile view)-->
+                    <div class="hero-img">
+                        <figure class="img-responsive">
+                            <img src="img/5d9536571d156-removebg.png" alt="Ik shop countdown Image">
+                        </figure>
+                    </div>
+                </div>
+                <!--Countdown timer section (for Desktop view)-->
+                <div class="countdown">
+                    <p class="countdown-title">Our store will open in...</p>
+                    <!--Vue countdown component-->
+                    <countdown count-down-date="Oct 19, 2019 00:00:25" />
+                </div>
 
+                <!--Caption-->
+                <p class="caption">
+                    Buy any piece of clothing for just 1k,<br />
+                    shopping for more quality with less.
+                </p>
 
-          </div>
-        </div>
-      </div>
+                <!--Address-->
+                <div class="address">
+                    <div class="logo">
+                        <figure class="img-responsive">
+                            <img src="img/logo.png" alt="k website logo">
+                        </figure>
+                    </div>
+                    <div>
+                        <h2>You can find us at @</h2>
+                        <address>
+                            4 Oko ogbo, Airport road, Benin city, Edo state.
+                        </address>
+                        <figure>07039137343</figure>
+                        <figure>09018524839</figure>
+                    </div>
+                </div>
+
+                <!--Social Links (for mobile only)-->
+                <div class="social social-hide-lg social-col">
+                    <p>Follow us on social media</p>
+                    <ul>
+                        <li>
+                            <a href="#" title="facebook" aria-details="facebook"><span
+                                    class="flaticon-facebook"></span></a>
+                            <a href="#" title="instagram" aria-details="instagram"><span
+                                    class="flaticon-instagram"></span></a>
+                            <a href="#" title="twitter" aria-details="twitter"><span
+                                    class="flaticon-twitter"></span></a>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="wtf-class">
+                    <h3> Shop Opens 19 October 2019</h3>
+                </div>
+            </div>
+            <div class="k-illustration">
+                <figure class="img-responsive">
+                    <img src="img/5d9536571d156-removebg.png" title="Cloth prices that will blow your mind" alt="Ik shop countdown Image">
+                </figure>
+            </div>
+        </section>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-<!-- container -->
-
-
-
-
-  </div>
-
-
-
-
-  <div class="row">
-  <div class="col-md-12">
-    <div class="jumbotron" style="background-color: rgba(0,0,0,.5); color: white;">
-  <h3>Search properties for sale</h3>
-  <nav class="nav nav-tabs" style="border-bottom-color: black;">
-    <a href="#" class="nav-item nav-link active" style="background-color: orange; border-color: black; color: white;">
-        Buy
-    </a>
-    <a href="#" class="nav-item nav-link">
-       Rent
-    </a>
-    <!--<a href="#" class="nav-item nav-link">-->
-    <!--   </i> Sold-->
-    <!--</a>-->
-
-  </nav>
-<form action="{% url 'home:filter_search' %}" method="post"> {% csrf_token %}
-<div class="form-group row">
-<div class="col-sm-10">
-
-<!-- this is where all you searched for will be displayed -->
-
-<div id="searchitem" style="display: none;">
-
-</div>
-<input type="text" name="hiddensearch" id="hiddensearch" style="display: none;" value="">
-<input type="text" name="propertytype1" id="propertytype1" style="display: none;" value="Property type">
-<input type="text" name="bedmin1" id="bedmin1" style="display: none;" value="Bed (min)">
-<input type="text" name="bedmax1" id="bedmax1" style="display: none;" value="Bed (max)">
-<input type="text" name="pricemax1" id="pricemax1" style="display: none;" value="Price (max)">
-<input type="text" name="pricemin1" id="pricemin1" style="display: none;" value="Price (max) ">
-
-
-<input type="text" oninput="InputChange()" id='search' placeholder="  search by state, studio or postcode" class="form-control-plaintext form-control-lg" style="background-color: rgba(255,255,255, 0.9); margin-top: 5px;">
-
-</div>
-<div class="col-sm-2">
-<input type="submit" class="btn btn-primary btn-lg" value="Search" name="" style="margin-top: 5px;">
-</div>
-</div>
-</form>
-
-
-<p>
-
-
-  <div class="btn-group" style="">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: rgba(0,0,0,0); color: orange; border-color: rgba(0,0,0,0);">
-       Property type
-    </button>
-
-      <div class="dropdown-menu" style="height: 220px; width: 190px; overflow-x: hidden; overflow-x: auto;">
-      <form>
-
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="All property types">
-        <label class="form-check-label" for="all">All property types</label>
-      </div>
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="House">
-        <label class="form-check-label" for="all"> House</label>
-      </div>
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Apartment & Unit">
-        <label class="form-check-label" for="all"> Apartment & Unit</label>
-      </div>
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Town House">
-        <label class="form-check-label" for="all">Town House</label>
-      </div>
-<div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Villa">
-        <label class="form-check-label" for="all">Villa</label>
-      </div>
-
-<div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Land">
-        <label class="form-check-label" for="all">Land</label>
-      </div>
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Acreage">
-        <label class="form-check-label" for="all"> Acreage</label>
-      </div>
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Rural">
-        <label class="form-check-label" for="all"> Rural</label>
-      </div>
-      <div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Block Of Units">
-        <label class="form-check-label" for="all">Block Of Units</label>
-      </div>
-<div class="form-check dropdown-item">
-        <input type="checkbox" class="form-check-input" id="all" name="propertycheck" value="Retirement Living">
-        <label class="form-check-label" for="all">Retirement Living</label>
-      </div>
-
-      </form>
-    </div>
-  <div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle bedmin" data-toggle="dropdown" style="background-color: rgba(0,0,0,0); color: orange; border-color: rgba(0,0,0,0);">
-       Bed (min)
-    </button>
-
-
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#"  onclick="changebedmin(this.innerHTML)">Any</a>
-      <a class="dropdown-item" href="#" onclick="changebedmin(this.innerHTML)">Studio</a>
-    <a class="dropdown-item" href="#" onclick="changebedmin(this.innerHTML)">1 Bed</a>
-    <a class="dropdown-item" href="#" onclick="changebedmin(this.innerHTML)">2 Beds</a>
-    <a class="dropdown-item" href="#" onclick="changebedmin(this.innerHTML)">3 Beds</a>
-    <a class="dropdown-item" href="#" onclick="changebedmin(this.innerHTML)">4 Beds</a>
-    <a class="dropdown-item" href="#" onclick="changebedmin(this.innerHTML)">5 Beds</a>
-
-    </div>
-
-  </div>
-  <div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle bedmax" data-toggle="dropdown" style="background-color: rgba(0,0,0,0); color: orange; border-color: rgba(0,0,0,0);">
-       Bed (max)
-    </button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#"  onclick="changebedmax(this.innerHTML)">Any</a>
-      <a class="dropdown-item" href="#" onclick="changebedmax(this.innerHTML)">Studio</a>
-    <a class="dropdown-item" href="#" onclick="changebedmax(this.innerHTML)">1 Bed</a>
-    <a class="dropdown-item" href="#" onclick="changebedmax(this.innerHTML)">2 Beds</a>
-    <a class="dropdown-item" href="#" onclick="changebedmax(this.innerHTML)">3 Beds</a>
-    <a class="dropdown-item" href="#" onclick="changebedmax(this.innerHTML)">4 Beds</a>
-    <a class="dropdown-item" href="#" onclick="changebedmax(this.innerHTML)">5 Beds</a>
-
-    </div>
-
-
-
-  </div>
-
-<div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle pricemin" data-toggle="dropdown" style="background-color: rgba(0,0,0,0); color: orange; border-color: rgba(0,0,0,0);">
-       Price (min)
-    </button>
-    <div class="dropdown-menu" style="height: 220px; width: 190px; overflow-x: hidden; overflow-x: auto;">
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">Any </a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$50,000 </a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$75,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$100,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$125,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$150,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$175,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$200,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$225,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$250,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$275,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$300,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$325,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$350,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$350,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$350,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$375,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$400,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$425,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$450,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$475,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$550,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$600,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$650,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$700,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$750,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$800,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$850,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$900,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$950,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,100,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,200,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,300,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,400,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,600,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,700,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,800,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$1,900,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$2,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$2,250,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$2,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$2,750,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$3,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$3,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$4,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$4,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$5,000,000 </a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$7,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$8,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$9,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$10,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$12,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMin(this.innerHTML)">$15,000,000</a>
-    </div>
-  </div>
-
-<div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle pricemax" data-toggle="dropdown" style="background-color: rgba(0,0,0,0); color: orange; border-color: rgba(0,0,0,0);">
-       Price (max)
-    </button>
-    <div class="dropdown-menu" style="height: 220px; width: 190px; overflow-x: hidden; overflow-x: auto;">
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">Any </a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$50,000 </a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$75,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$100,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$125,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$150,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$175,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$200,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$225,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$250,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$275,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$300,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$325,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$350,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$350,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$350,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$375,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$400,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$425,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$450,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$475,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$550,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$600,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$650,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$700,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$750,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$800,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$850,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$900,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$950,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,100,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,200,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,300,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,400,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,600,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,700,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,800,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$1,900,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$2,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$2,250,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$2,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$2,750,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$3,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$3,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$4,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$4,500,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$5,000,000 </a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$7,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$8,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$9,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$10,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$12,000,000</a>
-<a class="dropdown-item" data-target="#minprice" onclick="priceMax(this.innerHTML)">$15,000,000</a>
-    </div>  </div>
-
-
-</div>
-
-
-
-
-
-</p>
-
-
-
-</div>
-  </div>
-  </div>
-
-</div>
-
-
-
-
-
-<script>
-var searchlist = []
-// this will take the least of items to be searched
-
-
-
-
-
-// this function is used to check when semicolon has been added  to the search input as it enables multiple search
-function InputChange(){
-  document.querySelector("#searchitem").style.display = 'block';
-  var searchitem = document.querySelector("#search").value
-  if (searchitem.includes(";")){
-    console.log("ok")
-
-
-    var inputedvalue = document.querySelector("#search").value
-
-
-    if (inputedvalue){
-    var length = searchlist.length
-    var searchitem = document.querySelector("#searchitem")
-    inputedvalue = inputedvalue.slice(0, -1);
-    var spanelement = document.createElement("span");
-    spanelement.setAttribute("class", "badge badge-primary");
-    // var addlength =  length
-    spanelement.setAttribute("id", 'itemid'+length);
-
-
-
-    spanelement.style.marginLeft = '3px';
-    spanelement.style.marginRight = '3px';
-    spanelement.addEventListener('click',
-    function(){
-    var id = this.innerHTML.slice(0,-2)
-
-    // var element = document.querySelector(id);
-
-
-    var index = searchlist.indexOf(id)
-    searchlist.splice( index, 1 );
-    var propertyarray = []
-    var checkboxes = document.querySelectorAll('input[type=checkbox][name=propertycheck]:checked')
-
-    for (var i = 0; i < checkboxes.length; i++) {
-    propertyarray.push(checkboxes[i].value)
-    }
-    var propertytype1 = document.querySelector("#propertytype1").value = propertyarray
-    var bedmin1 = document.querySelector("#bedmin1").value = document.querySelector(".bedmin").innerHTML.trim().slice(0, 1);
-    var bedmax1 = document.querySelector("#bedmax1").value = document.querySelector(".bedmax").innerHTML.trim().slice(0, 1);
-    var pricemin1 = document.querySelector("#pricemin1").value = document.querySelector(".pricemin")
-    var pricemax1 = document.querySelector("#pricemax1").value = document.querySelector(".pricemax")
-
-    this.remove()
-
-    var hiddensearch= document.querySelector("#hiddensearch").value = searchlist
-    console.log(propertyarray, propertytype1, bedmin1, bedmax1, pricemin1, pricemax1)
-    })
-
-    var testnode = document.createTextNode(inputedvalue)
-    var cancel = document.createTextNode(' X')
-    spanelement.appendChild(testnode)
-    spanelement.appendChild(cancel)
-    searchitem.appendChild(spanelement)
-    searchlist[length] = spanelement.innerHTML
-    console.log(searchlist)
-    // console.log(searchlist)
-    var hiddensearch= document.querySelector("#hiddensearch").value = searchlist
-    var propertyarray = []
-    var checkboxes = document.querySelectorAll('input[type=checkbox][name=propertycheck]:checked')
-
-    for (var i = 0; i < checkboxes.length; i++) {
-    propertyarray.push(checkboxes[i].value)
-    }
-    var propertytype1 = document.querySelector("#propertytype1").value = propertyarray
-    var bedmin1 = document.querySelector("#bedmin1").value = document.querySelector(".bedmin").innerHTML.trim().slice(0, 1);
-    var bedmax1 = document.querySelector("#bedmax1").value = document.querySelector(".bedmax").innerHTML.trim().slice(0, 1);
-    var pricemin1 = document.querySelector("#pricemin1").value = document.querySelector(".pricemin").innerHTML
-    var pricemax1 = document.querySelector("#pricemax1").value = document.querySelector(".pricemax").innerHTML
-    console.log(bedmin1)
-    inputedvalue = document.querySelector("#search").value = ''
-    }
-
-
-  }
-
-}
-// endof inputchange function
-
-
-function autocomplete(inp, arr) {
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
-  var currentFocus;
-  /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
-        }
-      }
-  });
-  /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function(e) {
-      var x = document.getElementById(this.id + "autocomplete-list");
-      if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
-        /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-        currentFocus++;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 38) { //up
-        /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-        currentFocus--;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
-        if (currentFocus > -1) {
-          /*and simulate a click on the "active" item:*/
-          if (x) x[currentFocus].click();
-        }
-      }
-  });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-      }
-    }
-  }
-
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-    document.querySelector("#searchitem").style.display = 'block'
-    var inputedvalue = document.querySelector("#search").value
-    if (inputedvalue){
-    var searchitem = document.querySelector("#searchitem")
-    var inputedvalue = document.querySelector("#search").value
-    var spanelement = document.createElement("span");
-    var length = searchlist.length
-    spanelement.setAttribute("class", "badge badge-primary badge-lg");
-    spanelement.setAttribute("id", 'itemid'+length);
-    spanelement.style.marginLeft = '3px';
-    spanelement.style.marginRight = '3px';
-
-    spanelement.addEventListener('click',
-    function(){
-    var id = this.innerHTML.slice(0,-2)
-    var index = searchlist.indexOf(id)
-    searchlist.splice( index, 1 );
-    // console.log(id, index, searchlist)
-    this.remove()
-    var hiddensearch= document.querySelector("#hiddensearch").value = searchlist
-    var propertyarray = []
-    var checkboxes = document.querySelectorAll('input[type=checkbox][name=propertycheck]:checked')
-
-    for (var i = 0; i < checkboxes.length; i++) {
-    propertyarray.push(checkboxes[i].value)
-    }
-    var propertytype1 = document.querySelector("#propertytype1").value = propertyarray
-    var bedmin1 = document.querySelector("#bedmin1").value = document.querySelector(".bedmin").innerHTML.trim().slice(0, 1);
-    var bedmax1 = document.querySelector("#bedmax1").value = document.querySelector(".bedmax").innerHTML.trim().slice(0, 1);
-    var pricemin1 = document.querySelector("#pricemin1").value = document.querySelector(".pricemin").innerHTML
-    var pricemax1 = document.querySelector("#pricemax1").value = document.querySelector(".pricemax").innerHTML
-    console.log(propertytype1, bedmax1, bedmin1, pricemin1, pricemax1)
-    }
-
-    )
-
-    var testnode = document.createTextNode(inputedvalue)
-    var cancel = document.createTextNode(' X')
-
-
-    spanelement.appendChild(testnode)
-    spanelement.appendChild(cancel)
-
-    // console.log(spanelement)
-
-    searchitem.appendChild(spanelement)
-    searchlist[length] = spanelement.innerHTML
-    var hiddensearch= document.querySelector("#hiddensearch").value = searchlist
-
-    var propertyarray = []
-    var checkboxes = document.querySelectorAll('input[type=checkbox][name=propertycheck]:checked')
-
-    for (var i = 0; i < checkboxes.length; i++) {
-    propertyarray.push(checkboxes[i].value)
-    }
-    var propertytype1 = document.querySelector("#propertytype1").value = propertyarray
-    var bedmin1 = document.querySelector("#bedmin1").value = document.querySelector(".bedmin").innerHTML.trim().slice(0, 1);
-    var bedmax1 = document.querySelector("#bedmax1").value = document.querySelector(".bedmax").innerHTML.trim().slice(0, 1);
-    var pricemin1 = document.querySelector("#pricemin1").value = document.querySelector(".pricemin").innerHTML
-    var pricemax1 = document.querySelector("#pricemax1").value = document.querySelector(".pricemax").innerHTML
-  console.log(propertytype1, bedmax1, bedmin1, pricemin1, pricemax1)
-
-    inputedvalue = document.querySelector("#search").value = ''
-    }
-
-    // console.log(inputedvalue)
-      closeAllLists(e.target);
-
-  });
-}
-
-/*An array containing all the country names in the world:*/
-var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
-// var countries = [
-var list1 = [
-{% for i in qs %}
-"{{i.postcode}}",
-
-{% endfor %}
-]
-// console.log(countries)
-
-
-/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("search"), list1);
-
-
-function changebedmax(e){
-
-// console.log(e)
-
-document.querySelector(".bedmax").innerHTML = e
-document.querySelector("#bedmax1").value = e.trim().slice(0, 1);
-
-
-
-var bedmin =  document.querySelector(".bedmin").innerHTML
-document.querySelector("#bedmin1").value = bedmin.trim().slice(0, 1);
-
-var pricemin =  document.querySelector(".pricemin").innerHTML
-document.querySelector("#pricemin1").value = pricemin
-
-var pricemax =  document.querySelector(".pricemax").innerHTML
-document.querySelector("#pricemax1").value = pricemax
-
-console.log(document.querySelector("#bedmin1").value, document.querySelector("#bedmax1").value, document.querySelector("#pricemin1").value, document.querySelector("#pricemax1").value)
-}
-function changebedmin(e){
-
-document.querySelector(".bedmin").innerHTML = e
-document.querySelector("#bedmin1").value = e.trim().slice(0, 1);
-
-var bedmax =  document.querySelector(".bedmax").innerHTML
-document.querySelector("#bedmax1").value = bedmax.trim().slice(0, 1);
-
-var pricemin =  document.querySelector(".pricemin").innerHTML
-document.querySelector("#pricemin1").value = pricemin
-
-var pricemax =  document.querySelector(".pricemax").innerHTML
-document.querySelector("#pricemax1").value = pricemax
-
-console.log(document.querySelector("#bedmin1").value, document.querySelector("#bedmax1").value, document.querySelector("#pricemin1").value, document.querySelector("#pricemax1").value)
-
-}
-function priceMin(e){
-document.querySelector(".pricemin").innerHTML = e
-document.querySelector("#pricemin1").value = e
-
-
-
-
-var bedmin =  document.querySelector(".bedmin").innerHTML
-document.querySelector("#bedmin1").value = bedmin.trim().slice(0, 1);
-
-var pricemax =  document.querySelector(".pricemax").innerHTML
-document.querySelector("#pricemax1").value = pricemax
-
-var bedmax =  document.querySelector(".bedmax").innerHTML
-document.querySelector("#bedmax1").value = bedmax.trim().slice(0, 1);
-
-console.log(document.querySelector("#bedmin1").value, document.querySelector("#bedmax1").value, document.querySelector("#pricemin1").value, document.querySelector("#pricemax1").value)
-
-}
-function priceMax(e){
-document.querySelector(".pricemax").innerHTML = e
-document.querySelector("#pricemax1").value = e
-
-var bedmax =  document.querySelector(".bedmax").innerHTML
-document.querySelector("#bedmax1").value = bedmax.trim().slice(0, 1);
-
-var pricemin =  document.querySelector(".pricemin").innerHTML
-document.querySelector("#pricemin1").value = pricemin
-
-var bedmin =  document.querySelector(".bedmin").innerHTML
-document.querySelector("#bedmin1").value = bedmin.trim().slice(0, 1);
-console.log(document.querySelector("#bedmin1").value, document.querySelector("#bedmax1").value, document.querySelector("#pricemin1").value, document.querySelector("#pricemax1").value)
-
-
-
-}
-
-
-</script>
-
-{% endblock navbar %}
-
-
-
-{% block body %}
-<div class="container" style="margin-top: 50px;">
-  <div class="row">
-    <div class="col-md-12">
-<h2>Latest Property News</h2>
-
-<div class="block">
-
-
-<div class="row">
-
-<div class="col-sm-4">
-<img class="img-left img-thumbnail" src="../static/images/background8.jpg" style="height: 200px; widows: 200px;" />
-</div>
-
-<div class="col-sm-6">
-<h5 style="font-family: Baufra;">5 STEPS TO ENSURE YOUR HOME IS A GOOD BUY &nbsp </h5>
-<p>Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.<br>
-Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-</div>
-
-</div>
-<!-- row -->
-
-<div class="row">
-
-<div class="col-sm-4">
-<img class="img-left img-thumbnail" src="../static/images/background8.jpg" style="height: 200px; widows: 200px;" />
-</div>
-
-<div class="col-sm-6">
-<h5 style="font-family: Baufra;">5 STEPS TO ENSURE YOUR HOME IS A GOOD BUY &nbsp </h5>
-<p>Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.<br>
-Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-</div>
-
-</div>
-<!-- row -->
-
-<div class="row">
-
-<div class="col-sm-4">
-<img class="img-left img-thumbnail" src="../static/images/background8.jpg" style="height: 200px; widows: 200px;" />
-</div>
-
-<div class="col-sm-6">
-<h5 style="font-family: Baufra;">5 STEPS TO ENSURE YOUR HOME IS A GOOD BUY &nbsp </h5>
-<p>Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.<br>
-Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-</div>
-
-</div>
-<!-- row -->
-
-
-</div>
-
-
-  </div>
-</div>
-</div>
-
-{% endblock %}
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="app.js"></script>
+
+</html>

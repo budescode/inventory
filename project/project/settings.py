@@ -27,7 +27,7 @@ SECRET_KEY = '8^ddocc&9lq5$%h32fgt_j-7##0-o!h2vgh-!_j5u2wc3er0ih'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['budescode.pythonanywhere.com']
+ALLOWED_HOSTS = ['www.1kshop.online']
 
 
 # Application definition

@@ -1,20 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Image(models.Model):
     image = models.FileField()
     def __str__(self):
         return str(self.id)
-class CountryDetails(models.Model):
-	postcode = models.CharField(max_length=100)
-	suburb = models.CharField(max_length=100)
-	state =models.CharField(max_length=100)
-	dc = models.CharField(max_length=100)
-	detail_type = models.CharField(max_length=100)
-	lat = models.CharField(max_length=100)
-	ion = models.CharField(max_length=100)
-
-	def __str__(self):
-		return self.postcode
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -61,6 +51,7 @@ class PettyCash(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 class Cart(models.Model):
+	user = models.ForeignKey(User, on_delete = models.CASCADE, default=1, related_name='usercart')
 	category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1, related_name='cartcategory')
 	subcategory = models.ForeignKey(SubCategory, on_delete = models.CASCADE, default=1, related_name='cartsubcategory')
 	sex = models.TextField()

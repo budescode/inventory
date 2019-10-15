@@ -56,7 +56,7 @@ section {
 .countdown,
 .address,
 .hero,
-.caption {
+.caption,.wtf-class {
     margin-top: var(--space-2);
     margin-bottom: var(--space-2);
 }
@@ -86,27 +86,38 @@ section {
 
 .countdown-time>li>figure {
     margin-bottom: var(--space-1);
-    font-size: var(--size-5);
+    font-size: 120px;
 }
 
 /*
 **Caption
 */
 .caption {
-    font-size: var(--size-4);
+    font-size: var(--size-10);
 }
 
 /*
 **Address
 */
-.address>h2 {
+.address{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.address .logo{
+    margin: var(--space-3) auto;
+    width: var(--size-10); 
+}
+.address h2 {
     font-size: var(--size-2);
 }
 
-.address>address {
+.address address {
     font-style: normal;
     font-size: var(--size-3);
+    margin-bottom: var(--size-1);
 }
+
 
 .caption {
     font-size: var(--size-4);
@@ -184,11 +195,6 @@ section {
     justify-content: center;
 }
 
-.k-header>.logo {
-    width: var(--size-10);
-    margin: auto;
-}
-
 /*
 **Container
 */
@@ -218,7 +224,7 @@ section {
         display: none;
     }
     .k-content>:nth-child(1){
-        order: 3;
+        order: 1;
     }
     .k-content>:nth-child(2){
         order: 1;
@@ -232,6 +238,9 @@ section {
     .k-content>:nth-child(5){
         order: 5;
     }
+    .k-content>:nth-child(6){
+        order: 6;
+    }
 
     /*
     **Social media handle
@@ -239,6 +248,7 @@ section {
     .social-hide-sm {
         display: none;
     }
+    
 
     /*
     ** Hero
@@ -262,6 +272,10 @@ section {
     .caption {
         text-align: center;
     }
+
+    .wtf-class{
+        text-align: center;
+    }
 }
 
 /*
@@ -278,12 +292,9 @@ section {
 
     .k-header {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
 
-    .k-header>.logo {
-        margin: var(--space-0);
-    }
 
     /*
     **Containrs
@@ -306,10 +317,23 @@ section {
     }
 
     /*
+    ** Address
+    */
+    .address{
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .address .logo{
+        margin-right: var(--space-2);
+        margin-left: 0;
+    }
+    
+    /*
     ** Hero
     */
     .hero h1 {
-        font-size: var(--size-7);
+        font-size: var(--size-5);
         text-transform: uppercase;
     }
 

@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 # from mysite.core import views as core_views
 app_name='administrator'
 urlpatterns = [
-    path('administrator/', views.administrator, name="administrator" ),
+    path('', views.administrator, name="administrator" ),
 	path('products/', views.userpostsview, name="products" ),
 	path('dailyreport/', views.dailyReportView, name="dailyreport" ),
 	path('weeklyreport/', views.weeklyreport, name="weeklyreport" ),
@@ -36,7 +36,7 @@ urlpatterns = [
 	path('additems/', views.additems, name="additems" ),
 	path('filtersales/', views.filtersales, name="filtersales" ),
 	path('deleteallcart/', views.deleteAllCart, name="deleteallcart" ),
-	path('', views.home, name="home" ),
+# 	path('', views.home, name="home" ),
     path('pettycash/', views.pettyCash, name="pettycash" ),
     path('addpettycash/', views.addpettyCash, name="addpettycash" ),
     path('deletepettycash/<slug:id>/', views.delete_pettycash, name="deletepettycash" ),

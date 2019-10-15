@@ -15,9 +15,9 @@
     <meta name="description" content="Buy any piece of clothing for just 1k,
     shopping for more quality with less">
 
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="{% static 'index/img/logo.png' %}">
     <!-- For apple devices -->
-    <link rel="apple-touch-icon" type="image/png" href="img/logo.png" />
+    <link rel="apple-touch-icon" type="image/png" href="{% static 'index/img/logo.png' %}" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#44AC33">
@@ -30,11 +30,7 @@
 <body>
     <div id="app">
         <header class="k-header">
-            <div class="logo">
-                <figure class="img-responsive">
-                    <img src="{% static 'index/img/logo.png' %}" alt="k website logo">
-                </figure>
-            </div>
+
             <div class="social social-row social-hide-sm">
                 <p>Follow us on social media</p>
                 <ul>
@@ -50,12 +46,6 @@
         </header>
         <section class="k-container">
             <div class="k-content">
-                <!--Countdown timer section (for Desktop view)-->
-                <div class="countdown">
-                    <p class="countdown-title">Our store will open in...</p>
-                    <!--Vue countdown component-->
-                    <countdown count-down-date="Oct 12, 2019 00:00:25" />
-                </div>
                 <!--Hero-->
                 <div class="hero">
                     <!--Hero header-->
@@ -67,9 +57,15 @@
                     <!--Hero Image (for mobile view)-->
                     <div class="hero-img">
                         <figure class="img-responsive">
-                            <img src="{% static 'index/img/5d9536571d156-removebg.png' %}" alt="Ik shop countdown Image">
+                            <img src="img/5d9536571d156-removebg.png" alt="Ik shop countdown Image">
                         </figure>
                     </div>
+                </div>
+                <!--Countdown timer section (for Desktop view)-->
+                <div class="countdown">
+                    <p class="countdown-title">Our store will open in...</p>
+                    <!--Vue countdown component-->
+                    <countdown count-down-date="Oct 19, 2019 00:00:25" />
                 </div>
 
                 <!--Caption-->
@@ -80,10 +76,19 @@
 
                 <!--Address-->
                 <div class="address">
-                    <h2>You can find us at @</h2>
-                    <address>
-                        4 Oko ogbo, Airport road, Benin city, Edo state.
-                    </address>
+                    <div class="logo">
+                        <figure class="img-responsive">
+                            <img src="{% static 'index/img/logo.png' %}" alt="k website logo">
+                        </figure>
+                    </div>
+                    <div>
+                        <h2>You can find us at @</h2>
+                        <address>
+                            4 Oko ogbo, Airport road, Benin city, Edo state.
+                        </address>
+                        <figure>07039137343</figure>
+                        <figure>09018524839</figure>
+                    </div>
                 </div>
 
                 <!--Social Links (for mobile only)-->
@@ -100,6 +105,9 @@
                         </li>
                         <li></li>
                     </ul>
+                </div>
+                <div class="wtf-class">
+                    <h3> Shop Opens 19 October 2019</h3>
                 </div>
             </div>
             <div class="k-illustration">

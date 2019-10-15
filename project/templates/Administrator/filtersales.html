@@ -75,16 +75,14 @@ display: none;
                 <thead>
                   <tr>
                     <th><i class="fa fa-user"></i> Category</th>
-                    <th class="hidden-phone"><i class="fa fa-calendar"></i> Description</th>
+                    <th class="hidden-phone"><i class="fa fa-calendar"></i> Sub Category</th>
                     <th><i class="fa fa-credit-card"></i>Single Price</th>
-                
+
                     <th><i class=" fa fa-edit"></i> Qty</th>
 					<th><i class=" fa fa-card"></i> Total Price</th>
-          
+
 <th><i class=" fa fa-card"></i> Date</th>
 
-
-                    <th><i class=" fa fa-edit"></i> Contact</th>
                     <th></th>
                   </tr>
                 </thead>{% csrf_token %}
@@ -95,21 +93,17 @@ display: none;
                       <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.category}}</a>
                     </td>
                     <td>
-                      {{i.description}}
+                      {{i.subcategory}}
                     </td>
-                    
+
                     <td><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
-                  
+
                     <td>
                     {{i.qty}}
                     </td>
                     <td> <span id="price{{i.pk}}"> {{i.price}} </span></td>
                     <td> <span id="price{{i.pk}}"> {{i.date}} </span></td>
 
-                    <td id="td{{i.pk}}">                             
-                 
-                      {{i.name}} | {{i.phonenumber}}
-                    </td>
                   </tr>
 
 {% endfor %}
@@ -147,7 +141,7 @@ display: none;
 
       <!-- Modal footer -->
       <div class="modal-footer">
-      
+
       <!--   <button type="button" class="btn btn-primary pk" id="" data-dismiss="modal">Delete</button> -->
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
