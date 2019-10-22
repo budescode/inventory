@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, date
 import barcode
 from barcode.writer import ImageWriter
 # from StringIO import StringIO
+import string
 import random
 from django.db.models import Avg, Sum, Count
 from .forms import PettyCashForm, SubCategoryForm
@@ -21,6 +22,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from django.core.mail import EmailMultiAlternatives
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -94,190 +96,228 @@ def comparereport(request):
 
 @login_required(login_url='/account/login/')
 def weeklyreport(request):
-
-    one_week_ago = datetime.today() - timedelta(days=7)
-    # jobs = Job.objects.filter(report_by_date__gte=one_week_ago)
-    qs = Category.objects.all()
-    cart = Cart.objects.filter(date=timezone.now())
-    Trouser = Cart.objects.filter(paid=True, category='Trouser', date__gte=one_week_ago)
-    TrouserPrice = 0
-    qs2 = []
-    for i in Trouser:
-        TrouserPrice = TrouserPrice + i.price
-
-    Shorts = Cart.objects.filter(paid=True, category='Shorts', date__gte=one_week_ago)
-    ShortsPrice = 0
-    for i in Shorts:
-        ShortsPrice = ShortsPrice + i.price
-
-    TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date__gte=one_week_ago)
-    TShirtsPrice = 0
-    for i in TShirts:
-        TShirtsPrice = TShirtsPrice + i.price
-
-    Shoe = Cart.objects.filter(paid=True, category='Shoe', date__gte=one_week_ago)
-    ShoePrice = 0
-    for i in Shoe:
-        ShoePrice = ShoePrice + i.price
-
-    Underwear = Cart.objects.filter(paid=True, category='Underwear', date__gte=one_week_ago)
-    UnderwearPrice = 0
-    qs2 = []
-    for i in Underwear:
-        UnderwearPrice = UnderwearPrice + i.price
-
-    Boxer = Cart.objects.filter(paid=True, category='Boxer', date__gte=one_week_ago)
-    BoxerPrice = 0
-    qs2 = []
-    for i in Boxer:
-        BoxerPrice = BoxerPrice + i.price
-
-
-    Singlet = Cart.objects.filter(paid=True, category='Singlet', date__gte=one_week_ago)
-    SingletPrice = 0
-    qs2 = []
-    for i in Singlet:
-        SingletPrice = SingletPrice + i.price
+	one_week_ago = datetime.today() - timedelta(days=7)
+	# jobs = Job.objects.filter(report_by_date__gte=one_week_ago)
+	category = Category.objects.all()
+	cart = Cart.objects.filter(date__gte=one_week_ago, paid=True)
+	cartcount = Cart.objects.filter(date__gte=one_week_ago, paid=True).count()
+	total = 0
+	for i in cart:
+		total = total + i.price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'cart':cart,'qs':qs, 'cartcount':cartcount, 'total':total}
+	return render(request, 'Administrator/weeklyreport.html', context)
 
 
 
-    Pant = Cart.objects.filter(paid=True, category='Pant', date__gte=one_week_ago)
-    PantPrice = 0
-    qs2 = []
-    for i in Pant:
-        PantPrice = PantPrice + i.price
+    # Trouser = Cart.objects.filter(paid=True, category='Trouser', date__gte=one_week_ago)
+    # TrouserPrice = 0
+    # qs2 = []
+    # for i in Trouser:
+    #     TrouserPrice = TrouserPrice + i.price
 
-    Socks = Cart.objects.filter(paid=True, category='Socks', date__gte=one_week_ago)
-    SocksPrice = 0
-    qs2 = []
-    for i in Socks:
-        SocksPrice = SocksPrice + i.price
-    context = {'cart':cart,'qs':qs, 'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
-    return render(request, 'Administrator/weeklyreport.html', context)
+    # Shorts = Cart.objects.filter(paid=True, category='Shorts', date__gte=one_week_ago)
+    # ShortsPrice = 0
+    # for i in Shorts:
+    #     ShortsPrice = ShortsPrice + i.price
+
+    # TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date__gte=one_week_ago)
+    # TShirtsPrice = 0
+    # for i in TShirts:
+    #     TShirtsPrice = TShirtsPrice + i.price
+
+    # Shoe = Cart.objects.filter(paid=True, category='Shoe', date__gte=one_week_ago)
+    # ShoePrice = 0
+    # for i in Shoe:
+    #     ShoePrice = ShoePrice + i.price
+
+    # Underwear = Cart.objects.filter(paid=True, category='Underwear', date__gte=one_week_ago)
+    # UnderwearPrice = 0
+    # qs2 = []
+    # for i in Underwear:
+    #     UnderwearPrice = UnderwearPrice + i.price
+
+    # Boxer = Cart.objects.filter(paid=True, category='Boxer', date__gte=one_week_ago)
+    # BoxerPrice = 0
+    # qs2 = []
+    # for i in Boxer:
+    #     BoxerPrice = BoxerPrice + i.price
+
+
+    # Singlet = Cart.objects.filter(paid=True, category='Singlet', date__gte=one_week_ago)
+    # SingletPrice = 0
+    # qs2 = []
+    # for i in Singlet:
+    #     SingletPrice = SingletPrice + i.price
+
+
+
+    # Pant = Cart.objects.filter(paid=True, category='Pant', date__gte=one_week_ago)
+    # PantPrice = 0
+    # qs2 = []
+    # for i in Pant:
+    #     PantPrice = PantPrice + i.price
+
+    # Socks = Cart.objects.filter(paid=True, category='Socks', date__gte=one_week_ago)
+    # SocksPrice = 0
+    # qs2 = []
+    # for i in Socks:
+    #     SocksPrice = SocksPrice + i.price
+
 
 @login_required(login_url='/account/login/')
 def monthlyreport(request):
+	qs = Category.objects.all()
+	cart = Cart.objects.filter(paid=True, date__month__gte=1)
+	carttotal = Cart.objects.filter(paid=True, date__month__gte=1).count()
+	total = 0
+	for i in cart:
+		total = total + i.price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'cart':cart,'qs':qs, 'carttotal':carttotal}
+	return render(request, 'Administrator/monthlyreport.html', context)
+    # qs2 = []
+    # for i in Trouser:
+    #     TrouserPrice = TrouserPrice + i.price
 
-    qs = Category.objects.all()
-    cart = Cart.objects.filter(date=timezone.now())
-    Trouser = Cart.objects.filter(paid=True, category='Trouser', date__month__gte=1)
-    TrouserPrice = 0
-    qs2 = []
-    for i in Trouser:
-        TrouserPrice = TrouserPrice + i.price
+    # Shorts = Cart.objects.filter(paid=True, category='Shorts', date__month__gte=1)
+    # ShortsPrice = 0
+    # for i in Shorts:
+    #     ShortsPrice = ShortsPrice + i.price
 
-    Shorts = Cart.objects.filter(paid=True, category='Shorts', date__month__gte=1)
-    ShortsPrice = 0
-    for i in Shorts:
-        ShortsPrice = ShortsPrice + i.price
+    # TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date__month__gte=1)
+    # TShirtsPrice = 0
+    # for i in TShirts:
+    #     TShirtsPrice = TShirtsPrice + i.price
 
-    TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date__month__gte=1)
-    TShirtsPrice = 0
-    for i in TShirts:
-        TShirtsPrice = TShirtsPrice + i.price
+    # Shoe = Cart.objects.filter(paid=True, category='Shoe', date__month__gte=1)
+    # ShoePrice = 0
+    # for i in Shoe:
+    #     ShoePrice = ShoePrice + i.price
 
-    Shoe = Cart.objects.filter(paid=True, category='Shoe', date__month__gte=1)
-    ShoePrice = 0
-    for i in Shoe:
-        ShoePrice = ShoePrice + i.price
+    # Underwear = Cart.objects.filter(paid=True, category='Underwear', date__month__gte=1)
+    # UnderwearPrice = 0
+    # qs2 = []
+    # for i in Underwear:
+    #     UnderwearPrice = UnderwearPrice + i.price
 
-    Underwear = Cart.objects.filter(paid=True, category='Underwear', date__month__gte=1)
-    UnderwearPrice = 0
-    qs2 = []
-    for i in Underwear:
-        UnderwearPrice = UnderwearPrice + i.price
-
-    Boxer = Cart.objects.filter(paid=True, category='Boxer', date__month__gte=1)
-    BoxerPrice = 0
-    qs2 = []
-    for i in Boxer:
-        BoxerPrice = BoxerPrice + i.price
+    # Boxer = Cart.objects.filter(paid=True, category='Boxer', date__month__gte=1)
+    # BoxerPrice = 0
+    # qs2 = []
+    # for i in Boxer:
+    #     BoxerPrice = BoxerPrice + i.price
 
 
-    Singlet = Cart.objects.filter(paid=True, category='Singlet', date__month__gte=1)
-    SingletPrice = 0
-    qs2 = []
-    for i in Singlet:
-        SingletPrice = SingletPrice + i.price
+    # Singlet = Cart.objects.filter(paid=True, category='Singlet', date__month__gte=1)
+    # SingletPrice = 0
+    # qs2 = []
+    # for i in Singlet:
+    #     SingletPrice = SingletPrice + i.price
 
 
 
-    Pant = Cart.objects.filter(paid=True, category='Pant', date__month__gte=1)
-    PantPrice = 0
-    qs2 = []
-    for i in Pant:
-        PantPrice = PantPrice + i.price
+    # Pant = Cart.objects.filter(paid=True, category='Pant', date__month__gte=1)
+    # PantPrice = 0
+    # qs2 = []
+    # for i in Pant:
+    #     PantPrice = PantPrice + i.price
 
-    Socks = Cart.objects.filter(paid=True, category='Socks', date__month__gte=1)
-    SocksPrice = 0
-    qs2 = []
-    for i in Socks:
-        SocksPrice = SocksPrice + i.price
-    context = {'cart':cart,'qs':qs, 'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
-    return render(request, 'Administrator/monthlyreport.html', context)
+    # Socks = Cart.objects.filter(paid=True, category='Socks', date__month__gte=1)
+    # SocksPrice = 0
+    # qs2 = []
+    # for i in Socks:
+    #     SocksPrice = SocksPrice + i.price
+
 
 
 @login_required(login_url='/account/login/')
 def yearlyreport(request):
+	category = Category.objects.all()
+	cart = Cart.objects.filter(paid=True, date__year__gte=2019)
+	carttotal = Cart.objects.filter(paid=True, date__month__gte=1).count()
+	total = 0
+	for i in cart:
+		total = total + i.price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'cart':cart,'qs':qs, 'carttotal':carttotal, 'total':total}
+	return render(request, 'Administrator/monthlyreport.html', context)
 
-    qs = Category.objects.all()
-    cart = Cart.objects.filter(date=timezone.now())
-    Trouser = Cart.objects.filter(paid=True, category='Trouser', date__year__gte=2019)
-    TrouserPrice = 0
-    qs2 = []
-    for i in Trouser:
-        TrouserPrice = TrouserPrice + i.price
+    #TrouserPrice = 0
+    #qs2 = []
+    # for i in Trouser:
+    #     TrouserPrice = TrouserPrice + i.price
 
-    Shorts = Cart.objects.filter(paid=True, category='Shorts', date__year__gte=2019)
-    ShortsPrice = 0
-    for i in Shorts:
-        ShortsPrice = ShortsPrice + i.price
+    # Shorts = Cart.objects.filter(paid=True, category='Shorts', date__year__gte=2019)
+    # ShortsPrice = 0
+    # for i in Shorts:
+    #     ShortsPrice = ShortsPrice + i.price
 
-    TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date__year__gte=2019)
-    TShirtsPrice = 0
-    for i in TShirts:
-        TShirtsPrice = TShirtsPrice + i.price
+    # TShirts = Cart.objects.filter(paid=True, category='T-Shirts', date__year__gte=2019)
+    # TShirtsPrice = 0
+    # for i in TShirts:
+    #     TShirtsPrice = TShirtsPrice + i.price
 
-    Shoe = Cart.objects.filter(paid=True, category='Shoe', date__year__gte=2019)
-    ShoePrice = 0
-    for i in Shoe:
-        ShoePrice = ShoePrice + i.price
+    # Shoe = Cart.objects.filter(paid=True, category='Shoe', date__year__gte=2019)
+    # ShoePrice = 0
+    # for i in Shoe:
+    #     ShoePrice = ShoePrice + i.price
 
-    Underwear = Cart.objects.filter(paid=True, category='Underwear', date__year__gte=2019)
-    UnderwearPrice = 0
-    qs2 = []
-    for i in Underwear:
-        UnderwearPrice = UnderwearPrice + i.price
+    # Underwear = Cart.objects.filter(paid=True, category='Underwear', date__year__gte=2019)
+    # UnderwearPrice = 0
+    # qs2 = []
+    # for i in Underwear:
+    #     UnderwearPrice = UnderwearPrice + i.price
 
-    Boxer = Cart.objects.filter(paid=True, category='Boxer', date__year__gte=2019)
-    BoxerPrice = 0
-    qs2 = []
-    for i in Boxer:
-        BoxerPrice = BoxerPrice + i.price
+    # Boxer = Cart.objects.filter(paid=True, category='Boxer', date__year__gte=2019)
+    # BoxerPrice = 0
+    # qs2 = []
+    # for i in Boxer:
+    #     BoxerPrice = BoxerPrice + i.price
 
 
-    Singlet = Cart.objects.filter(paid=True, category='Singlet', date__year__gte=2019)
-    SingletPrice = 0
-    qs2 = []
-    for i in Singlet:
-        SingletPrice = SingletPrice + i.price
+    # Singlet = Cart.objects.filter(paid=True, category='Singlet', date__year__gte=2019)
+    # SingletPrice = 0
+    # qs2 = []
+    # for i in Singlet:
+    #     SingletPrice = SingletPrice + i.price
 
 
 
-    Pant = Cart.objects.filter(paid=True, category='Pant', date__year__gte=2019)
-    PantPrice = 0
-    qs2 = []
-    for i in Pant:
-        PantPrice = PantPrice + i.price
+    # Pant = Cart.objects.filter(paid=True, category='Pant', date__year__gte=2019)
+    # PantPrice = 0
+    # qs2 = []
+    # for i in Pant:
+    #     PantPrice = PantPrice + i.price
 
-    Socks = Cart.objects.filter(paid=True, category='Socks', date__year__gte=2019)
-    SocksPrice = 0
-    qs2 = []
-    for i in Socks:
-        SocksPrice = SocksPrice + i.price
+    # Socks = Cart.objects.filter(paid=True, category='Socks', date__year__gte=2019)
+    # SocksPrice = 0
+    # qs2 = []
+    # for i in Socks:
+    #     SocksPrice = SocksPrice + i.price
 
-    context = {'cart':cart,'qs':qs, 'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
-    return render(request, 'Administrator/yearlyreport.html', context)
+    # context = {'cart':cart,'qs':qs, 'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
+    # return render(request, 'Administrator/yearlyreport.html', context)
 
 
 
@@ -287,25 +327,28 @@ def todaysreport(request):
     category = Category.objects.all()
     subcategory = SubCategory.objects.all()
     cart = Cart.objects.filter(date=timezone.now(), paid=True)
-    carttotal = Cart.objects.filter(date=timezone.now()).count()
+    carttotal = Cart.objects.filter(date=timezone.now(), paid=True).count()
     details = []
     finallist = []
-    for i in category:
-        for a in subcategory:
-            if a.mycategory == i:
-                details.append({i.name:a.name})
-                finallist.append({str(i.name) + '(' + str(a.name) + ')':0})
-    for i in details:
-        for key in i:
-            category1 = Category.objects.get(name=key)
-            subcategory1 = SubCategory.objects.get(name=i[key])
-            count = Cart.objects.filter(date__year=today.year,
-                                       date__month=today.month,
-                                       date__day=today.day,category=category1, subcategory=subcategory1, paid=True)
-            for t in count:
-                dict2 = str(key) + '(' + str(i[key])+ ')'
+    cartprice = 0
+    for i in cart:
+        cartprice = cartprice + i.price
+    # for i in category:
+    #     for a in subcategory:
+    #         if a.mycategory == i:
+    #             details.append({i.name:a.name})
+    #             finallist.append({str(i.name) + '(' + str(a.name) + ')':0})
+    # for i in details:
+    #     for key in i:
+    #         category1 = Category.objects.get(name=key)
+    #         subcategory1 = SubCategory.objects.get(name=i[key])
+    #         count = Cart.objects.filter(date__year=today.year,
+    #                                   date__month=today.month,
+    #                                   date__day=today.day,category=category1, subcategory=subcategory1, paid=True)
+    #         for t in count:
+    #             dict2 = str(key) + '(' + str(i[key])+ ')'
 
-    context = {'category':category, 'carttotal':carttotal, 'cart':cart,'subcategory':subcategory} #'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
+    context = {'category':category, 'carttotal':carttotal, 'cart':cart,'subcategory':subcategory, 'cartprice':cartprice} #'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
     return render(request, 'Administrator/todaysreport.html', context)
 
 
@@ -318,7 +361,7 @@ def home(request):
 	    return render(request, 'Administrator/index.html')
 
 
-
+@login_required(login_url='/account/login/')
 def dailyReportView(request):
 	total_price = 0
 	date = datetime.now()
@@ -477,10 +520,11 @@ def addtoCart(request):
 	    report =  "Record Created"
 	    cart = Cart.objects.filter(paid=False).count()
 	    total_price1 = Cart.objects.filter(paid=False)
+
 	    a = 0
 	    for i in total_price1:
 	        a = a+i.price
-	    return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a, 'qty':qty, 'stock':qs.stock})
+	    return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a, 'qty':qty})
 	except MyItems.DoesNotExist:
 	    report = 'No Records found'
 	    return JsonResponse({'report':report, 'id':post_pk,})
@@ -515,18 +559,24 @@ def editCart(request):
 
 def deleteCart(request, id, product_id):
 	qs = Cart.objects.get(id=id)
-	qs1 = MyItems.objects.get(id=product_id)
-	qs1.stock = qs1.stock + qs.qty
-	qs1.save()
-	qs.delete()
-	return redirect('administrator:cart')
+	try:
+	    qs1 = MyItems.objects.get(id=product_id)
+	    qs1.stock = qs1.stock + qs.qty
+	    qs1.save()
+	    qs.delete()
+	    return redirect('administrator:cart')
+	except MyItems.DoesNotExist:
+	    qs.delete()
+	    return redirect('administrator:cart')
 	#return JsonResponse({"cart_total":cart, 'id':post_pk, 'total_price':a})
 
-
+@login_required(login_url='/account/login/')
 def cart(request):
 	qs = Cart.objects.filter(paid=False, user=request.user)
 	return render(request, 'Administrator/cart.html', {"qs":qs})
 
+
+@login_required(login_url='/account/login/')
 def mysales(request):
 	qs = Cart.objects.filter(paid=True).order_by('-date')
 	return render(request, 'Administrator/mysales.html', {"qs":qs})
@@ -676,7 +726,17 @@ def pay(request):
 	paymentoption = request.POST.get('paymentoption')
 	date=datetime.now()
 	num = random.randrange(12345678910234)
+	num = str(num)
+	if len(str(num)) == 11:
+	    num = str(num) + 1
+	    num = int(num)
+	else:
+	    num = num
+
 	ean = barcode.get('ean13', str(num), writer=ImageWriter())
+
+
+
 	filename = ean.save('ean13')
 	file = open('/home/budescode/inventory/project/static/images/barcode.png', 'wb')
 	ean.write(file)
@@ -685,9 +745,12 @@ def pay(request):
 	total_price = 0
 	image = Image.objects.get(id=1)
 	qs1 = []
+	order_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
+	order_id = str(order_id)
 	for i in qs:
 		total_price = total_price + (i.price)
 		i.paid = True
+		i.product_id = order_id
 		qs1.append(i)
 		i.paymentoption = paymentoption
 		cate = Category.objects.get(id=i.category.id)
@@ -699,7 +762,7 @@ def pay(request):
 		i.save()
 
 	template = get_template('Administrator/order.html')
-	context={'qs':qs1, 'total_cart':total_cart, 'total_price':total_price, 'date':date, 'paymentoption':paymentoption}
+	context={'qs':qs1, 'total_cart':total_cart, 'total_price':total_price, 'date':date, 'paymentoption':paymentoption, 'order_id':order_id}
 	#return render (request, 'Administrator/order.html', context)
 
 

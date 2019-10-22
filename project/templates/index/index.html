@@ -25,6 +25,15 @@
     <meta name="msapplication-navbutton-color" content="#44AC33">
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="#44AC33">
+
+<style>
+    @media screen and (max-width: 600px) {
+.caption{
+    font-size:18px;
+}
+}
+</style>
+
 </head>
 
 <body>
@@ -57,15 +66,14 @@
                     <!--Hero Image (for mobile view)-->
                     <div class="hero-img">
                         <figure class="img-responsive">
-                            <img src="img/5d9536571d156-removebg.png" alt="Ik shop countdown Image">
+                            <img src="{% static 'index/img/5d9536571d156-removebg.png' %}" alt="Ik shop countdown Image">
                         </figure>
                     </div>
                 </div>
                 <!--Countdown timer section (for Desktop view)-->
                 <div class="countdown">
-                    <p class="countdown-title">Our store will open in...</p>
-                    <!--Vue countdown component-->
-                    <countdown count-down-date="Oct 19, 2019 00:00:25" />
+                    <p class="" style='font-size:16px;'>Physical store already opened, Ecommerce coming soon...</p>
+
                 </div>
 
                 <!--Caption-->

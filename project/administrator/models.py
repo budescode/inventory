@@ -61,7 +61,7 @@ class Cart(models.Model):
 	paid = models.BooleanField(default=False)
 	date = models.DateField()
 	size = models.CharField(max_length=10)
-	product_id = models.IntegerField(default=1)
+	product_id = models.CharField(max_length=20, default='00')
 	paymentoption = models.CharField(max_length=20, null=True, blank=True, default='')
 
 

@@ -266,6 +266,7 @@ function addtocartFunction(value){
     sizeid = '#size'+ value
     category = document.querySelector(categoryid).innerHTML
     subcategory = document.querySelector(subcategoryid).value
+    console.log(subcategory, 'yyyya')
     sex = document.querySelector(sexid).value
     size = document.querySelector(sizeid).value
 	qty1 = '#qty'+value
@@ -306,7 +307,9 @@ function addtocartFunction(value){
 		document.querySelector('.cart_total1').innerHTML = data.cart_total
 		document.querySelector('.cart_price').innerHTML = data.total_price
 		document.querySelector('.cart_price1').innerHTML = data.total_price
-        document.querySelector(id2).innerHTML = data.stock
+        stock = document.querySelector(id2).innerHTML
+        stock1 = Number(stock) - Number(data.qty)
+        document.querySelector(id2).innerHTML = stock1
 	    }
 	})
 }

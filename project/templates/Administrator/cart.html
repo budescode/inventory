@@ -75,7 +75,8 @@ display: none;
                 <hr>
                 <thead>
                   <tr>
-                    <th><i class="fa fa-list-alt"></i> Category</th>
+                    <th><i class="fa fa-list-alt"></i> S/N</th>
+                     <th><i class="fa fa-list-alt"></i> Category</th>
                     <th><i class="fa fa-list-alt"></i> SubCategory</th>
 
                     <th class=""><i class="fa fa-calendar"></i> Sex</th>
@@ -94,8 +95,12 @@ display: none;
                 {% for i in qs %}
                   <tr class="post{{i.pk}}" name=>
                     <td>
+                      <a >{{forloop.counter}}</a>
+                    </td>
+                    <td>
                       <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.category}}</a>
                     </td>
+
                     <td>
                       <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.subcategory}}</a>
                     </td>

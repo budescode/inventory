@@ -34,25 +34,27 @@ tr:nth-child(even) {
                   <span>4, Oko ogba, Airport road,
                   <br>Benin City Edo State </span>
                   <br>
-                  07039137349  09018524839
-                 <p><h5>Total Items: <span class="badge cart_total1" id="cart_total1">{{total_cart}}</span></h5> </p>
-                 <p> <h5> Total Price: <span class="badge cart_price">{{total_price}}</span> </h5></p>
-                 <p> Payment option:  {{paymentoption}} </h5></p>
+                  07039137349  09018524839 <br>
+                <span>Total Items: <span class="badge cart_total1" id="cart_total1">{{total_cart}} <br>
+                  Total Price: <span class="badge cart_price">{{total_price}}<br>
+
+                 Payment option:  {{paymentoption}} <br>
+                 Product id: {{order_id}}</span>
 
 
                 <tbody>
-                {% for i in qs %}
-                  <p>
-                        <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.category}}</a>
-                        <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.subcategory}}</a><br>
-                      sex: {{i.sex}}  |  Size: {{i.size}}<br>
-                 Qty: {{i.qty}} | id: {{i.id}} <br>
-                  </p>
-                {% endfor %}
+                <!--{% for i in qs %}-->
+                <!--  <p>-->
+                <!--        <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.category}}</a>-->
+                <!--        <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.subcategory}}</a><br>-->
+                <!--      sex: {{i.sex}}  |  Size: {{i.size}}<br>-->
+                <!-- Qty: {{i.qty}} | id: {{i.id}} <br>-->
+                <!--  </p>-->
+                <!--{% endfor %}-->
 
                 </tbody>
               </table>
-             <h4>Thanks For Your Patronage</h4>
+             <h6>Thanks For Your Patronage</h6>
 <img src='/home/budescode/inventory/project/static/images/barcode.png' style='width: 80px; height:50px' />
 
             </div>

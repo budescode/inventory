@@ -69,7 +69,7 @@ display: none;
 
 
 
-              <canvas id="myChart" style='height:40vh; width:80vw'></canvas>
+              <!--<canvas id="myChart" style='height:40vh; width:80vw'></canvas>-->
 
 
 
@@ -78,19 +78,21 @@ display: none;
             <div class="content-panel table-responsive">
               <table class="table table-striped table-advance table-hover">
                 <h4>  Cart {{cartprice}}</h4>
-                <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{carttotal}}</span></p>
-                 <p>Total Price: <span class="badge cart_price">{{cartprice}}</span></p>
+                <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{cartcount}}</span></p>
+                 <p>Total Price: <span class="badge cart_price">{{total}}</span></p>
                 <hr>
                 <thead>
                   <tr>
+
                     <th><i class="fa fa-user"></i> Category</th>
+
                     <th class=""><i class="fa fa-calendar"></i> Sex</th>
                     <th><i class="fa fa-credit-card"></i>Single Price</th>
 
                     <th><i class=" fa fa-edit"></i> Qty</th>
 					<th><i class=" fa fa-card"></i> Total Price</th>
 
-<th><i class=" fa fa-card"></i> Date</th>
+                    <th><i class=" fa fa-card"></i> Date</th>
 
 
                     <!--<th><i class=" fa fa-edit"></i> Contact</th>-->
@@ -98,11 +100,14 @@ display: none;
                   </tr>
                 </thead>{% csrf_token %}
                 <tbody>
-                {% for i in cart %}
+                {% for i in qs %}
                   <tr class="post{{i.pk}}" name=>
+
+
                     <td>
                       <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}">{{i.category}}</a>
                     </td>
+
                     <td>
                       {{i.sex}}
                     </td>
@@ -124,6 +129,34 @@ display: none;
 {% endfor %}
                 </tbody>
               </table>
+
+
+{% if qs.has_other_pages %}
+  <ul class="pagination">
+    {% if qs.has_previous %}
+      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in qs.paginator.page_range %}
+      {% if qs.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if qs.has_next %}
+      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+
+
+
 
         <!--     <a href="">  <button class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" >Pay</button></a> -->
             </div>
@@ -147,54 +180,54 @@ display: none;
 
 </body>
 
-<script src="{% static 'administrator/js/Chart.bundle.js' %}"></script>
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var data = [{{TrouserPrice}}, {{ShortsPrice}}, {{TShirtsPrice}}, {{ShoePrice}}, {{UnderwearPrice}}, {{SingletPrice}}, {{BoxerPrice}}, {{PantPrice}}, {{SocksPrice}}]
-data1 = []
-{% for i in qs %}
-data1.push('{{i}}')
-// console.log(data1)
-{% endfor %}
-console.log({{TrouserPrice}})
-var backgroundcolor = [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ]
-var bordercolor = [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ]
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: data1,
-        datasets: [{
-            label: "Weekly Sales",
-            data: data,
-            backgroundColor: backgroundcolor,
-            borderColor: bordercolor,
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
+<!--<script src="{% static 'administrator/js/Chart.bundle.js' %}"></script>-->
+<!--<script>-->
+<!--var ctx = document.getElementById('myChart').getContext('2d');-->
+<!--var data = [{{TrouserPrice}}, {{ShortsPrice}}, {{TShirtsPrice}}, {{ShoePrice}}, {{UnderwearPrice}}, {{SingletPrice}}, {{BoxerPrice}}, {{PantPrice}}, {{SocksPrice}}]-->
+<!--data1 = []-->
+<!--{% for i in qs %}-->
+<!--data1.push('{{i}}')-->
+
+<!--{% endfor %}-->
+<!--console.log({{TrouserPrice}})-->
+<!--var backgroundcolor = [-->
+<!--                'rgba(255, 99, 132, 0.2)',-->
+<!--                'rgba(54, 162, 235, 0.2)',-->
+<!--                'rgba(255, 206, 86, 0.2)',-->
+<!--                'rgba(75, 192, 192, 0.2)',-->
+<!--                'rgba(153, 102, 255, 0.2)',-->
+<!--                'rgba(255, 159, 64, 0.2)'-->
+<!--            ]-->
+<!--var bordercolor = [-->
+<!--                'rgba(255, 99, 132, 1)',-->
+<!--                'rgba(54, 162, 235, 1)',-->
+<!--                'rgba(255, 206, 86, 1)',-->
+<!--                'rgba(75, 192, 192, 1)',-->
+<!--                'rgba(153, 102, 255, 1)',-->
+<!--                'rgba(255, 159, 64, 1)'-->
+<!--            ]-->
+<!--var myChart = new Chart(ctx, {-->
+<!--    type: 'bar',-->
+<!--    data: {-->
+<!--        labels: data1,-->
+<!--        datasets: [{-->
+<!--            label: "Weekly Sales",-->
+<!--            data: data,-->
+<!--            backgroundColor: backgroundcolor,-->
+<!--            borderColor: bordercolor,-->
+<!--            borderWidth: 1-->
+<!--        }]-->
+<!--    },-->
+<!--    options: {-->
+<!--        scales: {-->
+<!--            yAxes: [{-->
+<!--                ticks: {-->
+<!--                    beginAtZero: true-->
+<!--                }-->
+<!--            }]-->
+<!--        }-->
+<!--    }-->
+<!--});-->
+<!--</script>-->
 
 {% endblock %}

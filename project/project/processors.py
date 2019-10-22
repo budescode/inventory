@@ -4,8 +4,8 @@ from datetime import datetime
 def PosterContextProcessors(request):
 	date = datetime.today().strftime('%Y-%m-%d')
 	sales_count = Cart.objects.filter(paid=True).count()
-	cart = Cart.objects.filter(paid=False).count()
-	total_price1 = Cart.objects.filter(paid=False)
+	cart = Cart.objects.filter(paid=False, user=request.user).count()
+	total_price1 = Cart.objects.filter(paid=False, user=request.user)
 	a = 0
 	for i in total_price1:
 		a = a+i.price
