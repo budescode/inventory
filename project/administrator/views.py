@@ -369,13 +369,11 @@ def dailyReportView(request):
 	total_cart = Cart.objects.filter(date=datetime.now(), paid=True).count()
 	for i in cart1:
 		total_price = total_price+i.price
-
 	subject = "Daily Sales"
 	from_email = settings.EMAIL_HOST_USER
 	# Now we get the list of emails in a list form.
-	to_email = ['aceplayhousehq@gmail.com']
+	to_email = ['accountant@yehgs.co.uk']
 	#Opening a file in python, with closes the file when its done running
-# 	detail2 = "http://budescode.pythonanywhere.com/account/"+ str(test.user_id) + '/' + username
 	with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
 	    sign_up_message = sign_up_email_txt_file.read()
 	message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
@@ -490,14 +488,36 @@ def editmyitems(request):
 		subcategory.total_count = subcategory.total_count + int(editstock)
 		category.save()
 		subcategory.save()
+
+
 	except MyItems.DoesNotExist:
 		qs = MyItems.objects.create(category=category, subcategory=subcategory, sex=editsex, size = editsize, stock=int(editstock), price=1000)
 		category.total_count = category.total_count + int(editstock)
-
 		subcategory.total_count = subcategory.total_count + int(editstock)
 		category.save()
 		subcategory.save()
+
 	return JsonResponse({'editcategoryid':editcategoryid, 'editsubcategoryid':editsubcategoryid, 'editsex':editsex, 'editsize':editsize })
+
+
+#this function is to edit categories
+def editmycategory(request):
+	editcategoryid = request.POST.get('editcategoryid')
+	edittotal = request.POST.get('edittotal')
+	category = Category.objects.get(id=int(editcategoryid))
+	category.total_count = int(edittotal)
+	category.save()
+	return JsonResponse({'editcategoryid':editcategoryid, 'edittotal':edittotal})
+
+
+#this function is to edit subcategories
+def editmysubcategory(request):
+	editsubcategoryid = request.POST.get('editsubcategoryid')
+	edittotal = request.POST.get('edittotal')
+	subcategory = SubCategory.objects.get(id=int(editsubcategoryid))
+	subcategory.total_count = int(edittotal)
+	subcategory.save()
+	return JsonResponse({'editsubcategoryid':editsubcategoryid, 'edittotal':edittotal})
 
 
 
@@ -516,7 +536,7 @@ def addtoCart(request):
 	    qs = MyItems.objects.get(sex=sex, category=category, subcategory=subcategory, size=size)
 	    qs.stock = qs.stock-qty
 	    qs.save()
-	    Cart.objects.create(user = request.user, category=category, size=size, subcategory=subcategory,  sex=sex, qty=qty, price= 1000 * qty, single_price=1000, date=timezone.now(), product_id=post_pk)
+	    Cart.objects.create(user = request.user, category=category, size=size, subcategory=subcategory,  sex=sex, qty=qty, price= 1000 * qty, single_price=1000, date=timezone.now(), product_id=qs.id)
 	    report =  "Record Created"
 	    cart = Cart.objects.filter(paid=False).count()
 	    total_price1 = Cart.objects.filter(paid=False)

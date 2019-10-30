@@ -42,11 +42,15 @@ urlpatterns = [
     path('deletepettycash/<slug:id>/', views.delete_pettycash, name="deletepettycash" ),
     path('editpettycash/<slug:id>/', views.edit_pettycash, name="editpettycash" ),
     path('category/', views.category, name="category" ),
+    path('editmycategory/', views.editmycategory, name="editmycategory" ),
+
     path('deletecategory/<slug:id>/', views.deletecategory, name="deletecategory" ),
 
     path('deletesubcategory/<slug:id>/', views.deletesubcategory, name="deletesubcategory" ),
 
     path('subcategory/', views.subcategory, name="subcategory" ),
+    path('editmysubcategory/', views.editmysubcategory, name="editmysubcategory" ),
+
     # path('deletecategory/<slug:id>/', views.deletecategory, name="deletecategory" ),
 
 

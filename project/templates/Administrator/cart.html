@@ -120,7 +120,9 @@ display: none;
                     <div class="form-group row">
                     <div class="col-md-3">
                     <input class="form-control" type="text" name="" value="{{i.qty}}" id="qt{{i.product_id}}">
+
                     <button class="btn btn-default" id="qty{{i.id}}" onclick="editcartFunction({{i.product_id}}, {{i.id}})">Update <img style="display: none;" id="editimg{{i.id}}" src="{% static 'images/gif.gif' %}"></button>
+
                     </div>
                     </div>
                     </td>

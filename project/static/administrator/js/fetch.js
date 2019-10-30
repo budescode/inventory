@@ -2,6 +2,66 @@
 // var delete_btn = document.querySelector("#delete_btn")
 // delete_btn.addEventListener('click', deleteFunction)
 
+function changeEditModal(id){
+    document.querySelector('#editcatmodal_id').innerHTML = id
+    document.querySelector('#editcategory_input').value = 0
+}
+
+function changeCategory(){
+   id =  document.querySelector('#editcatmodal_id').innerHTML
+   loadingid = '#editloading' + id
+   document.querySelector(loadingid).style.display = 'block'
+   editcategory_input =  document.querySelector('#editcategory_input').value
+    var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+    var url = 'http://www.1kshop.online/administrator/editmycategory/'
+    let  formData = new FormData()
+    formData.append('editcategoryid', id)
+    formData.append('edittotal', editcategory_input)
+	fetch(url,
+	{
+	body: new URLSearchParams(formData),
+	method: 'post',
+	headers:{
+	'X-CSRFTOKEN': token
+	}
+	}).then(res => res.json()).then(function(data) {
+	   id = '#total' + data.editcategoryid
+	    document.querySelector(id).innerHTML = data.edittotal
+       loadingid = '#editloading' + data.editcategoryid
+       document.querySelector(loadingid).style.display = 'none'
+	})
+}
+
+
+function changeEditModal(id){
+    document.querySelector('#editcatmodal_id').innerHTML = id
+    document.querySelector('#editcategory_input').value = 0
+}
+
+function changeSubCategory(){
+   id =  document.querySelector('#editcatmodal_id').innerHTML
+   loadingid = '#editloading' + id
+   document.querySelector(loadingid).style.display = 'block'
+   editcategory_input =  document.querySelector('#editcategory_input').value
+    var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+    var url = 'http://www.1kshop.online/administrator/editmysubcategory/'
+    let  formData = new FormData()
+    formData.append('editsubcategoryid', id)
+    formData.append('edittotal', editcategory_input)
+	fetch(url,
+	{
+	body: new URLSearchParams(formData),
+	method: 'post',
+	headers:{
+	'X-CSRFTOKEN': token
+	}
+	}).then(res => res.json()).then(function(data) {
+	    id = '#total' + data.editsubcategoryid
+	    document.querySelector(id).innerHTML = data.edittotal
+       loadingid = '#editloading' + data.editsubcategoryid
+       document.querySelector(loadingid).style.display = 'none'
+	})
+}
 
 
 
@@ -66,7 +126,7 @@ var additemsize = document.querySelector('#additemsize').value
 
 var additemprice = document.querySelector('#additemprice').value
 var additemavailable = document.querySelector('#additemavailable').value
-console.log(category, additemdescription, additemprice, additemavailable)
+
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 var url = 'http://www.1kshop.online/administrator/additems/'
 let  formData = new FormData()

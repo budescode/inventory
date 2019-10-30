@@ -173,12 +173,12 @@ EMAIL_USE_TLS=True
 
 EMAIL_HOST='smtp.gmail.com'
 
-EMAIL_HOST_USER='gospeltruth18@gmail.com'
+EMAIL_HOST_USER='aceplayhousehq@gmail.com'
 
-EMAIL_HOST_PASSWORD='bossess1'
+EMAIL_HOST_PASSWORD='aceimagination5'
 
 EMAIL_PORT=587
 
-DEFAULT_FROM_EMAIL = 'gospeltruth18@gmail.com'
+DEFAULT_FROM_EMAIL = 'aceplayhousehq@gmail.com'
 
-SERVER_EMAIL = 'gospeltruth18@gmail.com'
+SERVER_EMAIL = 'aceplayhousehq@gmail.com'

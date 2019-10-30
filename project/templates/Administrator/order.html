@@ -43,14 +43,13 @@ tr:nth-child(even) {
 
 
                 <tbody>
-                <!--{% for i in qs %}-->
-                <!--  <p>-->
-                <!--        <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.category}}</a>-->
-                <!--        <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" >{{i.subcategory}}</a><br>-->
-                <!--      sex: {{i.sex}}  |  Size: {{i.size}}<br>-->
-                <!-- Qty: {{i.qty}} | id: {{i.id}} <br>-->
-                <!--  </p>-->
-                <!--{% endfor %}-->
+                {% for i in qs %}
+                  <p>
+                        <a>{{i.category}}--{{i.subcategory}}</a><br>
+                        sex: {{i.sex}}  |  Size: {{i.size}}<br>
+                        Qty: {{i.qty}} | id: {{i.id}} <br>
+                  </p>
+                {% endfor %}
 
                 </tbody>
               </table>
