@@ -25,7 +25,11 @@ urlpatterns = [
     path("", include('index.urls')),
     path("administrator/", include('administrator.urls')),
     path("account/", include('account.urls')),
+    path("cart/", include('cart.urls')),
+    path("dashboard/", include('dashboard.urls')),
+    path("order/", include('order.urls')),
     path("oauth/", include('social_django.urls', namespace='social')),
+
     # url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 

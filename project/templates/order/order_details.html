@@ -1,0 +1,88 @@
+{% extends 'index/base.html' %}
+{% block body %}
+
+
+        <!--Featured products start-->
+        <section class="pd-t--40 pd-b--40">
+            <!--Scroll header start-->
+
+            <div class="row">
+                <div class="col-12 col-md-12 mx-1 table-responsive">
+              <table class="table table-striped table-advance table-hover">
+                <h6>  MY ORDERS</h6>
+                <h6> ORDER ID: {{order.order_id}}</h6>
+
+                     <hr>
+                <thead>
+                  <tr>
+                    <th> CATEGORY</th>
+                    <th> SUB CATEGORY</th>
+                    <th> SIZE</th>
+                    <th> SEX</th>
+                    <th> QUANTITY</th>
+                    <th> UNIT PRICE</th>
+                    <th> TOTAL PRICE</th>
+                    <th> DATE | TIME</th>
+                    <th> DELETE</th>
+
+
+
+
+
+
+                  </tr>
+                </thead>{% csrf_token %}
+                <tbody id="tablebody">
+                {% for i in qs %}
+                  <tr class="" name=''>
+                    <td>
+                      <a id="">{{i.product.category}}</a>
+                    </td>
+
+                    <td>
+                      <a id="">{{i.product.subcategory}}</a>
+                    </td>
+                    <td>
+                      <a id="">{{i.size}}</a>
+                    </td>
+
+                    <td>
+                      <a id="">{{i.sex}}</a>
+                    </td>
+
+                    <td>
+                      <a id="">{{i.quantity}}</a>
+                    </td>
+
+
+                    <td>
+                      <a id="">{{i.unit_price}}</a>
+                    </td>
+
+                    <td>
+                      <a id="">{{i.total_price}}</a>
+                    </td>
+                    <td>
+                      <a id="">{{i.date}} | {{i.time}}</a>
+                    </td>
+
+
+
+                    <td>
+                      <a id="{{i.pk}}" href="{% url 'order:deletemyordereditems' i.id order.id %}"><i class='fa fa-trash'></i>Delete </a>
+                    </td>
+
+
+
+
+                  </tr>
+
+                {% endfor %}
+                </tbody>
+              </table>
+                </div>
+            </div>
+            <!--Scroll header end-->
+        </section>
+
+{% endblock %}

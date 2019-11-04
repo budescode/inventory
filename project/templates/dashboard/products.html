@@ -1,0 +1,157 @@
+{% extends 'Administrator/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<style>
+  .full-screen{
+    width: 80%;
+    height: 80%;
+    margin-left: 40;
+    top: 0;
+    left: 0;
+}
+
+@media only screen and (max-width: 768px) {
+#plan_img{
+display: none;
+}
+#post_img1{
+display: none;
+}
+#plan_text{
+display: none;
+}
+#post_text{
+display: none;
+}
+
+}
+
+.green{
+  color: green;
+}
+</style>
+
+<body>
+  <section id="container">
+
+    <aside>
+
+{% include 'Administrator/header.html' %}
+{% include 'Administrator/sidebar.html' %}
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+
+        <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel table-responsive">
+              <table class="table table-striped table-advance table-hover table-responsive">
+              <h4>  Products For Sale</h4>
+              <h3 style='color:red; display:none;' id='record'>Record Not Found</h3>
+              <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{context_cart}}</span></p>
+              <p>Total Price: <span class="badge cart_price">{{total_price}}</span></p>
+              <p><a href='{% url 'administrator:cart' %}'> <button class='btn btn-success' >Sell</button> </a></p>
+                <hr>
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-list-alt"></i> Category</th>
+                    <th><i class="fa fa-list-alt"></i> SubCategory</th>
+
+                    <th class=""><i class="fa fa-calendar"></i> Sex</th>
+                    <th class=""><i class="fa fa-calendar"></i> Size</th>
+
+                    <th><i class="fa fa-credit-card"></i> Price</th>
+                    <th><i class=" fa fa-edit"></i> Product Available</th>
+                    <th><i class=" fa fa-edit"></i> Qty</th>
+
+                    <th><i class=" fa fa-edit"></i> Cart</th>
+                    <th></th>
+                  </tr>
+                </thead>{% csrf_token %}
+                <tbody>
+                {% for i in category %}
+                  <tr class="post{{i.pk}}" name=>
+                    <td>
+                      <a id="category{{i.pk}}">{{i.name}}</a>
+                     </td>
+
+                    <td>
+                        <div class="form-group">
+                        <select class="form-control" id="subcategory{{i.id}}">
+                            {% for a in subcategory %}
+                            {% if a.mycategory == i %}
+                        <option>{{a}}</option>
+
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div class="form-group">
+                        <select class="form-control" id="sex{{i.id}}">
+                        <option>M</option>
+                        <option>F</option>
+                        </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="form-group">
+                        <select class="form-control" id="size{{i.id}}">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>2XL</option>
+                        <option>3XL</option>
+                        <option>4XL</option>
+                        </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        1000
+                    </td>
+
+                    <td>
+                        <button class="btn btn-success btn-xs " id='stock{{i.id}}'>{{i.total_count}}</button>
+                    </td>
+
+                    <td>
+                        <div class="form-group row">
+                        <div class="col-sm-6">
+                        <input class="form-control" type="text" name="" value="1" id="qty{{i.pk}}">
+                        </div>
+                        </div>
+                    </td>
+
+                    <td id="testing">
+
+                      <button class="btn btn-primary btn-lg" id={{i.pk}} onclick="addtocartFunction(this.id)"><i class="fa fa-shop "></i>Cart  <img style="display: none;" id="img{{i.pk}}" src="{% static 'images/gif.gif' %}"></button>
+                    </td>
+                  </tr>
+
+{% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        <!-- /row -->
+      </section>
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+
+</body>
+{% endblock %}

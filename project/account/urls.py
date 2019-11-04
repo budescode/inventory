@@ -33,13 +33,10 @@ urlpatterns = [
 	path('change_password_success/', views.change_password_success, name='change_password_success'),
 
 
+	path('register_user/', views.register_user, name='register_user'),
+	path('login_user/', views.login_user, name='login_user'),
+	
 
 
 ]
-
-
-
-
-
-
 

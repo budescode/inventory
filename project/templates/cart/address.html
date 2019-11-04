@@ -1,0 +1,48 @@
+{% extends 'index/base.html' %}
+{% block body %}
+
+
+        <!--Featured products start-->
+        <section class="pd-t--40 pd-b--40">
+            <!--Scroll header start-->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#" class="anchor--dark">Shopping Page</a></li>
+                    <li class="breadcrumb-item"><a href="#" class="anchor--dark">Delivery Option</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Location</li>
+                </ol>
+            </nav>
+            <div class="row">
+                <div class="col-12 col-md-6 mx-1">
+                        <form action="{% url 'cart:create_order' %}" method="post"> {% csrf_token %}
+                            <div class="form-group">
+                                <label for="address">Home address</label>
+                                <input type="text" class="form-control bg-transparent" name="address" id="address" placeholder="Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="text" class="form-control bg-transparent" name="phone_number" id="phone_number"
+                                    placeholder="Phone Number">
+                            </div>
+                            
+                            <div class="row justify-content-between px-3 py-3">
+                                <label for="inputPassword">Save home address</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <button type="button" class="btn btn-block btn-primary">
+                                Proceed to payment
+                            </button>
+                            <button type="submit" class="btn btn-block btn-primary">
+                               Pay On Delivery
+                            </button>
+                            
+                        </form>
+                </div>
+            </div>
+            <!--Scroll header end-->
+        </section>
+
+{% endblock %}

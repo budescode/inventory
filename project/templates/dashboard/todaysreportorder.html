@@ -1,0 +1,138 @@
+{% extends 'dashboard/base.html' %}
+{% load staticfiles %}
+
+
+{% block body %}
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+{% include 'dashboard/header.html' %}
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+{% include 'dashboard/sidebar.html' %}
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-12 main-chart">
+
+
+
+          </div>
+          <!-- /col-lg-9 END SECTION MIDDLE -->
+          <!-- **********************************************************************************************************************************************************
+              RIGHT SIDEBAR CONTENT
+              *********************************************************************************************************************************************************** -->
+
+        </div>
+        <!-- /row -->
+
+
+<div class="row">
+            <div class="col-md-12">
+            <div class="content-panel table-responsive">
+              <table class="table table-striped table-advance table-hover">
+                <h4> DELIVERED ITEMS</h4>
+                     <hr>
+                <thead>
+                  <tr>
+                    <th> User</th>
+                    <th> Phone Number</th>
+                    <th> Address</th>
+                    <th> Id</th>
+                    <th> Delivered</th>
+                    <th> Paid</th>
+                    
+                    <th> Date | Time</th>
+
+                    <th> Change</th>
+                    
+                    
+                    
+                    
+
+                  </tr>
+                </thead>{% csrf_token %}
+                <tbody id="tablebody">
+                {% for i in qs %}
+                  <tr class="post{{i.pk}}" name=''>
+                    <td>
+                      <a id="category{{i.pk}}">{{i.user.username}}</a>
+                    </td>
+
+                    <td>
+                      <a id="{{i.pk}}" href="">{{i.phone_number}} </a>
+                    </td>
+					<td>
+					  <a id="{{i.pk}}" href="">{{i.address}} </a>
+					</td>
+
+					<td>
+					  <a id="{{i.pk}}" href="{% url 'dashboard:order_delivery_details' i.id %}">{{i.order_id}} </a>
+					</td>
+
+					<td>
+					<a id="{{i.pk}}" href="">{{i.delivered}} </a>
+					</td>
+          <td>
+          <a id="{{i.pk}}" href="">{{i.paid}}</a>
+          </td>
+          <td>
+          <a id="{{i.pk}}" href="">{{i.date}} | {{i.time}} </a>
+          </td>
+
+					<td>
+					<a id="{{i.pk}}" href="{% url 'dashboard:order_delivered_change' i.id %}">Change </a>
+					</td>
+
+
+
+
+
+                  </tr>
+
+                {% endfor %}
+                </tbody>
+              </table>
+             
+
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+</div>
+<!-- end of row -->
+
+
+
+
+
+
+
+
+
+      </section>
+    </section>
+    <!--main content end-->
+
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+
+
+
+
+{% endblock body %}
+
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse ,QueryDict
+from django.http import HttpResponseRedirect, HttpResponse ,QueryDict, JsonResponse
 from django.contrib.auth.models import User
 from .forms import RegisterForm, LoginForm, CategoryForm, ChangePasswordCodeForm, ChangePasswordForm, ProfileForm
 from django.http import HttpResponse
@@ -19,6 +19,47 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
+
+
+
+def register_user(request):
+	username = request.POST.get('username')
+	email = request.POST.get('email')
+	password  = request.POST.get('password')
+	user_check = User.objects.filter(username = username)
+	email_check = User.objects.filter(email=email)
+	if user_check.exists():
+		return JsonResponse({'error':'username exists'})
+	elif email_check.exists():
+		return JsonResponse({'error':'email exists'})
+	else:
+		User.objects.create_user(username, email, password)
+		user = authenticate(username=username, password=password)
+		if user is not None:
+		 	if user.is_active:
+		 		login(request, user)
+		 		return JsonResponse({'response':'done'})		 		
+		 	else:
+		 		return JsonResponse({'error':'Disabled account'})
+		else:
+			return JsonResponse({'error':'Invalid Login'})
+
+
+def login_user(request):
+	username  = request.POST.get("username")
+	password  = request.POST.get("password")
+	user = authenticate(username=username, password=password)
+	if user is not None:
+		if user.is_active:
+			login(request, user)
+			return JsonResponse({'response':'done'})
+		else:
+			return JsonResponse({'error':'Disabled Account'})
+	else:
+		return JsonResponse({'error':'Invalid Details'})
+
+
+
 
 def profile(request):
     if request.user.username == 'cashier':
@@ -77,19 +118,6 @@ def edit_profile(request, id):
 
 
 
-
-# if request.method == "POST":
-# 	user_form = UserForm(request.POST, request.FILES, instance=user)
-# 	formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
-
-# 		if user_form.is_valid():
-# 			created_user = user_form.save(commit=False)
-# 			formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
-
-# 				if formset.is_valid():
-# 					created_user.save()
-# 					formset.save()
-# 					return HttpResponseRedirect('/accounts/profile/')
 
 
 

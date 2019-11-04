@@ -1,0 +1,684 @@
+{% extends 'dashboard/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<body>
+  <section id="container">
+{% include 'dashboard/header.html' %}
+{% include 'dashboard/sidebar.html' %}
+
+    <section id="main-content">
+      <section class="wrapper">
+
+<div class="row">
+            <div class="col-md-12">
+            <div class="content-panel table-responsive">
+              <table class="table table-striped table-advance table-hover">
+                <h4>  MY ITEMS <span id='loading' style='display:none; color:green' >Loading...</span> </h4>
+                     <hr>
+                <thead>
+                  <tr>
+                    <th>CATRGORY</th>
+
+                  </tr>
+                </thead>{% csrf_token %}
+                <tbody id="tablebody">
+<!--  i is unisex
+ a is category
+ c is subcategory -->
+                {% for i in unisex %}
+                  <tr class="post{{i.pk}}" name=''>
+                    <td>
+                      <a id="unisex{{i}}" onclick='unisexDetails("{{i}}")' data-toggle="collapse" data-target="#demo{{i.name}}" style='cursor:pointer'>{{i.name}} <span style='float:right;' id='totalcategory{{i.id}}'>{{i.total_count}}</span></a>
+                        <!--<button data-toggle="collapse" data-target="#demo">Collapsible</button>-->
+
+                        <div id="demo{{i.name}}" class="collapse">
+
+                            <div class='row'>
+                                <div class='col-md-6 md-offset-3' style='margin-left:30px;'>
+                                    <hr>
+                                    <h6><b>Category</b></h6>
+                                 {% for a in category %}
+
+                            {% if a.unisex == i.name %}
+                            <a data-toggle="collapse" data-target="#demo1{{a.id}}{{i.name}}" style='cursor:pointer' onclick='sexDetails("{{i.name}}", "{{a.name}}", "{{i.id}}", "{{a.id}}")' >{{a}} <span style='float:right;' id='{{a.id}}'>{{a.total_count}}</span></a><br><br>
+
+                            {% endif %}
+                                <!-- sex collapse div -->
+                                <div id="demo1{{a.id}}{{i.name}}" class="collapse" style='margin-left:30px;'>
+                                  
+                                <h6 style='color:green'><b>Select SubCategory</b></h6>
+                                {% for c in subcategory %}
+                                {% if a.name == c.mycategory.name %}
+
+                                 {% if a.unisex == c.mycategory.unisex %}
+                                <a style='cursor:pointer' data-toggle="collapse" data-target="#demo11{{a.id}}{{i.name}}{{c.name}}" onclick="categoryChange('{{a.name}}', '{{a.unisex}}','{{c.name}}','{{a.id}}')" >
+                                  {{c.mycategory.name}} |  {{c.mycategory.unisex}} | 
+                                  {{c.name}} <span style='float:right;' id="sexm{{i.id}}{{a.id}}">{{c.total_count}}</span>
+                                  
+                                </a> <br>
+                                <div id="demo11{{a.id}}{{i.name}}{{c.name}}" class="collapse" style='margin-left:30px;'>
+                                  <!-- product collapse div -->
+<div class="table-responsive" id="table{{i.name}}{{a.id}}">
+<table class="table table-borderless">
+<thead>
+<tr>
+<th>Size</th>
+<th>item(s)</th>
+<th>Add</th>
+<th>View</th>
+
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td data-toggle="collapse" data-target="#demo11{{a.id}}{{i.name}}{{c.name}}S" style='cursor:pointer'>S</td>
+<td id='s{{i.name}}{{a.id}}{{c.name}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal4" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> Add</button></td>
+
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'S' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+<!--  i is unisex
+ a is category
+ c is subcategory -->
+
+<tr>
+<td>M</td>
+<td id='m{{i.name}}{{a.id}}{{c.name}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "m", "m")'>Add</button></td>
+
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'M' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>L</td>
+<td id='l{{i.name}}{{a.id}}{{c.name}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "l", "m")'>Add</button></td>
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'L' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>XL</td>
+<td id='xl{{i.name}}{{a.id}}{{c.name}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl", "m")'>Add</button></td>
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>2XL</td>
+<td id='xl2{{i.name}}{{a.id}}{{c.name}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl2", "m")'>Add</button></td>
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id '2XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>3XL</td>
+<td id='xl3{{i.name}}{{a.id}}{{c.name}}'>0 </td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl3", "m")'>Add</button></td>
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id '3XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>4XL</td>
+<td id='xl4{{i.name}}{{a.id}}{{c.name}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4", "m")'>Add</button></td>
+<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id '4XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+                                </div>
+                                <!-- end product collapse div -->
+ 
+
+
+                                {% endif %}
+                                {% endif %}
+                                {% endfor %}
+            
+<!--  i is unisex
+ a is category
+ c is subcategory -->
+
+
+                                </div>
+                                <!-- end sex collapse div -->
+
+
+                              {% endfor %}
+
+                              </div>
+                              <!-- end md-offset-3 -->
+
+
+                              </div>
+                              <!-- end row -->
+
+
+                        </div>
+                    </td>
+
+                  </tr>
+
+                {% endfor %}
+                </tbody>
+              </table>
+              <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Add Item</button>
+
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+</div>
+<!-- end of row -->
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Myitem Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form> {% csrf_token %}
+<center><h3 id="edititemscategory"></h3></center>
+  <div class="form-group">
+  <label for="editavail">Goods available</label>
+  <input type="text" class="form-control" name="" id="editavail">
+  </div>
+
+
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary editsubmitbutton" data-dismiss="modal" onclick="editMyItems(this.id)" id="">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal2">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Item</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form>
+
+
+<div class="form-group">
+<label for="select_class">Category:</label>
+<select class="form-control" id="add_select_category">
+{% for i in category %}
+<option>{{i.name}}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="form-group">
+<label for="select_class">SubCategory:</label>
+<select class="form-control" id="add_sub_category">
+{% for i in subcategory %}
+<option>{{i.name}}</option>
+{% endfor %}
+</select>
+</div>
+
+
+
+  <div class="form-group">
+  <label for="description">Sex</label>
+  <!--<input type="text" class="form-control" name="" id="additemdescription">-->
+
+  <select class="form-control" id="additemdescription">
+    <option>M</option>
+    <option>F</option>
+
+  </select>
+  </div>
+
+ <div class="form-group">
+  <label for="description">Size</label>
+  <!--<input type="text" class="form-control" name="" id="additemdescription">-->
+
+  <select class="form-control" id="additemsize">
+    <option>S</option>
+    <option>M</option>
+    <option>L</option>
+    <option>XL</option>
+    <option>2XL</option>
+    <option>3XL</option>
+    <option>4XL</option>
+
+
+  </select>
+  </div>
+
+<!--<div class="form-group">-->
+<!--<label for="size">Size</label>-->
+<!--<input type="text" class="form-control" name="" id="additemsize">-->
+<!--</div>-->
+
+  <div class="form-group">
+  <label for="price">Price</label>
+  <input type="text" class="form-control" name="" value=1000 id="additemprice">
+  </div>
+
+  <div class="form-group">
+  <label for="available">Stock available</label>
+  <input type="text" class="form-control" name="" value=0 id="additemavailable">
+  </div>
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="submititem" onclick="addItems()">Submit</button>
+
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal3">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Item</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form>
+  <div class="form-group">
+  <label for="available">Stock available</label>
+  <input type="text" class="form-control" name="" id="editstock">
+  <p id='editcategoryid' style='display:none'></p>
+  <p id='editsubcategoryid' style='display:none'></p>
+  <p id='editsex' style='display:none'></p>
+  <p id='editsize' style='display:none'></p>
+
+
+  </div>
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="submititem" onclick="editMyItems1()">Submit</button>
+
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+      </section>
+    </section>
+    <!--main content end-->
+
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+
+
+
+
+
+<script>
+
+
+
+list1 = []
+categorylist = []
+subcategorylist = []
+unisexlist = ['NONE']
+//this unisex list will be updated when the user clicks the unizex, men, women, boys, girls
+
+
+{% for i in total_items %}
+dict1 = {'category':'{{i.category}}', 'subcategory': '{{i.subcategory}}', 'sex': '{{i.sex}}', 'size':'{{i.size}}', 'price':'{{i.price}}', 'stock':'{{i.stock}}', 'id':'{{i.id}}', 'subcategoryid':'{{i.subcategory.id}}', 'unisex':'{{i.category.unisex}}'}
+list1.push(dict1)
+{% endfor %}
+
+console.log(list1)
+{% for i in category %}
+dict2 = {'category':'{{i.name}}', 'categoryid':'{{i.id}}', "unisex":"{{i.unisex}}"}
+categorylist.push(dict2)
+{% endfor %}
+
+{% for i in subcategory %}
+dict3 = {'category':'{{i.mycategory.name}}', 'categoryid':'{{i.mycategory.id}}', 'subcategory':'{{i.name}}', 'subcategoryid':'{{i.id}}'}
+subcategorylist.push(dict3)
+{% endfor %}
+
+
+for (i=0;i<categorylist.length;i++){
+    for (a=0; a<list1.length; a++){
+        if(categorylist[i].category == list1[i].category ){
+            amount = Number(list1[i].stock)
+        }
+
+    }
+}
+
+
+
+
+
+function unisexDetails(unisex){
+      unisexlist[0]=unisex
+      console.log(unisexlist[0].name, unisex)
+        categorylist1 = []
+        for(a=0; a<categorylist.length; a++){
+            if (categorylist[a].unisex == unisex){
+   
+                    dict = {'category':categorylist[a].category}
+                   categorylist1.push(dict)
+
+
+            }
+
+        } 
+
+
+}
+
+function AddItems1(category, categoryid, subcategory, subcategoryid, size, sex ){
+
+    "{{i.name}}", "{{a.name}}", "F", "{{i.id}}{{a.id}}"
+    qs = "#"+size+sex + categoryid + subcategoryid
+    qs = document.querySelector(qs).innerHTML
+    document.querySelector('#editcategoryid').innerHTML = categoryid
+    document.querySelector('#editsubcategoryid').innerHTML = subcategoryid
+    document.querySelector('#editsex').innerHTML = sex
+    document.querySelector('#editsize').innerHTML = size
+    qs1 = document.querySelector('#editstock').value = qs
+
+}
+
+function sexDetails(category, subcategory, categoryid, subcategoryid){
+    M = 0
+    F = 0
+    for(i=0;i<list1.length;i++){
+
+        if(list1[i].subcategory == subcategory){
+            if (list1[i].sex == 'M'){
+               M = M + Number(list1[i].stock)
+               data = '#sexm' + categoryid + subcategoryid
+               document.querySelector(data).innerHTML = M
+            }
+            if (list1[i].sex == 'F'){
+               F = F + Number(list1[i].stock)
+               data = '#sexf' + categoryid + subcategoryid
+               document.querySelector(data).innerHTML = F
+            }
+         }
+    }
+
+
+
+
+}
+
+function categoryChange(category, unisex, subcategory, categoryid){
+  s1 = '#s'+unisex+categoryid+subcategory
+  s = document.querySelector(s1)
+  m1 = '#m'+unisex+categoryid+subcategory
+  m = document.querySelector(m1)
+  l1 = '#l'+unisex+categoryid+subcategory
+  l = document.querySelector(l1)
+  xl1 = '#xl'+unisex+categoryid+subcategory
+  xl = document.querySelector(xl1)
+  xl21 = '#xl2'+unisex+categoryid+subcategory
+  xl2 = document.querySelector(xl21)
+  xl31 = '#xl3'+unisex+categoryid+subcategory
+  xl3 = document.querySelector(xl31)
+  xl41 = '#xl4'+unisex+categoryid+subcategory
+  xl4 = document.querySelector(xl41)
+
+  // console.log(s, m, l, xl, xl2, xl3, xl4)
+  // console.log(category, subcategory)
+
+  for(i=0;i<list1.length;i++){
+       
+    if(list1[i].category==category && list1[i].subcategory==subcategory && list1[i].unisex==unisex){
+        
+          if(list1[i].size == 'S' ){
+             s.innerHTML = list1[i].stock
+          }
+          if(list1[i].size == 'M' ){
+             m.innerHTML = list1[i].stock
+          }
+          if(list1[i].size == 'L' ){
+             l.innerHTML = list1[i].stock
+          }
+          if(list1[i].size == 'XL' ){
+             xl.innerHTML = list1[i].stock
+          }
+          if(list1[i].size == '2XL' ){
+             xl2.innerHTML = list1[i].stock
+          }
+          if(list1[i].size == '3XL' ){
+             xl3.innerHTML = list1[i].stock
+          }
+          if(list1[i].size == '4XL' ){
+             xl4.innerHTML = list1[i].stock
+          }
+          
+
+    }
+  }
+
+    // for(i=0;i<list1.length;i++){
+    //     category1 = list1[i].category
+    //     subcategory1 = list1[i].subcategory
+    //     sex1 = list1[i].sex
+    //     size1 = list1[i].size
+    //     stock = list1[i].stock
+    //     id1 = list1[i].id
+    //     sf = "#sf"+id
+    //     mf = "#mf"+id
+    //     lf = "#lf"+id
+    //     xlf = "#xlf"+id
+    //     xl2f = "#xl2f"+id
+    //     xl3f = "#xl3f"+id
+    //     xl4f = "#xl4f"+id
+
+
+
+    //     sm = "#sm"+id
+    //     mm = "#mm"+id
+    //     lm = "#lm"+id
+    //     xlm = "#xlm"+id
+    //     xl2m = "#xl2m"+id
+    //     xl3m = "#xl3m"+id
+    //     xl4m = "#xl4m"+id
+
+    //     if(category == category1 ){
+    //         if(subcategory == subcategory1 ){
+    //             if(sex==sex1){
+    //             if(size1=='S'){
+
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(sf).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(sm).innerHTML = stock
+    //                 }
+    //             }
+    //             else if(size1=='M'){
+
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(mf).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(mm).innerHTML = stock
+    //                 }
+
+    //             }
+    //             else if(size1=='L'){
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(lf).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(lm).innerHTML = stock
+    //                 }
+    //             }
+    //            else if(size1=='XL'){
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(xlf).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(xlm).innerHTML = stock
+    //                 }
+
+    //             }
+    //            else if(size1=='2XL'){
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(xl2f).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(xl2m).innerHTML = stock
+    //                 }
+
+    //             }
+
+    //            else if(size1=='3XL'){
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(xl3f).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(xl3m).innerHTML = stock
+    //                 }
+
+    //             }
+
+    //            else if(size1=='4XL'){
+    //                 if(sex1 == 'F'){
+    //                     document.querySelector(xl4f).innerHTML = stock
+    //                 }
+    //                 else if(sex1 == 'M'){
+    //                     document.querySelector(xl4m).innerHTML = stock
+    //                 }
+
+    //             }
+
+
+    //             }
+
+    //         }
+
+
+    //     }
+
+    // }
+
+}
+
+
+</script>
+
+
+
+{% endblock body %}
+
+</body>
+
+</html>

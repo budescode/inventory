@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'index',
     'account',
     'administrator',
+    'cart',
+    'order',
+    'dashboard',
 
 ]
 
@@ -69,6 +72,8 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'project.processors.PosterContextProcessors',
+                'project.processors.ProcessorUserCart',
+                 'project.processors.ProcessorIndexCategory',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -117,9 +122,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
+
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Bangui'
 
 USE_I18N = True
 

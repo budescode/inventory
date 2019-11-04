@@ -1,0 +1,260 @@
+{% extends 'Administrator/base.html' %}
+{% load staticfiles %}
+
+
+{% block body %}
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+{% include 'Administrator/header.html' %}
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+{% include 'Administrator/sidebar.html' %}
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-12 main-chart">
+
+
+
+          </div>
+          <!-- /col-lg-9 END SECTION MIDDLE -->
+          <!-- **********************************************************************************************************************************************************
+              RIGHT SIDEBAR CONTENT
+              *********************************************************************************************************************************************************** -->
+
+        </div>
+        <!-- /row -->
+
+
+<div class="row">
+            <div class="col-md-12">
+ <button class='btn btn-primary' data-toggle="collapse" data-target="#demo">Category</button>
+
+<div id="demo" class="collapse">
+<div class='form-group row'>
+
+    <div class='col-md-3'>
+    <div class="form-group">
+    <label for="sel1">Category:</label>
+    <select class="form-control" id="sel1">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    </select>
+    </div>
+    </div>
+    <div class='col-md-3'>
+    <div class="form-group">
+    <label for="sel1">Sub Category:</label>
+    <select class="form-control" id="sel1">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    </select>
+    </div>
+    </div>
+
+    <div class='col-md-3'>
+    <div class="form-group">
+    <label for="sel1">Sex:</label>
+    <select class="form-control" id="sel1">
+    <option>M</option>
+    <option>F</option>
+     </select>
+    </div>
+    </div>
+  <div class='col-md-3'>
+    <div class="form-group">
+    <label for="sel1">Size:</label>
+    <select class="form-control" id="sel1">
+    <option>M</option>
+    <option>F</option>
+     </select>
+    </div>
+    </div>
+ <div class='col-md-3'>
+<button class='btn btn-success'>Submit</button>
+    </div>
+
+
+</div>
+</div>
+          </div>
+          <!-- /col-md-12 -->
+</div>
+<!-- end of row -->
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Myitem Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form> {% csrf_token %}
+<center><h3 id="edititemscategory"></h3></center>
+  <div class="form-group">
+  <label for="editavail">Goods available</label>
+  <input type="text" class="form-control" name="" id="editavail">
+  </div>
+
+
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary editsubmitbutton" data-dismiss="modal" onclick="editMyItems(this.id)" id="">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="myModal2">
+  <div class="modal-dialog full-screen">
+    <div class="modal-content">
+   <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Item</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+
+
+<div class="container-fluid">
+  <div class="row">
+
+  <div class="col-md-12">
+
+
+<form>
+
+
+<div class="form-group">
+<label for="select_class">Category:</label>
+<select class="form-control" id="add_select_category">
+{% for i in category %}
+<option>{{i.name}}</option>
+{% endfor %}
+</select>
+
+</div>
+
+  <div class="form-group">
+  <label for="description">Sex</label>
+  <!--<input type="text" class="form-control" name="" id="additemdescription">-->
+
+  <select class="form-control" id="additemdescription">
+    <option>M</option>
+    <option>F</option>
+
+  </select>
+  </div>
+
+<div class="form-group">
+<label for="size">Size</label>
+<input type="text" class="form-control" name="" id="additemsize">
+</div>
+
+  <div class="form-group">
+  <label for="price">Price</label>
+  <input type="text" class="form-control" name="" value=1000 id="additemprice">
+  </div>
+
+  <div class="form-group">
+  <label for="available">Stock available</label>
+  <input type="text" class="form-control" name="" id="additemavailable">
+  </div>
+
+</form>
+
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="submititem" onclick="addItems()">Submit</button>
+
+      </div>
+
+    </div>
+  </div>
+</div> <!-- end of modal -->
+
+
+
+
+
+
+
+      </section>
+    </section>
+    <!--main content end-->
+
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+
+
+
+
+{% endblock body %}
+
+</body>
+
+</html>
