@@ -1,47 +1,58 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from index.models import Index, IndexSize, IndexCategory, IndexSubCategory
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from cart.models import Cart
 from order.models import Order
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 from datetime import datetime, timedelta, date
 from .forms import IndexForm, IndexCategoryForm, IndexSubCategoryForm
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def dashboard(request):
+	if request.user.username == 'cashier':
+		return redirect('administrator:products')
+	elif request.user.username == 'cashier02':
+		return redirect('administrator:products')
+	totalitems = Index.objects.all()
 	category = IndexCategory.objects.all()
 	subcategory = IndexSubCategory.objects.all()
-	total_items = Index.objects.all()
-
-	men_total = 0
-	men = IndexCategory.objects.filter(unisex__iexact='Men')
-	for i in men:
-		men_total = men_total + i.total_count
-
-
-	women_total = 0
-	women = IndexCategory.objects.filter(unisex__iexact='Women')
-	for i in women:
-		women_total = women_total + i.total_count
-
-	boys_total = 0
-	boys = IndexCategory.objects.filter(unisex__iexact='Boys')
-	for i in boys:
-		boys_total = boys_total + i.total_count
-
-	girls_total = 0
-	girls = IndexCategory.objects.filter(unisex__iexact='Girls')
-	for i in girls:
-		girls_total = girls_total + i.total_count
-	unisex = [{"name": "Men", 'total_count':men_total},{"name": "Women", 'total_count':women_total}, {"name": "Boys", 'total_count':boys_total}, {"name": "Girls", 'total_count':girls_total}]
-	context = {'category':category, 'subcategory':subcategory, 'unisex':unisex, 'men_total':men_total, 'women_total':women_total,
-	'boys_total':boys_total, 'girls_total':girls_total, 'total_items':total_items
-	}
+	context = {'subcategory':subcategory, 'category':category, 'totalitems':totalitems}
 	return render(request, 'dashboard/index1.html', context)
 
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
+def search_order_id(request):
+    order_id = request.POST.get('order_id')
+    qs = Order.objects.filter(order_id=order_id)
+    return render(request, 'dashboard/search_order_id.html', {'qs':qs})
 
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
+def additem(request, id):
+    total_add = request.POST.get('total_add')
+    qs = Index.objects.get(id= int(id))
+    qs.stock= qs.stock + int(total_add)
+    qs.save()
+    cat_id = qs.category.id
+    sub_cat_id = qs.subcategory.id
+    category = IndexCategory.objects.get(id=cat_id)
+    subcategory = IndexSubCategory.objects.get(id=sub_cat_id)
+    category.total_count = category.total_count + int(total_add)
+    category.save()
+    subcategory.total_count = subcategory.total_count + int(total_add)
+    subcategory.save()
+    return JsonResponse({'response':'done'})
+
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def category(request):
 	category = IndexCategory.objects.all()
 	if request.method == 'POST':
@@ -49,9 +60,6 @@ def category(request):
 		if form.is_valid():
 			form.save()
 			return redirect('dashboard:category')
-		else:
-		    return redirect('dashboard:category')
-
 	else:
 		form = IndexCategoryForm()
 	context = {'category':category, 'form':form}
@@ -59,46 +67,52 @@ def category(request):
 
 
 
-@login_required(login_url='/account/login/')
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def subcategory(request):
 	if request.method == 'POST':
-
-		name = request.POST.get('name')
-		category = request.POST.get('category')
-		unisex = request.POST.get('unisex')
-		total_count = request.POST.get('total_count')
-		try:
-			category_qs = IndexCategory.objects.get(name=category, unisex=unisex)
-			try:
-				subcategory_qs = IndexSubCategory.objects.get(mycategory=category_qs, name=name)
-				print("existed")
-				return redirect('dashboard:subcategory')
-			except IndexSubCategory.DoesNotExist:
-				subcategory_qs =  IndexSubCategory.objects.create(mycategory=category_qs, name=name, total_count=total_count)
-				print("doesnt exist")
-				return redirect('dashboard:subcategory')
-		except IndexCategory.DoesNotExist:
+		form = IndexSubCategoryForm(request.POST or None)
+		if form.is_valid():
+			form.save()
 			return redirect('dashboard:subcategory')
+	else:
+		form = IndexSubCategoryForm()
 	qs = IndexSubCategory.objects.all()
-	category = set(IndexCategory.objects.values_list('name', flat=True))
-	unisex =  ["Men", "Women", "Boys", "Girls"]
-	return render(request, 'dashboard/subcategory.html', {'qs':qs,'category':category, 'unisex':unisex})
+	return render(request, 'dashboard/subcategory.html', {'qs':qs,'form':form})
 
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def deletesubcategory(request, id):
     qs = IndexSubCategory.objects.get(id=id)
     qs.delete()
     return redirect('dashboard:subcategory')
 
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def deletecategory(request, id):
     qs = IndexCategory.objects.get(id=id)
     qs.delete()
     return redirect('dashboard:category')
 
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def ordered_delivery(request):
-	qs = Order.objects.filter(delivered=False, paid=False)
+	qs = Order.objects.filter(delivered=False)
 	context = {'qs':qs}
 	return render(request, 'dashboard/ordered_delivery.html', context)
 
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
+def delete_order(request, id):
+    qs = Order.objects.get(id=id)
+    qs.delete()
+    return redirect('dashboard:ordered_delivery')
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def order_delivery_details(request, id):
 	order = get_object_or_404(Order, id=id)
 	total_price = 0
@@ -110,38 +124,36 @@ def order_delivery_details(request, id):
 	context = {'qs':qs, 'total_count':total_count, 'total_price':total_price}
 	return render(request, 'dashboard/order_delivery_details.html', context)
 
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def order_pending_delivery_change(request, id):
 	order = get_object_or_404(Order, id=id)
 	cart = Cart.objects.filter(order_key = order)
-	if order.paid == True:
-		order.paid = False
-		order.delivered = False
-		order.save()
-		for i in cart:
-			i.paid=False
-			i.save()
-
-	elif order.paid == False:
+	if order.delivered == False:
 		order.paid = True
 		order.delivered = True
 		order.save()
 		for i in cart:
 			i.paid=True
 			i.save()
+			category = i.product.category
+			category.total_count = category.total_count - i.quantity
+			category.save()
+			subcategory = i.product.subcategory
+			subcategory.total_count = subcategory.total_count - i.quantity
+			subcategory.save()
+			stock_available = i.product
+			stock_available.stock = stock_available.stock - i.quantity
+			stock_available.save()
 	return redirect('dashboard:ordered_delivery')
 
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def order_delivered_change(request, id):
 	order = get_object_or_404(Order, id=id)
 	cart = Cart.objects.filter(order_key = order)
-	if order.paid == True:
-		order.paid = False
-		order.delivered = False
-		order.save()
-		for i in cart:
-			i.paid=False
-			i.save()
-
-	elif order.paid == False:
+	if order.delivered == False:
 		order.paid = True
 		order.delivered = True
 		order.save()
@@ -151,53 +163,235 @@ def order_delivered_change(request, id):
 	return redirect('dashboard:todaysreportorder')
 
 
-@login_required(login_url='/account/login/')
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
 def todaysreportorder(request):
-    today = date.today()
-    qs = Order.objects.filter(delivered=True, paid=True, date=today)
-    context = {'qs':qs} #'Trouser':Trouser, 'TrouserPrice':TrouserPrice, 'ShortsPrice':ShortsPrice, 'TShirtsPrice':TShirtsPrice, 'ShoePrice':ShoePrice,'UnderwearPrice':UnderwearPrice, 'BoxerPrice':BoxerPrice,'SingletPrice':SingletPrice, 'PantPrice':PantPrice, 'SocksPrice':SocksPrice}
-    return render(request, 'dashboard/todaysreportorder.html', context)
-
-@login_required(login_url='/account/login/')
-def todaysreportsold(request):
 	today = date.today()
-	total_price = 0
-	total_count = 0
-	qs = Cart.objects.filter(paid=True, date=today)
-	for i in qs:
-		total_price = total_price + i.total_price
-		total_count = total_count + i.quantity
+	order = Order.objects.filter(delivered=True, paid=True, date=today).order_by('-date')
+	page = request.GET.get('page', 1)
+	paginator = Paginator(order, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs}
+	return render(request, 'dashboard/todaysreportorder.html', context)
 
-	context = {'qs':qs, 'total_price':total_price, 'total_count':total_count}
-	return render(request, 'dashboard/todaysreportsold.html', context)
 
-def filter_items(request, unisex, categoryid, subcategoryid, size):
-	category = get_object_or_404(IndexCategory, id=categoryid, unisex__iexact=unisex)
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
+def filter_items(request, categoryid, subcategoryid, sex, size):
+	category = get_object_or_404(IndexCategory, id=categoryid)
 	subcategory = get_object_or_404(IndexSubCategory, id=subcategoryid)
-	qs = Index.objects.filter(category=category, subcategory=subcategory, size__iexact=size)
+	qs = Index.objects.filter(category=category, subcategory=subcategory, sex=sex, size=size)
 	total_count = qs.count()
+	total_items = 0
+	for i in qs:
+	    total_items = total_items + i.stock
+
 	if request.method == 'POST':
 		form = IndexForm(request.POST or None, request.FILES or None)
 		if form.is_valid():
-			if unisex == 'Men' or unisex == 'men' or unisex == 'Boys' or unisex == 'boys':
-				sex = 'M'
-			elif unisex == "Women" or unisex == 'women' or unisex == 'girls' or unisex == 'girls':
-				sex = "F"
-			qs = form.save(commit=False)
-			qs.category = category
-			qs.subcategory = subcategory
-			qs.sex = sex
-			qs.size = size
-			qs.price =1000
-			qs.save()
-			return redirect('dashboard:filter_items', unisex, categoryid, subcategoryid, size)
+			try:
+				name = form.cleaned_data['name']
+				color = form.cleaned_data['color']
+				filter = Index.objects.get(category=category, subcategory=subcategory, name=name, color=color, size=size, sex=sex)
+				messages.info(request,'Records already exist please add another')
+				return redirect('dashboard:filter_items', categoryid, subcategoryid, sex, size)
+			except Index.DoesNotExist:
+				qs = form.save(commit=False)
+				qs.category = category
+				qs.subcategory = subcategory
+				qs.sex = sex
+				qs.size = size
+				qs.price = 1000
+				qs.save()
+				stock = form.cleaned_data['stock']
+				category1 = IndexCategory.objects.get(id=categoryid)
+				category1.total_count = category1.total_count + int(stock)
+				category1.save()
+				subcategory = get_object_or_404(IndexSubCategory, id=subcategoryid)
+				subcategory.total_count = subcategory.total_count + int(stock)
+				subcategory.save()
+				return redirect('dashboard:filter_items', categoryid, subcategoryid, sex, size)
+
 	else:
 		form = IndexForm()
-	context = {'qs':qs, 'category':category, 'subcategory':subcategory, 'total_count':total_count, 'unisex':unisex, 'size':size, 'categoryid':categoryid, 'subcategoryid':subcategoryid, 'form':form}
+	context = {'qs':qs, 'category':category, 'subcategory':subcategory, 'total_count':total_count,
+	 'categoryid':categoryid, 'subcategoryid':subcategoryid,'sex':sex,'size':size, 'form':form,'total_items':total_items}
 	return render(request, 'dashboard/filter_index.html', context)
 
-def delete_items(request, unisex, categoryid, subcategoryid, size, id):
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
+def delete_items(request, categoryid, subcategoryid,sex, id, size):
 	qs = get_object_or_404(Index, id=id)
 	qs.delete()
-	return redirect('dashboard:filter_items', unisex, categoryid, subcategoryid, size)
+	return redirect('dashboard:filter_items', categoryid, subcategoryid, sex, size)
+
+
+def filter_sold(request):
+	if request.method == 'POST':
+		date = request.POST.get('date')
+		request.session['date'] = date
+
+	elif not request.method == 'POST':
+		try:
+			date =  request.session['date']
+		except KeyError:
+			return HttpResponse('input date')
+	total = 0
+	amount = 0
+	cart = Cart.objects.filter(paid=True, date=str(date)).order_by('-date')
+	for i in cart:
+		total = total + i.quantity
+		amount = amount + i.total_price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs, 'total':total, 'amount':amount}
+	return render(request, 'dashboard/filter_sold.html', context)
+
+@login_required(login_url='/account/login_dashboard/')
+@staff_member_required
+def todaysreportsold(request):
+	today = date.today()
+	total = 0
+	amount = 0
+	cart = Cart.objects.filter(paid=True, date=today).order_by('-date')
+	for i in cart:
+		total = total + i.quantity
+		amount = amount + i.total_price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs, 'total':total, 'amount':amount}
+	return render(request, 'dashboard/todaysreportsold.html', context)
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def weeklyreportorder(request):
+	one_week_ago = datetime.today() - timedelta(days=7)
+	order = Order.objects.filter(delivered=True, paid=True, date__gte=one_week_ago).order_by('-date')
+	page = request.GET.get('page', 1)
+	paginator = Paginator(order, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs}
+	return render(request, 'dashboard/weeklyreportorder.html', context)
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def weeklyreportsold(request):
+	one_week_ago = datetime.today() - timedelta(days=7)
+	total = 0
+	amount = 0
+	cart = Cart.objects.filter(paid=True, date__gte=one_week_ago).order_by('-date')
+	for i in cart:
+		total = total + i.quantity
+		amount = amount + i.total_price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs, 'total':total, 'amount':amount}
+	return render(request, 'dashboard/weeklyreportsold.html', context)
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def monthlyreportorder(request):
+	order = Order.objects.filter(delivered=True, paid=True, date__month__gte=1).order_by('-date')
+	page = request.GET.get('page', 1)
+	paginator = Paginator(order, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs}
+	return render(request, 'dashboard/monthlyreportorder.html', context)
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def monthlyreportsold(request):
+	total = 0
+	amount = 0
+	cart = Cart.objects.filter(paid=True, date__month__gte=1).order_by('-date')
+	for i in cart:
+		total = total + i.quantity
+		amount = amount + i.total_price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs, 'total':total, 'amount':amount}
+	return render(request, 'dashboard/monthlyreportsold.html', context)
+
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def yearlyreportorder(request):
+	order = Order.objects.filter(delivered=True, paid=True, date__year__gte=2019).order_by('-date')
+	page = request.GET.get('page', 1)
+	paginator = Paginator(order, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs}
+	return render(request, 'dashboard/yearlyreportorder.html', context)
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def yearlyreportsold(request):
+	total = 0
+	amount = 0
+	cart = Cart.objects.filter(paid=True, date__year__gte=2019).order_by('-date')
+	for i in cart:
+		total = total + i.quantity
+		amount = amount + i.total_price
+	page = request.GET.get('page', 1)
+	paginator = Paginator(cart, 80)
+	try:
+		qs = paginator.page(page)
+	except PageNotAnInteger:
+		qs = paginator.page(1)
+	except EmptyPage:
+		qs = paginator.page(paginator.num_pages)
+	context = {'qs':qs, 'total':total, 'amount':amount}
+	return render(request, 'dashboard/yearlyreportsold.html', context)
+
 

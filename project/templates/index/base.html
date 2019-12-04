@@ -27,32 +27,37 @@
         </div>
         <div class="modal-body row justify-content-center">
           <div class="col-10 col-md-7">
-            <form action="" method="post"> {% csrf_token %}
+            <form action="{% url 'account:register_user' %}" method="post"> {% csrf_token %}
               <div class="form-group">
                 <label for="inputname">What should we call you?</label>
-                <input type="text" class="form-control" id="inputname" placeholder="username">
+                <input type="text" class="form-control" id="inputname" placeholder="username" name='username' required>
               </div>
               <div class="form-group">
                 <label for="inputemail">What is your Email ?</label>
-                <input type="email" class="form-control" id="inputemail" placeholder="onethouasand@gmail.com">
+                <input type="email" class="form-control" id="inputemail" placeholder="" name='email' required>
               </div>
               <div class="form-group">
                 <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password" name='password' required>
               </div>
-              <button class="btn btn-block btn-primary" type="button" onclick="signupFunction()">
+              <div class="form-group">
+                <label for="inputPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Confirm Password" required>
+              </div>
+              <button class="btn btn-block btn-primary" type="submit">
+                  <!--onclick="signupFunction()-->
                 Sign Up
               </button>
             </form>
             <p class="text-center mg-t--10 mg-b--10">
               Been here before? <a href="#" class="loginLink" data-from="#regModal" data-to="#loginModal">Login</a>
             </p>
-            <p class="is-size--2 text-center">Or join with </p>
+            <!--<p class="is-size--2 text-center">Or join with </p>-->
 
-            <div class="row justify-content-center">
-              <div class="col-6 col-md-4"><button class="btn btn-block btn-outline-secondary">Google</button></div>
-              <div class="col-6 col-md-4"><button class="btn btn-block btn-outline-secondary">Facebook</button></div>
-            </div>
+            <!--<div class="row justify-content-center">-->
+            <!--  <div class="col-6 col-md-4"><button class="btn btn-block btn-outline-secondary">Google</button></div>-->
+            <!--  <div class="col-6 col-md-4"><button class="btn btn-block btn-outline-secondary">Facebook</button></div>-->
+            <!--</div>-->
           </div>
         </div>
       </div>
@@ -92,12 +97,12 @@
                 New Here ? <a href="#" class="regLink" data-from="#loginModal" data-to="#regModal">Sign Up</a>
               </div>
             </div>
-            <p class="is-size--2 text-center">Or join with </p>
+            <!--<p class="is-size--2 text-center">Or join with </p>-->
 
-            <div class="row justify-content-center">
-              <div class="col-5 col-md-4"><button class="btn btn-block btn-outline-secondary">Google</button></div>
-              <div class="col-5 col-md-4"><button class="btn btn-block btn-outline-secondary">Facebook</button></div>
-            </div>
+            <!--<div class="row justify-content-center">-->
+            <!--  <div class="col-5 col-md-4"><button class="btn btn-block btn-outline-secondary">Google</button></div>-->
+            <!--  <div class="col-5 col-md-4"><button class="btn btn-block btn-outline-secondary">Facebook</button></div>-->
+            <!--</div>-->
           </div>
         </div>
       </div>
@@ -106,10 +111,10 @@
 
   <div class="notifier">
     <div class="left">
-      Free deliveries for orders above 20k
+    FREE DELIVERIES FOR ORDERS ABOVE 20K IN ALL NIGERIAN STATES
     </div>
     <div class="right">
-      24 hours return policy
+      24 HOURS RETURN POLICY AFTER DELIVERY
     </div>
   </div>
 
@@ -125,108 +130,38 @@
       <a class="logo" href="{% url 'home:home' %}">
         <img src="{% static 'index/assets/img/logo.png' %}" alt="1k store logo" class="img-fluid">
       </a>
-
-      <nav class="primary-navlink d-none d-lg-block" id="categoryNavLink">
-        <ul>
-          <li class="dropdown">
-            <span class="dropdown-head">
-              Jeans
-            </span>
-            <span class="dropdown-arrow">
-              <i data-feather="chevron-down" width="12" height="12"></i>
-            </span>
-            <ul class="sublink">
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'jean' 'men' %}" class="anchor--dark">Men</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'jean' 'women' %}" class="anchor--dark">Women</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'jean' 'boys' %}" class="anchor--dark">Boys</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'jean' 'girls' %}" class="anchor--dark">Girls</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <span class="dropdown-head">
-              Polos
-            </span>
-            <span class="dropdown-arrow">
-              <i data-feather="chevron-down" width="12" height="12"></i>
-            </span>
-            <ul class="sublink">
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'polo' 'men' %}" class="anchor--dark">Men</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'polo' 'women' %}" class="anchor--dark">Women</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'polo' 'boys' %}" class="anchor--dark">Boys</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'polo' 'girls' %}" class="anchor--dark">Girls</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <span class="dropdown-head">
-              Trouser
-            </span>
-            <span class="dropdown-arrow">
-              <i data-feather="chevron-down" width="12" height="12"></i>
-            </span>
-            <ul class="sublink">
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'Trouser' 'men' %}" class="anchor--dark">Men</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'Trouser' 'women' %}" class="anchor--dark">Women</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'Trouser' 'boys' %}" class="anchor--dark">Boys</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'Trouser' 'girls' %}" class="anchor--dark">Girls</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <span class="dropdown-head">
-              Underwear
-            </span>
-            <span class="dropdown-arrow">
-              <i data-feather="chevron-down" width="12" height="12"></i>
-            </span>
-            <ul class="sublink">
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'men' %}" class="anchor--dark">Men</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'women' %}" class="anchor--dark">Women</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'boys' %}" class="anchor--dark">Boys</a></li>
-              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'girls' %}" class="anchor--dark">Girls</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <span class="dropdown-head">
-              All Categories
-            </span>
-            <span class="dropdown-arrow">
-              <i data-feather="chevron-down" width="12" height="12"></i>
-            </span>
-            <ul class="sublink">
-              {% for i in allcategories %}
-              <li class="py-1"><a href="{% url 'home:filter_allcategory' i.name %}" class="anchor--dark">{{i.name}}</a></li>
-              {% endfor %}
-
-            </ul>
-          </li>
-        </ul>
-      </nav>
-
       <div class="form  d-sm-block">
+
+         <form method='post' action='{% url 'home:search' %}'> {% csrf_token %}
         <div class="input-group mb-3">
           <input type="search" class="form-control form-control-lg bg-transparent"
-            placeholder="Try red polo, blue short...">
+            placeholder="Try red polo, blue short..." name='searchitem'>
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary btn-lg" type="button">
+            <button class="btn btn-outline-secondary btn-lg" type="submit">
               <i data-feather="search" width="18" height="18"></i>
             </button>
           </div>
         </div>
+        </form>
+
       </div>
       <aside class="secondary-navlink">
         <ul class="d-flex justify-content-between align-items-center">
           <li class="link mx-2">
+
             <a href="{% url 'cart:viewCart' %}" class="anchor--dark">
            <b id="cart_count"> {{usercart_count}} </b> <i data-feather="shopping-cart" width="25" height="25"></i>
             </a>
+
           </li>
           <li class="dropdown mx-2">
             <a href="#" class="anchor--dark">
-              <i data-feather="user" width="25" height="25"></i>
+              <i data-feather="user" width="25" height="25"></i>{% if request.user.is_authenticated %} {{request.user.username}} {% else %} Account {% endif %}
               <span class="dropdown-arrow">
                 <i data-feather="chevron-down" width="12" height="12"></i>
               </span>
             </a>
-            <ul class="sublink text-right">
+            <ul class="sublink text-right" style="z-index: 10">
               <li class="py-1">
                 {% if request.user.is_authenticated %}
                 <a href="#" class="anchor--dark">{{request.user.username}}</a>
@@ -238,24 +173,218 @@
               <li class="py-1">
                 <a href="{% url 'order:myorder' %}" class="anchor--dark">Orders</a>
               </li>
+              {% if request.user.is_authenticated %}
               <li class="py-1">
-                <a href="#" class="anchor--dark">Favourites</a>
+                <a href="{% url 'home:myFavourite' %}" class="anchor--dark">Wish List</a>
               </li>
+
               <li class="py-1">
-                <a href="#" class="anchor--dark">Track deliveries</a>
+                <a href="{% url 'account:userlogout' %}" class="anchor--dark">Logout</a>
               </li>
+
+              {% endif %}
+              <li class="py-1">
+                <a href="{% url 'account:change_password' %}" class="anchor--dark">Forget Password</a>
+              </li>              <!--  <a href="#" class="anchor--dark">Track deliveries</a>-->
+              <!--</li>-->
+              {% if request.user.is_authenticated %}
+              {% else %}
               <li class="py-1 d-flex">
                 <a href="#" class="btn btn-primary mr-2" data-target="#regModal" data-toggle="modal">SignUp</a>
                 <a href="#" class="btn btn-outline-primary" data-target="#loginModal" data-toggle="modal">Login</a>
               </li>
+              {% endif %}
             </ul>
           </li>
         </ul>
       </aside>
+
+      <nav class="col-12 primary-navlink d-none d-lg-block" id="categoryNavLink" style='text-transform: uppercase;'>
+        <ul>
+
+
+          <li class="dropdown" >
+            <span class="dropdown-head">
+              JEANS
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'Jean' 'male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'Jean' 'female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'Jean' 'unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'Jean' 'kids' %}" class="anchor--dark">KIDS</a></li>
+            </ul>
+          </li>
+
+         <li class="dropdown">
+            <span class="dropdown-head">
+              CHINOS
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'chinose' 'male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'chinose' 'female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'chinose' 'unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'trouser' 'chinose' 'kids' %}" class="anchor--dark">KIDS</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <span class="dropdown-head">
+              POLO
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 'polo' 'male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 'polo' 'female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 'polo' 'unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 'polo' 'kids' %}" class="anchor--dark">KIDS</a></li>
+
+            </ul>
+          </li>
+
+         <li class="dropdown">
+            <span class="dropdown-head">
+              T-SHIRT
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 't-shirt' 'male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 't-shirt' 'female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 't-shirt' 'unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_subcategory' 'Shirt' 't-shirt' 'kids' %}" class="anchor--dark">KIDS</a></li>
+
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <span class="dropdown-head">
+              HATS
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'hats' 'Male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'hats' 'Female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'hats' 'Unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'hats' 'Kids' %}" class="anchor--dark">KIDS</a></li>
+            </ul>
+          </li>
+
+        <li class="dropdown">
+            <span class="dropdown-head">
+              FLEECE
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'fleece' 'Male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'fleece' 'Female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'fleece' 'Unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'fleece' 'Kids' %}" class="anchor--dark">KIDS</a></li>
+            </ul>
+         </li>
+
+        <li class="dropdown">
+            <span class="dropdown-head">
+              SOCKS
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'socks' 'Male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'socks' 'Female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'socks' 'Unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'socks' 'Kids' %}" class="anchor--dark">KIDS</a></li>
+            </ul>
+         </li>
+
+        <li class="dropdown">
+            <span class="dropdown-head">
+              JUMPERS
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'jumpers' 'Male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'jumpers' 'Female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'jumpers' 'Unisex' %}" class="anchor--dark">UNISEX</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'jumpers' 'Kids' %}" class="anchor--dark">KIDS</a></li>
+
+            </ul>
+         </li>
+
+          <li class="dropdown">
+            <span class="dropdown-head">
+              UNDERWEAR
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'Male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'Female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'underwear' 'Kids' %}" class="anchor--dark">KIDS</a></li>
+           </ul>
+          </li>
+
+          <li class="dropdown">
+            <span class="dropdown-head">
+              TIE
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'tie' 'Male' %}" class="anchor--dark">MALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'tie' 'Female' %}" class="anchor--dark">FEMALE</a></li>
+              <li class="py-1"><a href="{% url 'home:filter_unisex_category' 'tie' 'Kids' %}" class="anchor--dark">KIDS</a></li>
+           </ul>
+          </li>
+
+          <li class="dropdown">
+            <span class="dropdown-head">
+              ALL CATEGORIES
+            </span>
+            <span class="dropdown-arrow">
+              <i data-feather="chevron-down" width="12" height="12"></i>
+            </span>
+            <ul class="sublink">
+              {% for i in allcategories %}
+              <li class="py-1"><a href="{% url 'home:filter_allcategory' i.name %}" class="anchor--dark" >{{i.name}}</a></li>
+              {% endfor %}
+
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <!--<div class="form  d-sm-block">-->
+      <!--  <div class="input-group mb-3">-->
+      <!--    <input type="search" class="form-control form-control-lg bg-transparent"-->
+      <!--      placeholder="Try red polo, blue short...">-->
+      <!--    <div class="input-group-append">-->
+      <!--      <button class="btn btn-outline-secondary btn-lg" type="button">-->
+      <!--        <i data-feather="search" width="18" height="18"></i>-->
+      <!--      </button>-->
+      <!--    </div>-->
+      <!--  </div>-->
+      <!--</div>-->
     </header>
+
     <!--End Navbar-->
-
-
 
 
   {% block body %}
@@ -273,22 +402,26 @@
           <p>
             Opening Time: <br>
             Monday to Saturday <br>
-            <b>10am - 7pm</b> <br><br>
-            Sunday - <b>12pm - 7pm</b><br><br>
+            <b>9.30am - 7.30pm</b> <br><br>
+            Sunday - <b>12pm - 7.00pm</b><br><br>
             <b>Call us - </b> 07039137349
           </p>
 
-          <address style="font-style: normal">Location - 4 oko ogbo, Airport road, <br> Benin city, Edo state.</address>
-          <a href="">Careers at 1k</a>
+          <address style="font-style: normal">Location - 4 Oko Ogba, Airport Road, <br> Benin City, Edo state.</address>
+          <h6 class="text-success"><b>CAREERS AT 1K</b></h6>
+<div class="bg-success text-center text-white pd--10">
+          <p>WE DON'T DO WHOLESALE SALES</p>
+          </div>
         </div>
       </div>
+
       <div class="col-6 col-md-4 pd-t--30">
-        <h3 class="text-uppercase is-size--2 font-weight-bold">LET US HELP YOU</h3>
+        <h3 class="text-uppercase is-size--2 font-weight-bold">USEFUL LINK</h3>
         <div class="my-3 is-size--2">
-          <a href="" class="anchor--dark">FAQ</a> <br><br>
-          <a href="" class="anchor--dark">Terms & conditions</a><br><br>
-          <a href="" class="anchor--dark">Customer Service</a><br><br>
-          <a href="" class="anchor--dark">Orders & Returns</a><br><br>
+          <a href="{% url 'home:faq' %}" class="anchor--dark">FAQ</a> <br><br>
+          <a href="{% url 'home:terms' %}" class="anchor--dark">Terms & conditions</a><br><br>
+          <a href="{% url 'home:customer_service' %}" class="anchor--dark">Customer Service</a><br><br>
+          <a href="{% url 'home:orders_and_returns' %}" class="anchor--dark">Orders & Returns</a><br><br>
         </div>
       </div>
       <div class="col-12 col-md-4">
@@ -299,9 +432,11 @@
             <div class="my-3 is-size--2 social social-row">
               <ul>
                 <li>
-                  <a href="#" title="facebook" aria-details="facebook"><span class="flaticon-facebook"></span></a>
-                  <a href="#" title="instagram" aria-details="instagram"><span class="flaticon-instagram"></span></a>
-                  <a href="#" title="twitter" aria-details="twitter"><span class="flaticon-twitter"></span></a>
+                  <a href="https://www.facebook.com/1kclothingshop-109358923843563/?modal=admin_todo_tour" title="facebook" aria-details="facebook"><span class="flaticon-facebook"></span></a>
+                  <a href="https://www.instagram.com/1kclothingshoponline" title="instagram" aria-details="instagram"><span class="flaticon-instagram"></span></a>
+                  <a href="https://twitter.com/1kclothingshop" title="twitter" aria-details="twitter"><span class="flaticon-twitter"></span></a>
+                  <a href="https://www.youtube.com/channel/UC1-SHotiGzvqALSzCfUh1ZA" title="youtube" aria-details="youtube"><i data-feather="youtube" width="16" height="16"></i></a>
+
                 </li>
                 <li></li>
               </ul>
@@ -312,8 +447,8 @@
             <div class="my-3 is-size--2 social social-row">
               <ul>
                 <li>
-                  <a href="#" title="whatsapp" aria-details="whatsapp"><span class="flaticon-whatsapp"></span></a>
-                  <a href="#" title="email" aria-details="email"><span class="flaticon-email"></span></a>
+                  <a href="https://chat.whatsapp.com/IhPDyXXYVRh06tuvMRgUGl" title="whatsapp" aria-details="whatsapp"><span class="flaticon-whatsapp"></span></a>
+                  <a href="{% url 'home:contact' %}" title="email" aria-details="email"><span class="flaticon-email"></span></a>
                 </li>
                 <li></li>
               </ul>
@@ -329,9 +464,13 @@
 
   <!--Extra footer added-->
   <div class="bg-success text-center text-white pd--10">
-    More franchises coming soon across nigeria
+    <h6> <b> ARE YOU INTERESTED IN OPENING A FRANCHISE SHOP IN YOUR CITY ? KINDLY CONTACT US</b></h6>
   </div>
+
+
 </body>
+
+
 <script type="text/javascript" src="{% static 'index/assets/js/feather.js' %}"></script>
 <script>
   feather.replace()

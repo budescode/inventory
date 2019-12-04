@@ -6394,6 +6394,42 @@ a.close.disabled {
   padding-bottom: 20px;
   color: #fff;
   text-align: center; }
+  #men-explore{
+    width:100%;
+  }
+  #xplore{
+    width:40%;
+    float: left;
+    padding-top: 150px
+  }
+  #xplore p{
+    font-size: 25px;
+    color: black;
+  }
+
+  #xplore button{
+    background-color: #44AC33;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #44AC33;
+    color: white;
+    width: 120px
+  }
+  #xplore_photo{
+    width:60%;
+    float:left;
+  }
+  #mens-collection{
+    width: auto;
+    border-radius: 15px;
+  }
+  #productss{
+    padding-bottom: 20px;
+  }
+#photos{
+  width: 350px;
+  height: 350px;
+}
 
 @keyframes spinner-border {
   to {
@@ -7234,6 +7270,14 @@ button.bg-dark:focus {
 
 .position-sticky {
   position: sticky !important; }
+
+@media only screen and (max-width: 768px) {
+  /* For mobile: */
+.hidden_mobile{
+    display:none;
+}
+}
+
 
 .fixed-top {
   position: fixed;

@@ -1,26 +1,26 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse ,QueryDict, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from .forms import RegisterForm, LoginForm, CategoryForm, ChangePasswordCodeForm, ChangePasswordForm, ProfileForm
-from django.http import HttpResponse
+from .forms import LoginForm, ChangePasswordCodeForm, ChangePasswordForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from datetime import *
+# from django.contrib.auth.decorators import login_required
+# from datetime import *
 
 from .models import Profile, ChangePasswordCode
-from django.shortcuts import get_list_or_404, get_object_or_404
+# from django.shortcuts import get_list_or_404, get_object_or_404
 
-import urllib
-from django.core.mail import send_mail
+# import urllib
+# from django.core.mail import send_mail
 from django.conf import settings
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+# import smtplib
+# from email.mime.text import MIMEText
+# from email.mime.multipart import MIMEMultipart
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-
-
+from .models import RegistrationConfirm
+from cart.models import Cart
+from index.models import Index
 
 def register_user(request):
 	username = request.POST.get('username')
@@ -33,16 +33,32 @@ def register_user(request):
 	elif email_check.exists():
 		return JsonResponse({'error':'email exists'})
 	else:
-		User.objects.create_user(username, email, password)
-		user = authenticate(username=username, password=password)
-		if user is not None:
-		 	if user.is_active:
-		 		login(request, user)
-		 		return JsonResponse({'response':'done'})		 		
-		 	else:
-		 		return JsonResponse({'error':'Disabled account'})
-		else:
-			return JsonResponse({'error':'Invalid Login'})
+		qs = User.objects.create_user(username, email, password)
+		qs.is_active = False
+		qs.save()
+		reg = RegistrationConfirm.objects.create(username=qs)
+		subject = "1kshop Email Confirmation"
+		from_email = settings.EMAIL_HOST_USER
+		# Now we get the list of emails in a list form.
+		to_email = [email]
+		#Opening a file in python, with closes the file when its done running
+		detail2 = "https://www.1kshop.online/account/"+ str(reg.user_id) + '/'
+		with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
+			sign_up_message = sign_up_email_txt_file.read()
+		message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
+		html_template = get_template("account/emailconfirm.html").render({'detail2':detail2})
+		message.attach_alternative(html_template, "text/html")
+		message.send()
+	return render(request, 'account/registration_success.html')
+
+
+def email_confirm(request, id):
+    qs = get_object_or_404(RegistrationConfirm, user_id = id)
+    qs1 = qs.username
+    qs1.is_active = True
+    qs1.save()
+    qs.delete()
+    return render(request, 'account/emailconfirmsuccess.html')
 
 
 def login_user(request):
@@ -52,12 +68,48 @@ def login_user(request):
 	if user is not None:
 		if user.is_active:
 			login(request, user)
-			return JsonResponse({'response':'done'})
+			try:
+				session_cart = request.session['session_cart']
+				if session_cart:
+					for i in session_cart:
+						qs = Index.objects.get(id=int(i['id']))
+						Cart.objects.create(user=request.user, product=qs, size=i['size'], sex=i['sex'], quantity=i['quantity'], unit_price=int(i['unit_price']), total_price=int(i['total_price']))
+				return JsonResponse({'response':'done'})
+			except KeyError:
+				return JsonResponse({'response':'done'})
 		else:
 			return JsonResponse({'error':'Disabled Account'})
 	else:
 		return JsonResponse({'error':'Invalid Details'})
 
+
+def login_userpage(request):
+	if request.method == 'POST':
+		form = LoginForm(request.POST or None)
+		if form.is_valid():
+			username  = form.cleaned_data.get("username")
+			password  = form.cleaned_data.get("password")
+			user = authenticate(username=username, password=password)
+			if user is not None:
+			 	if user.is_active:
+			 		login(request, user)
+			 		try:
+			 			session_cart = request.session['session_cart']
+			 			if session_cart:
+			 				for i in session_cart:
+			 					qs = Index.objects.get(id=int(i['id']))
+			 					Cart.objects.create(user=request.user, product=qs, size=i['size'], sex=i['sex'], quantity=i['quantity'], unit_price=int(i['unit_price']), total_price=int(i['total_price']))
+			 		except KeyError:
+			 			...
+			 		return redirect('home:home')
+			 	else:
+			 		return HttpResponse('Disabled account')
+			else:
+				return HttpResponse('Invalid login')
+	else:
+		form = LoginForm()
+	context = {"form": form}
+	return render(request, "account/loginuser.html", context)
 
 
 
@@ -124,23 +176,17 @@ def edit_profile(request, id):
 def registration_success(request):
 	return render(request, 'account/registration_success.html', {})
 
-valuenext = ''
+
 def login_page(request):
 	if request.method == 'POST':
-		# redirect_to = request.GET.get('next', '')
-		# valuenext= "http://127.0.0.1:8000"+redirect_to
-		# print(redirect_to, 'but', valuenext)
-
 		form = LoginForm(request.POST or None)
 		if form.is_valid():
-			phone_number  = form.cleaned_data.get("phone_number")
+			username  = form.cleaned_data.get("username")
 			password  = form.cleaned_data.get("password")
-			user = authenticate(username=phone_number, password=password)
+			user = authenticate(username=username, password=password)
 			if user is not None:
 			 	if user.is_active:
 			 		login(request, user)
-			 		# print("value is", valuenext)
-			 #		return HttpResponseRedirect(valuenext)
 			 		return redirect('administrator:administrator')
 			 	else:
 			 		return HttpResponse('Disabled account')
@@ -153,9 +199,40 @@ def login_page(request):
 	return render(request, "account/login.html", context)
 
 
+def login_dashboard(request):
+	if request.method == 'POST':
+		form = LoginForm(request.POST or None)
+		if form.is_valid():
+			username  = form.cleaned_data.get("username")
+			password  = form.cleaned_data.get("password")
+			user = authenticate(username=username, password=password)
+			if user is not None:
+			 	if user.is_active:
+			 		login(request, user)
+			 		return redirect('dashboard:dashboard')
+			 	else:
+			 		return HttpResponse('Disabled account')
+			else:
+				return HttpResponse('Invalid login')
+	else:
+
+		form = LoginForm()
+	context = {"form": form}
+	return render(request, "account/login_dashboard.html", context)
+
+
 def logout_page(request):
 	logout(request)
 	return render(request, "account/logout.html", {})
+
+def userlogout(request):
+	logout(request)
+	return redirect('home:home')
+
+def logout_dashboard(request):
+	logout(request)
+	return render(request, "account/logout_dashboard.html", {})
+
 
 
 
@@ -177,29 +254,39 @@ def change_password(request):
 					i.delete()
 				form.save()
 				test = ChangePasswordCode.objects.get(username=username)
+				try:
+					user = User.objects.get(username=username)
+					subject = "Change Password"
+					from_email = settings.EMAIL_HOST_USER
+					# Now we get the list of emails in a list form.
+					to_email = [user.email]
+					#Opening a file in python, with closes the file when its done running
+					detail2 = "https://www.1kshop.online/account/"+ str(test.user_id) + '/' + username
+					with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
+						sign_up_message = sign_up_email_txt_file.read()
+					message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
+					html_template = get_template("account/change_password_email.html").render({'detail2':detail2})
+					message.attach_alternative(html_template, "text/html")
+					message.send()
+					return redirect('account:change_password_confirm')
+				except User.DoesNotExist:
+					return HttpResponse('invalid username')
+			else:
+				form.save()
+				user = User.objects.get(username=username)
+				test = ChangePasswordCode.objects.get(username=username)
 				subject = "Change Password"
 				from_email = settings.EMAIL_HOST_USER
 				# Now we get the list of emails in a list form.
-				to_email = ['aceplayhousehq@gmail.com']
+				to_email = [user.email]
 				#Opening a file in python, with closes the file when its done running
-				detail2 = "http://budescode.pythonanywhere.com/account/"+ str(test.user_id) + '/' + username
+				detail2 = "https://www.1kshop.online/account/"+ str(test.user_id) + '/' + username
 				with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
 				    sign_up_message = sign_up_email_txt_file.read()
 				message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
 				html_template = get_template("account/change_password_email.html").render({'detail2':detail2})
 				message.attach_alternative(html_template, "text/html")
 				message.send()
-				return redirect('account:change_password_confirm')
-			else:
-				form.save()
-				test = ChangePasswordCode.objects.get(username=username)
-				subject = 'Change Password'
-				from_email= settings.EMAIL_HOST_USER
-				to_email = ['aceplayhousehq@gmail.com']
-
-				html = "http://budescode.pythonanywhere.com/account/"+ str(test.user_id) + '/' + username
-				message = 'hi, click on the link below to change your password' + html
-				send_mail(subject, message, from_email, to_email, fail_silently = False )
 				return redirect('account:change_password_confirm')
 
 		else:
@@ -211,33 +298,36 @@ def change_password(request):
 
 def change_password_confirm(request):
 	return render(request, 'account/change_password_confirm.html', {})
+
 def change_password_code(request, pk, username):
-	test = ChangePasswordCode.objects.get(pk=pk)
-	username = test.username
 	try:
-	    u = User.objects.get(username=username)
-	    if request.method == 'POST':
-    		form = ChangePasswordForm(request.POST)
-    		if form.is_valid():
-    			u = User.objects.get(username=username)
-    			new_password = form.cleaned_data.get('new_password')
-    			confirm_new_password = form.cleaned_data.get('confirm_new_password')
+		test = ChangePasswordCode.objects.get(pk=pk)
+		username = test.username
+		try:
+			u = User.objects.get(username=username)
+			if request.method == 'POST':
+				form = ChangePasswordForm(request.POST)
+				if form.is_valid():
+					u = User.objects.get(username=username)
+					new_password = form.cleaned_data.get('new_password')
+					confirm_new_password = form.cleaned_data.get('confirm_new_password')
+					if new_password == confirm_new_password:
+						u.set_password(confirm_new_password)
+						u.save()
+						test.delete()
+						return redirect('account:change_password_success')
+					else:
+						return HttpResponse('your new password should match with the confirm password')
+				else:
+					return HttpResponse('Invalid Details')
+			else:
+				form = ChangePasswordForm()
+		except User.DoesNotExist:
+			return HttpResponse('invalid username, Usernames are case sensitive. Check the username properly and try again')
+		return render(request, 'account/change_password_code.html', {'test':test, 'form':form, 'u':u, 'username':username})
 
-
-    			if new_password == confirm_new_password:
-    				u.set_password(confirm_new_password)
-    				u.save()
-    				test.delete()
-    				return redirect('account:change_password_success')
-    			else:
-    				return HttpResponse('your new password should match with the confirm password')
-    		else:
-    			return HttpResponse('Invalid Details')
-	    else:
-	        form = ChangePasswordForm()
-	except User.DoesNotExist:
-	    return HttpResponse('invalid username, Usernames are case sensitive. Check the username properly and try again')
-	return render(request, 'account/change_password_code.html', {'test':test, 'form':form, 'u':u})
+	except ChangePasswordCode.DoesNotExist:
+		return HttpResponse('disabled link')
 
 
 

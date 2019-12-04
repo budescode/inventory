@@ -56,7 +56,7 @@ class RegisterForm(forms.Form):
         return email
 
 class LoginForm(forms.Form):
-    phone_number = forms.CharField(widget=forms.TextInput(
+    username = forms.CharField(widget=forms.TextInput(
         attrs={'class':'form-control', 'placeholder':'Enter username'}))
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class':'form-control', 'placeholder':'Enter Password'}))

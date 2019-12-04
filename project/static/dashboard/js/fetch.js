@@ -1,8 +1,28 @@
+function changeItemId(id){
+    document.querySelector('#edittitle').innerHTML = id
+}
 
-// var delete_btn = document.querySelector("#delete_btn")
-// delete_btn.addEventListener('click', deleteFunction)
+function addItems(){
+ id = document.querySelector('#edittitle').innerHTML
+ total_add = document.querySelector('#add_item_value').value
+  document.querySelector('#edittitle').innerHTML = 'loading'
+	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+	var url = 'https://www.1kshop.online/dashboard/add_items/' + id + '/'
+	let  formData = new FormData()
+	formData.append('total_add', total_add)
+	fetch(url,
+	{
+	body: new URLSearchParams(formData),
+	method: 'post',
+	headers:{
+	'X-CSRFTOKEN': token
+	}
+	}).then(res => res.json()).then(function(data) {
+        document.location.reload(true)
+	})
 
 
+}
 
 
 function changeImg(){
@@ -51,58 +71,58 @@ function editMyItems(value){
 
 
 
-function addItems(){
+// function addItems(){
 
-document.querySelector('#loading').style.display = 'block'
+// document.querySelector('#loading').style.display = 'block'
 
-var categoryIndex1 = document.querySelector('#add_select_category').selectedIndex;
-var category =  document.querySelector('#add_select_category').options[categoryIndex1].text
+// var categoryIndex1 = document.querySelector('#add_select_category').selectedIndex;
+// var category =  document.querySelector('#add_select_category').options[categoryIndex1].text
 
-var subcategoryIndex1 = document.querySelector('#add_sub_category').selectedIndex;
-var subcategory =  document.querySelector('#add_sub_category').options[subcategoryIndex1].text
+// var subcategoryIndex1 = document.querySelector('#add_sub_category').selectedIndex;
+// var subcategory =  document.querySelector('#add_sub_category').options[subcategoryIndex1].text
 
-var additemdescription = document.querySelector('#additemdescription').value
-var additemsize = document.querySelector('#additemsize').value
+// var additemdescription = document.querySelector('#additemdescription').value
+// var additemsize = document.querySelector('#additemsize').value
 
-var additemprice = document.querySelector('#additemprice').value
-var additemavailable = document.querySelector('#additemavailable').value
-console.log(category, additemdescription, additemprice, additemavailable)
-var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://www.1kshop.online/administrator/additems/'
-let  formData = new FormData()
-formData.append('category', category)
-formData.append('subcategory', subcategory)
+// var additemprice = document.querySelector('#additemprice').value
+// var additemavailable = document.querySelector('#additemavailable').value
+// console.log(category, additemdescription, additemprice, additemavailable)
+// var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+// var url = 'http://www.1kshop.online/administrator/additems/'
+// let  formData = new FormData()
+// formData.append('category', category)
+// formData.append('subcategory', subcategory)
 
-formData.append('sex', additemdescription)
-formData.append('size', additemsize)
-formData.append('price', additemprice)
-formData.append('stock', additemavailable)
+// formData.append('sex', additemdescription)
+// formData.append('size', additemsize)
+// formData.append('price', additemprice)
+// formData.append('stock', additemavailable)
 
-fetch(url,
-{
-body: new URLSearchParams(formData),
-method: 'post',
-headers:{
-'X-CSRFTOKEN': token
-}
-
-
-}).then(res => res.json()).then(function(data) {
-
-if(data.error == 'Category and subcategory mismatch') {
-    document.querySelector('#loading').style.display = 'block'
-    document.querySelector('#loading').style.color = 'red'
-
-    document.querySelector('#loading').innerHTML = 'Category and subcategory mismatch'
-}
-else{
-document.location.reload(true)
-}
+// fetch(url,
+// {
+// body: new URLSearchParams(formData),
+// method: 'post',
+// headers:{
+// 'X-CSRFTOKEN': token
+// }
 
 
-})
+// }).then(res => res.json()).then(function(data) {
 
-}
+// if(data.error == 'Category and subcategory mismatch') {
+//     document.querySelector('#loading').style.display = 'block'
+//     document.querySelector('#loading').style.color = 'red'
+
+//     document.querySelector('#loading').innerHTML = 'Category and subcategory mismatch'
+// }
+// else{
+// document.location.reload(true)
+// }
+
+
+// })
+
+// }
 // end addItems
 
 

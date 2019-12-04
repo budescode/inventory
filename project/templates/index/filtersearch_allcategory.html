@@ -1,0 +1,166 @@
+{% extends 'index/base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+
+        <!--Featured products start-->
+        <section class="pd-t--40 pd-b--40">
+            <!--Scroll header start-->
+            <div class="row align-content-center justify-content-between">
+                <div class="col-7">
+                   {{detail.name}}
+                </div>
+                <div class="col-3 col-md-1 d-flex justify-content-between">
+                <span data-toggle="modal" data-target="#filtermodal" style='cursor:pointer'>Filter</span>
+                    <a href="" class="anchor--dark" id="featuredNavRight" data-toggle="modal"
+                        data-target="#filtermodal">
+                        <i data-feather="filter"></i>
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <div class="row pd--10">
+
+              {% for i in qs %}
+
+                <a href="{% url 'home:detail' i.id %}" class="col-5 col-md-2 d-block bg-white rounded-lg p-0 mx-1 anchor--dark" style="margin-bottom: 25px;">
+                    <img src="{{i.image.url}}" class="img-fluid" alt="jean_trousers">
+                    <span class="d-block text-center text-capitalize p-1">
+                        {{i.name}} <br>
+                        {{i.sex}}
+                    </span>
+                    <!--Star Rating Start-->
+                    <div class="d-flex justify-content-center" title="5 star rating">
+                        <span class="d-inline-block mx-1 text-warning ">
+                            <i data-feather="star" width="14" height="14"></i>
+                        </span>
+                        <span class="d-inline-block mx-1 text-warning ">
+                            <i data-feather="star" width="14" height="14"></i>
+                        </span>
+                        <span class="d-inline-block mx-1 text-warning ">
+                            <i data-feather="star" width="14" height="14"></i>
+                        </span>
+                        <span class="d-inline-block mx-1 text-warning ">
+                            <i data-feather="star" width="14" height="14"></i>
+                        </span>
+                        <span class="d-inline-block mx-1 text-warning">
+                            <i data-feather="star" width="14" height="14"></i>
+                        </span>
+                    </div>
+                    <!--Star Rating end-->
+                    <!--Rating start-->
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+                            <i data-feather="heart" width="18" height="18"></i>
+                        </span>
+                        <span href="#" class="d-inline-block m-2" title="Add to Cart">
+                            <i data-feather="shopping-cart" width="18" height="18"></i>
+                        </span>
+                    </div>
+                    <!--Rating End-->
+                </a>
+                {% endfor %}
+
+            </div>
+            <!--Scroll header end-->
+
+            <!--Start Load button-->
+            <div class="my-3">
+                <div class="pagination">
+                    <span class="step-links">
+                        <span class="current">
+                        Page {{ qs.number }} of {{ qs.paginator.num_pages }}.
+                        </span> <br>
+
+                        {% if qs.has_previous %}
+                            <a href="?page=1">&laquo; first</a> |
+                            <a href="?page={{ qs.previous_page_number }}">previous</a> |
+                        {% endif %}
+
+
+
+                        {% if qs.has_next %}
+                            <a href="?page={{ qs.next_page_number }}">next</a> |
+                            <a href="?page={{ qs.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <!--End Load button-->
+        </section>
+
+
+<!-- The Modal -->
+  <div class="modal fade" id="filtermodal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Filter {{name}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+
+
+
+
+
+            <div class="row">
+
+                <div class="col-12 col-md-6 md-offset-3 offset-md-3">
+
+<form action="/filtersearch_allcategory/" method='POST' class=""> {% csrf_token %}
+<div class="form-group">
+  <label for="sel1">Select Sex:</label>
+  <select class="form-control" id="select_cat_sex" name='select_cat_sex'>
+    <option>Any</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Unisex</option>
+    <option>Kids</option>
+
+  </select>
+</div>
+<div class="form-group">
+  <label for="sel1">Select Size:</label>
+  <select class="form-control" id="select_cat_size" name='select_cat_size'>
+    <option>Any</option>
+    <option>S</option>
+    <option>L</option>
+    <option>XL</option>
+    <option>2XL</option>
+    <option>3XL</option>
+    <option>4XL</option>
+
+  </select>
+</div>
+<input type='text' value='{{name}}' name='select_cat' id='select_cat' style='display:none'>
+                </div>
+            </div>
+            <!--Scroll header end-->
+
+
+
+
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+</form>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

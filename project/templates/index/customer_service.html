@@ -1,0 +1,67 @@
+{% extends 'index/base.html' %}
+{% block body %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-md-8'>
+            <Form>
+
+
+                <div class='form-group row'>
+                    <div class='col-md-6'>
+                         <div class="form-group">
+                            <label for="order">Order</label>
+                            <input type="text" class="form-control bg-transparent" name="order" id="order"
+                            required>
+                        </div>
+                    </div>
+
+                    <div class='col-md-6'>
+                         <div class="form-group">
+                            <label for="reason">Name</label>
+                            <input type="text" class="form-control bg-transparent" name="name" id="name"
+                            required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='form-group row'>
+                    <div class='col-md-6'>
+                         <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control bg-transparent" name="email" id="email"
+                            required>
+                        </div>
+                    </div>
+
+                    <div class='col-md-6'>
+                         <div class="form-group">
+                            <label for="type">Telephone</label>
+                            <input type="text" class="form-control bg-transparent" name="telephone" id="ttelephoneype"
+                            required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='form-group row'>
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                    <label for="comment">Complaint</label>
+                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                    </div>
+                    </div>
+                    <div class='col-md-6'>
+                       <input type='submit' value='submit' class='btn btn-success'>
+                    </div>
+
+                </div>
+
+            </Form>
+        </div>
+
+        <div class='col-md-4'>
+            <h4>THANK YOU FOR SHOPPING WITH US</h4>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

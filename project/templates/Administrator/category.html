@@ -47,6 +47,8 @@
                 <thead>
                   <tr>
                     <th> CATRGORY</th>
+                    <th> ID</th>
+
                     <th> STOCK</th>
                     <th> EDIT</th>
 
@@ -58,9 +60,14 @@
                 <tbody id="tablebody">
                 {% for i in qs %}
                   <tr class="post{{i.pk}}" name=''>
+
                     <td>
                       <a id="category{{i.pk}}">{{i.name}}</a>
                     </td>
+                    <td>
+                      <a id="category{{i.pk}}">{{i.id}}</a>
+                    </td>
+
                     <td>
                       <a id="total{{i.pk}}">{{i.total_count}}</a>
                     </td>

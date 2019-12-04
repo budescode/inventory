@@ -26,7 +26,8 @@
                 <a href="{% url 'home:detail' i.id %}" class="col-5 col-md-2 d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
                     <img src="{{i.image.url}}" class="img-fluid" alt="jean_trousers">
                     <span class="d-block text-center text-capitalize p-1">
-                        {{i.category}} {{i.subcategory}}
+                        {{i.name}} <br>
+                        {{i.sex}}
                     </span>
                     <!--Star Rating Start-->
                     <div class="d-flex justify-content-center" title="5 star rating">

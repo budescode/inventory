@@ -5,7 +5,7 @@ from cart.models import Cart
 
 @login_required(login_url='/account/login/')
 def myorder(request):
-    qs = Order.objects.filter(user=request.user, delivered=False).order_by('-date', '-time')
+    qs = Order.objects.filter(user=request.user).order_by('-date', '-time')
     context = {'qs':qs}
     return render(request, 'order/index.html', context)
 

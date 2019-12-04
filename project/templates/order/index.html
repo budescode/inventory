@@ -14,10 +14,14 @@
                     <th> ORDER ID</th>
                     <th> ADDRESS</th>
                     <th> PHONE NUMBER</th>
+                    <th> EMAIL</th>
+
                     <th> DATE</th>
                     <th> TIME</th>
+                    <th> PAID</th>
+
                     <th> DELIVERED</th>
-                    <th> DELETE</th>
+                    <!--<th> DELETE</th>-->
 
 
 
@@ -33,8 +37,12 @@
                     <td>
                       <a id="">{{i.address}}</a>
                     </td>
+
                     <td>
                       <a id="">{{i.phone_number}}</a>
+                    </td>
+                    <td>
+                      <a id="">{{i.email}}</a>
                     </td>
 
                     <td>
@@ -46,13 +54,17 @@
                     </td>
 
                     <td>
+                      <a id="">{{i.paid}}</a>
+                    </td>
+
+                    <td>
                       <a id="">{{i.delivered}}</a>
                     </td>
 
 
-                    <td>
-                      <a id="{{i.pk}}" href="{% url 'order:deletemyorder' i.id %}"><i class='fa fa-trash'></i>Delete </a>
-                    </td>
+                    <!--<td>-->
+                    <!--  <a id="{{i.pk}}" href="{% url 'order:deletemyorder' i.id %}"><i class='fa fa-trash'></i>Delete </a>-->
+                    <!--</td>-->
 
 
 

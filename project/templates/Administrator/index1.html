@@ -147,7 +147,7 @@
 </tr>
 <td>4XL</td>
 <td id='xl4f{{i.id}}{{a.id}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4s", "f")'>Add</button></td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4", "f")'>Add</button></td>
 </tr>
 
 </tbody>
@@ -484,6 +484,7 @@ function subCategoryDetails(category, categoryid){
 function AddItems1(category, categoryid, subcategory, subcategoryid, size, sex ){
 
     "{{i.name}}", "{{a.name}}", "F", "{{i.id}}{{a.id}}"
+    console.log(category, categoryid, subcategory, subcategoryid, size, sex )
     qs = "#"+size+sex + categoryid + subcategoryid
     qs = document.querySelector(qs).innerHTML
     document.querySelector('#editcategoryid').innerHTML = categoryid

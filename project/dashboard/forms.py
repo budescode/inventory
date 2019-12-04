@@ -1,5 +1,6 @@
 from django import forms
 from index.models import Index, IndexCategory, IndexSubCategory
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 class IndexForm(forms.ModelForm):
 	class Meta:
@@ -10,25 +11,30 @@ class IndexCategoryForm(forms.ModelForm):
 	class Meta:
 		exclude = []
 		model = IndexCategory
-	def clean(self):
-		cleaned_data = super().clean()
-		name = cleaned_data.get('name')
-		unisex = cleaned_data.get('unisex')
-		print(name, unisex)
-		qs = IndexCategory.objects.filter(name=name, unisex=unisex)
+	def clean_name(self):
+		name = self.cleaned_data.get('name')
+		qs = IndexCategory.objects.filter(name=name)
 		if qs.exists():
-			raise forms.ValidationError("Records already exists")
-		return str(name)
+			raise forms.ValidationError("category already exists")
+		return name
+	# def clean(self):
+	# 	cleaned_data = super().clean()
+	# 	name = cleaned_data.get('name')
+	# 	qs = IndexCategory.objects.filter(name=name)
+	# 	if qs.exists():
+	# 		raise forms.ValidationError("category already exists")
+	# 	return name
 
 
-PRODUCT_QUANTITY_CHOICES = [('Men',"Men"), ("Women", "Women"), ("Boys", "Boys"), ("Girls", "Girls")]
 
 class IndexSubCategoryForm(forms.ModelForm):
-	unisex = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
 	class Meta:
 		model = IndexSubCategory
 		exclude = ['']
 	def clean_name(self):
 		name = self.cleaned_data.get('name')
 		mycategory = self.cleaned_data.get('mycategory')
+		qs = IndexSubCategory.objects.filter(name=name)
+		if qs.exists():
+			raise forms.ValidationError("category already exists")
 		return name

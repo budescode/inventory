@@ -15,6 +15,7 @@
               <table class="table table-striped table-advance table-hover">
                 <h4>  MY ITEMS <span id='loading' style='display:none; color:green' >Loading...</span> </h4>
                      <hr>
+
                 <thead>
                   <tr>
                     <th>CATRGORY</th>
@@ -22,145 +23,295 @@
                   </tr>
                 </thead>{% csrf_token %}
                 <tbody id="tablebody">
-<!--  i is unisex
- a is category
- c is subcategory -->
-                {% for i in unisex %}
+                {% for i in category %}
                   <tr class="post{{i.pk}}" name=''>
                     <td>
-                      <a id="unisex{{i}}" onclick='unisexDetails("{{i}}")' data-toggle="collapse" data-target="#demo{{i.name}}" style='cursor:pointer'>{{i.name}} <span style='float:right;' id='totalcategory{{i.id}}'>{{i.total_count}}</span></a>
+                      <a id="category{{i.pk}}" onclick='subCategoryDetails("{{i.name}}", "{{i.id}}")' data-toggle="collapse" data-target="#demo{{i.id}}" style='cursor:pointer'>{{i.name}} <span style='float:right;' id='totalcategory{{i.id}}'>{{i.total_count}}</span></a>
                         <!--<button data-toggle="collapse" data-target="#demo">Collapsible</button>-->
 
-                        <div id="demo{{i.name}}" class="collapse">
+                        <div id="demo{{i.id}}" class="collapse">
 
                             <div class='row'>
                                 <div class='col-md-6 md-offset-3' style='margin-left:30px;'>
                                     <hr>
-                                    <h6><b>Category</b></h6>
-                                 {% for a in category %}
+                                    <h6><b>Sub Category</b></h6>
+                                 {% for a in subcategory %}
 
-                            {% if a.unisex == i.name %}
-                            <a data-toggle="collapse" data-target="#demo1{{a.id}}{{i.name}}" style='cursor:pointer' onclick='sexDetails("{{i.name}}", "{{a.name}}", "{{i.id}}", "{{a.id}}")' >{{a}} <span style='float:right;' id='{{a.id}}'>{{a.total_count}}</span></a><br><br>
+                            {% if a.mycategory == i %}
+                            <a data-toggle="collapse" data-target="#demo1{{a.id}}{{i.id}}" style='cursor:pointer' onclick='sexDetails("{{i.name}}", "{{a.name}}", "{{i.id}}", "{{a.id}}")' >{{a}} <span style='float:right;' id='{{a.id}}'>{{a.total_count}}</span></a><br><br>
 
                             {% endif %}
-                                <!-- sex collapse div -->
-                                <div id="demo1{{a.id}}{{i.name}}" class="collapse" style='margin-left:30px;'>
-                                  
-                                <h6 style='color:green'><b>Select SubCategory</b></h6>
-                                {% for c in subcategory %}
-                                {% if a.name == c.mycategory.name %}
+                                <div id="demo1{{a.id}}{{i.id}}" class="collapse" style='margin-left:30px;'>
+                                <h6 style='color:green'><b>Select Sex</b></h6>
+                                <p style='color:green;cursor:pointer'> <a data-toggle="collapse" data-target="#sizem{{a.id}}{{i.id}}"> Male</a> <span style='float:right;' id="sexm{{i.id}}{{a.id}}"></span> </p>
 
-                                 {% if a.unisex == c.mycategory.unisex %}
-                                <a style='cursor:pointer' data-toggle="collapse" data-target="#demo11{{a.id}}{{i.name}}{{c.name}}" onclick="categoryChange('{{a.name}}', '{{a.unisex}}','{{c.name}}','{{a.id}}')" >
-                                  {{c.mycategory.name}} |  {{c.mycategory.unisex}} | 
-                                  {{c.name}} <span style='float:right;' id="sexm{{i.id}}{{a.id}}">{{c.total_count}}</span>
-                                  
-                                </a> <br>
-                                <div id="demo11{{a.id}}{{i.name}}{{c.name}}" class="collapse" style='margin-left:30px;'>
-                                  <!-- product collapse div -->
-<div class="table-responsive" id="table{{i.name}}{{a.id}}">
+                                <p style='color:green;cursor:pointer'><a data-toggle="collapse" data-target="#sizef{{a.id}}{{i.id}}"> Female</a> <span style='float:right;' id="sexf{{i.id}}{{a.id}}"></span> </p>
+                                <p style='color:green;cursor:pointer'><a data-toggle="collapse" data-target="#sizeu{{a.id}}{{i.id}}"> Unisex</a> <span style='float:right;' id="sexu{{i.id}}{{a.id}}"></span> </p>
+                                <p style='color:green;cursor:pointer'><a data-toggle="collapse" data-target="#sizek{{a.id}}{{i.id}}"> Kids</a> <span style='float:right;' id="sexk{{i.id}}{{a.id}}"></span> </p>
+                                    <!--Male div-->
+                                    <div id="sizem{{a.id}}{{i.id}}" class="collapse" style='margin-left:60px;'>
+                                        <h6><b>Select Size For Male</b></h6>
+<div class="table-responsive">
+<table class="table table-borderless">
+<thead>
+<tr><th>Size</th>
+<!--<th>item(s)</th>-->
+<th>Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<!--<td id='sm{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' 'S' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+<tr>
+<td>M</td>
+<!--<td id='mm{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' 'M' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+
+<tr>
+<td>L</td>
+<!--<td id='lm{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' 'L' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+
+<tr>
+<td>XL</td>
+<!--<td id='xlm{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' 'XL' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+
+<tr>
+<td>2XL</td>
+<!--<td id='xl2m{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' '2XL' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+
+<tr>
+<td>3XL</td>
+<!--<td id='xl3m{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' '3XL' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+
+<tr>
+<td>4XL</td>
+<!--<td id='xl4m{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Male' '4XL' %}"> <button class='btn btn-sm btn-success'>View</button></a> </td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+<!--end male div-->
+
+
+<!--female div-->
+<div id="sizef{{a.id}}{{i.id}}" class="collapse" style='margin-left:60px;'>
+<h6><b>Details For Female</h6>
+<div class="table-responsive">
 <table class="table table-borderless">
 <thead>
 <tr>
 <th>Size</th>
-<th>item(s)</th>
 <th>Add</th>
-<th>View</th>
-
 </tr>
 </thead>
 <tbody>
 
 <tr>
-<td data-toggle="collapse" data-target="#demo11{{a.id}}{{i.name}}{{c.name}}S" style='cursor:pointer'>S</td>
-<td id='s{{i.name}}{{a.id}}{{c.name}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal4" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> Add</button></td>
-
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'S' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
-</td>
+<td>S</td>
+<td> <a href="{% url 'dashboard:filter_items' i.id a.id 'Female' 'S' %}"><button class='btn btn-sm btn-success'>View</button> </a></td>
 </tr>
-<!--  i is unisex
- a is category
- c is subcategory -->
 
 <tr>
 <td>M</td>
-<td id='m{{i.name}}{{a.id}}{{c.name}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "m", "m")'>Add</button></td>
-
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'M' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Female' 'M' %}"><button class='btn btn-sm btn-success'>View</button> </a>
 </td>
 </tr>
 
 <tr>
 <td>L</td>
-<td id='l{{i.name}}{{a.id}}{{c.name}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "l", "m")'>Add</button></td>
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'L' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Female' 'L' %}"><button class='btn btn-sm btn-success'>View</button> </a>
 </td>
 </tr>
 
 <tr>
 <td>XL</td>
-<td id='xl{{i.name}}{{a.id}}{{c.name}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl", "m")'>Add</button></td>
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id 'XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Female' 'XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
 </td>
 </tr>
 
-<tr>
 <td>2XL</td>
-<td id='xl2{{i.name}}{{a.id}}{{c.name}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl2", "m")'>Add</button></td>
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id '2XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Female' '2XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
 </td>
 </tr>
 
-<tr>
 <td>3XL</td>
-<td id='xl3{{i.name}}{{a.id}}{{c.name}}'>0 </td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl3", "m")'>Add</button></td>
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id '3XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Female' '3XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
 </td>
 </tr>
-
-<tr>
 <td>4XL</td>
-<td id='xl4{{i.name}}{{a.id}}{{c.name}}'>0</td>
-<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4", "m")'>Add</button></td>
-<td><a href="{% url 'dashboard:filter_items' i.name a.id c.id '4XL' %}"> <button class='btn btn-sm btn-success' onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "m")'> View</button> </a>
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Female' '4XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
 </td>
 </tr>
 
 </tbody>
 </table>
 </div>
-                                </div>
-                                <!-- end product collapse div -->
- 
+</div>
+<!--endfemale div-->
 
 
-                                {% endif %}
-                                {% endif %}
-                                {% endfor %}
-            
-<!--  i is unisex
- a is category
- c is subcategory -->
+<!--unisex div-->
+<div id="sizeu{{a.id}}{{i.id}}" class="collapse" style='margin-left:60px;'>
+<h6><b>Details For Unisex</h6>
+<div class="table-responsive">
+<table class="table table-borderless">
+<thead>
+<tr>
+<th>Size</th>
+<th>item(s)</th>
+<th>Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<!--<td id='sf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' 'S' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<tr>
+<td>M</td>
+<!--<td id='mf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' 'M' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>L</td>
+<!--<td id='lf{{i.id}}{{a.id}}'>0</td>-->
+<td><a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' 'L' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+
+</td>
+</tr>
+<tr>
+<td>XL</td>
+<!--<td id='xlf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' 'XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<td>2XL</td>
+<!--<td id='xl2f{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' '2XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<td>3XL</td>
+<!--<td id='xl3f{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' '3XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<td>4XL</td>
+<!--<td id='xl4f{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Unisex' '4XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+<!--endunisex div-->
 
 
-                                </div>
-                                <!-- end sex collapse div -->
+<!--kids div-->
+<div id="sizek{{a.id}}{{i.id}}" class="collapse" style='margin-left:60px;'>
+<h6><b>Details For Kids</h6>
+<div class="table-responsive">
+<table class="table table-borderless">
+<thead>
+<tr>
+<th>Size</th>
+<th>item(s)</th>
+<th>Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<!--<td id='sf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' 'S' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<tr>
+<td>M</td>
+<!--<td id='mf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' 'M' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+
+<tr>
+<td>L</td>
+<!--<td id='lf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' 'L' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<tr>
+<td>XL</td>
+<!--<td id='xlf{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' 'XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<td>2XL</td>
+<!--<td id='xl2f{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' '2XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<td>3XL</td>
+<!--<td id='xl3f{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' '3XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+<td>4XL</td>
+<!--<td id='xl4f{{i.id}}{{a.id}}'>0</td>-->
+<td>
+<a href="{% url 'dashboard:filter_items' i.id a.id 'Kids' '4XL' %}"><button class='btn btn-sm btn-success'>View</button> </a>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+<!--endkids div-->
 
 
+</div>
                               {% endfor %}
 
                               </div>
-                              <!-- end md-offset-3 -->
-
-
                               </div>
-                              <!-- end row -->
 
 
                         </div>
@@ -171,7 +322,7 @@
                 {% endfor %}
                 </tbody>
               </table>
-              <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Add Item</button>
+              <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Add Item</button>-->
 
             </div>
             <!-- /content-panel -->
@@ -405,11 +556,6 @@
 
 
 
-
-
-
-
-
       </section>
     </section>
     <!--main content end-->
@@ -428,18 +574,15 @@
 list1 = []
 categorylist = []
 subcategorylist = []
-unisexlist = ['NONE']
-//this unisex list will be updated when the user clicks the unizex, men, women, boys, girls
 
 
-{% for i in total_items %}
-dict1 = {'category':'{{i.category}}', 'subcategory': '{{i.subcategory}}', 'sex': '{{i.sex}}', 'size':'{{i.size}}', 'price':'{{i.price}}', 'stock':'{{i.stock}}', 'id':'{{i.id}}', 'subcategoryid':'{{i.subcategory.id}}', 'unisex':'{{i.category.unisex}}'}
+{% for i in totalitems %}
+dict1 = {'category':'{{i.category}}', 'subcategory': '{{i.subcategory}}', 'sex': '{{i.sex}}', 'size':'{{i.size}}', 'price':'{{i.price}}', 'stock':'{{i.stock}}', 'id':'{{i.id}}', 'subcategoryid':'{{i.subcategory.id}}'}
 list1.push(dict1)
 {% endfor %}
 
-console.log(list1)
 {% for i in category %}
-dict2 = {'category':'{{i.name}}', 'categoryid':'{{i.id}}', "unisex":"{{i.unisex}}"}
+dict2 = {'category':'{{i.name}}', 'categoryid':'{{i.id}}'}
 categorylist.push(dict2)
 {% endfor %}
 
@@ -451,7 +594,7 @@ subcategorylist.push(dict3)
 
 for (i=0;i<categorylist.length;i++){
     for (a=0; a<list1.length; a++){
-        if(categorylist[i].category == list1[i].category ){
+        if(categorylist[i].category == list1[a].category ){
             amount = Number(list1[i].stock)
         }
 
@@ -459,24 +602,35 @@ for (i=0;i<categorylist.length;i++){
 }
 
 
+function subCategoryDetails(category, categoryid){
+        subcategorylist1 = []
+        for(a=0; a<subcategorylist.length; a++){
+            if (subcategorylist[a].category == category){
+                //if(list1[i].category == category){
+                    dict = {'category':subcategorylist[a].category, 'subcategory':subcategorylist[a].subcategory}
+                   subcategorylist1.push(dict)
 
 
+            }//endif
 
-function unisexDetails(unisex){
-      unisexlist[0]=unisex
-      console.log(unisexlist[0].name, unisex)
-        categorylist1 = []
-        for(a=0; a<categorylist.length; a++){
-            if (categorylist[a].unisex == unisex){
-   
-                    dict = {'category':categorylist[a].category}
-                   categorylist1.push(dict)
+        } //endfor
 
+            newlist = []
+            newlist2 = []
+        for(i=0;i<list1.length;i++){
+
+
+            dict11 = {'category':list1[i].category, 'subcategory':list1[i].subcategory}
+            list2 = [dict11]
+            for(a=0; a<subcategorylist1.length; a++){
+
+            if (list1[i].subcategory == subcategorylist1[a].subcategory ){
 
             }
 
-        } 
+            }
 
+        }
 
 }
 
@@ -494,181 +648,164 @@ function AddItems1(category, categoryid, subcategory, subcategoryid, size, sex )
 }
 
 function sexDetails(category, subcategory, categoryid, subcategoryid){
-    M = 0
-    F = 0
+    Male = 0
+    Female = 0
+    Unisex = 0
+    Kids = 0
+    console.log('clicked')
     for(i=0;i<list1.length;i++){
 
         if(list1[i].subcategory == subcategory){
-            if (list1[i].sex == 'M'){
-               M = M + Number(list1[i].stock)
+
+            if (list1[i].sex == 'Male'){
+                // console.log('yeah male')
+               Male = Male + Number(list1[i].stock)
                data = '#sexm' + categoryid + subcategoryid
-               document.querySelector(data).innerHTML = M
+            //   document.querySelector(data).innerHTML = Male
             }
-            if (list1[i].sex == 'F'){
-               F = F + Number(list1[i].stock)
+
+            if (list1[i].sex == 'Female'){
+
+               Female = Female + Number(list1[i].stock)
                data = '#sexf' + categoryid + subcategoryid
-               document.querySelector(data).innerHTML = F
+            //   document.querySelector(data).innerHTML = Female
             }
+            if (list1[i].sex == 'Unisex'){
+
+               Unisex = Unisex + Number(list1[i].stock)
+               data = '#sexu' + categoryid + subcategoryid
+            //   document.querySelector(data).innerHTML = Unisex
+            }
+            if (list1[i].sex == 'Kids'){
+
+               Kids = Kids + Number(list1[i].stock)
+               data = '#sexk' + categoryid + subcategoryid
+            //   document.querySelector(data).innerHTML = Kids
+            }
+
+
          }
     }
-
+    console.log(Female)
 
 
 
 }
 
-function categoryChange(category, unisex, subcategory, categoryid){
-  s1 = '#s'+unisex+categoryid+subcategory
-  s = document.querySelector(s1)
-  m1 = '#m'+unisex+categoryid+subcategory
-  m = document.querySelector(m1)
-  l1 = '#l'+unisex+categoryid+subcategory
-  l = document.querySelector(l1)
-  xl1 = '#xl'+unisex+categoryid+subcategory
-  xl = document.querySelector(xl1)
-  xl21 = '#xl2'+unisex+categoryid+subcategory
-  xl2 = document.querySelector(xl21)
-  xl31 = '#xl3'+unisex+categoryid+subcategory
-  xl3 = document.querySelector(xl31)
-  xl41 = '#xl4'+unisex+categoryid+subcategory
-  xl4 = document.querySelector(xl41)
+function categoryChange(category, subcategory, sex, id){
+    for(i=0;i<list1.length;i++){
+        category1 = list1[i].category
+        subcategory1 = list1[i].subcategory
+        sex1 = list1[i].sex
+        size1 = list1[i].size
+        stock = list1[i].stock
+        id1 = list1[i].id
+        sf = "#sf"+id
+        mf = "#mf"+id
+        lf = "#lf"+id
+        xlf = "#xlf"+id
+        xl2f = "#xl2f"+id
+        xl3f = "#xl3f"+id
+        xl4f = "#xl4f"+id
 
-  // console.log(s, m, l, xl, xl2, xl3, xl4)
-  // console.log(category, subcategory)
 
-  for(i=0;i<list1.length;i++){
-       
-    if(list1[i].category==category && list1[i].subcategory==subcategory && list1[i].unisex==unisex){
-        
-          if(list1[i].size == 'S' ){
-             s.innerHTML = list1[i].stock
-          }
-          if(list1[i].size == 'M' ){
-             m.innerHTML = list1[i].stock
-          }
-          if(list1[i].size == 'L' ){
-             l.innerHTML = list1[i].stock
-          }
-          if(list1[i].size == 'XL' ){
-             xl.innerHTML = list1[i].stock
-          }
-          if(list1[i].size == '2XL' ){
-             xl2.innerHTML = list1[i].stock
-          }
-          if(list1[i].size == '3XL' ){
-             xl3.innerHTML = list1[i].stock
-          }
-          if(list1[i].size == '4XL' ){
-             xl4.innerHTML = list1[i].stock
-          }
-          
+
+        sm = "#sm"+id
+        mm = "#mm"+id
+        lm = "#lm"+id
+        xlm = "#xlm"+id
+        xl2m = "#xl2m"+id
+        xl3m = "#xl3m"+id
+        xl4m = "#xl4m"+id
+
+        if(category == category1 ){
+            if(subcategory == subcategory1 ){
+                if(sex==sex1){
+                if(size1=='S'){
+
+                    if(sex1 == 'F'){
+                        document.querySelector(sf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(sm).innerHTML = stock
+                    }
+                }
+                else if(size1=='M'){
+
+                    if(sex1 == 'F'){
+                        document.querySelector(mf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(mm).innerHTML = stock
+                    }
+
+                }
+                else if(size1=='L'){
+                    if(sex1 == 'F'){
+                        document.querySelector(lf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(lm).innerHTML = stock
+                    }
+                }
+               else if(size1=='XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xlf).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xlm).innerHTML = stock
+                    }
+
+                }
+               else if(size1=='2XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl2f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl2m).innerHTML = stock
+                    }
+
+                }
+
+               else if(size1=='3XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl3f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl3m).innerHTML = stock
+                    }
+
+                }
+
+               else if(size1=='4XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl4f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl4m).innerHTML = stock
+                    }
+
+                }
+
+
+                }
+
+            }
+
+
+        }
 
     }
-  }
 
-    // for(i=0;i<list1.length;i++){
-    //     category1 = list1[i].category
-    //     subcategory1 = list1[i].subcategory
-    //     sex1 = list1[i].sex
-    //     size1 = list1[i].size
-    //     stock = list1[i].stock
-    //     id1 = list1[i].id
-    //     sf = "#sf"+id
-    //     mf = "#mf"+id
-    //     lf = "#lf"+id
-    //     xlf = "#xlf"+id
-    //     xl2f = "#xl2f"+id
-    //     xl3f = "#xl3f"+id
-    //     xl4f = "#xl4f"+id
+}
+function category(){
 
+}
 
+function subcategory(){
 
-    //     sm = "#sm"+id
-    //     mm = "#mm"+id
-    //     lm = "#lm"+id
-    //     xlm = "#xlm"+id
-    //     xl2m = "#xl2m"+id
-    //     xl3m = "#xl3m"+id
-    //     xl4m = "#xl4m"+id
-
-    //     if(category == category1 ){
-    //         if(subcategory == subcategory1 ){
-    //             if(sex==sex1){
-    //             if(size1=='S'){
-
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(sf).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(sm).innerHTML = stock
-    //                 }
-    //             }
-    //             else if(size1=='M'){
-
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(mf).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(mm).innerHTML = stock
-    //                 }
-
-    //             }
-    //             else if(size1=='L'){
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(lf).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(lm).innerHTML = stock
-    //                 }
-    //             }
-    //            else if(size1=='XL'){
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(xlf).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(xlm).innerHTML = stock
-    //                 }
-
-    //             }
-    //            else if(size1=='2XL'){
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(xl2f).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(xl2m).innerHTML = stock
-    //                 }
-
-    //             }
-
-    //            else if(size1=='3XL'){
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(xl3f).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(xl3m).innerHTML = stock
-    //                 }
-
-    //             }
-
-    //            else if(size1=='4XL'){
-    //                 if(sex1 == 'F'){
-    //                     document.querySelector(xl4f).innerHTML = stock
-    //                 }
-    //                 else if(sex1 == 'M'){
-    //                     document.querySelector(xl4m).innerHTML = stock
-    //                 }
-
-    //             }
-
-
-    //             }
-
-    //         }
-
-
-    //     }
-
-    // }
+}
+function subcategory(){
 
 }
 

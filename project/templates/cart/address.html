@@ -14,35 +14,138 @@
             </nav>
             <div class="row">
                 <div class="col-12 col-md-6 mx-1">
-                        <form action="{% url 'cart:create_order' %}" method="post"> {% csrf_token %}
+
+             <div class="d-flex justify-content-between align-items-center">
+                <h1 class="is-size--3 py-3">Cart ({{usercart_count}} item(s))</h1>
+
+                <div class="text-right">
+                    <span>Total</span>
+                    <p class="is-size--3 text-primary" style="font-weight: 600">#{{total}} <br>
+                   <small>Delivery Fee:
+                   {% if usercart_count >= 1 and usercart_count <= 4  %} N 1157 {% endif %}
+                   {% if usercart_count >= 5 and usercart_count <= 8  %} N 1760 {% endif %}
+                   {% if usercart_count >= 9 and usercart_count <= 10  %} N 2020 {% endif %}
+                   {% if usercart_count >= 11 and usercart_count <= 19  %} N 3560 {% endif %}
+                   {% if usercart_count >= 20 %} N 0 {% endif %}
+                   </small> <hr>
+
+                   total: N<span id='total_payment'>
+                    {% if usercart_count >= 1 and usercart_count <= 4  %}  {{total|add:"1157"}} {% endif %}
+                    {% if usercart_count >= 5 and usercart_count <= 8  %}  {{total|add:"1760"}} {% endif %}
+                    {% if usercart_count >= 9 and usercart_count <= 10  %} {{total|add:"2020"}} {% endif %}
+                    {% if usercart_count >= 11 and usercart_count <= 19  %} {{total|add:"3560"}}  {% endif %}
+                    {% if usercart_count >= 20 %} N 0 {% endif %}
+                    </span>
+
+                    </p>
+                </div>
+            </div>
+
+                        <form action="{% url 'cart:create_order' %}" method="post" id="myForm"> {% csrf_token %}
+                        <h5 style="color:red; display:none" id='addresserror'>Fill in your details</h5>
                             <div class="form-group">
                                 <label for="address">Home address</label>
-                                <input type="text" class="form-control bg-transparent" name="address" id="address" placeholder="Address">
+                                <input type="text" class="form-control bg-transparent" name="address" id="address" placeholder="Address" required>
                             </div>
+
                             <div class="form-group">
                                 <label for="phone_number">Phone Number</label>
                                 <input type="text" class="form-control bg-transparent" name="phone_number" id="phone_number"
-                                    placeholder="Phone Number">
+                                placeholder="Phone Number" required>
                             </div>
-                            
-                            <div class="row justify-content-between px-3 py-3">
-                                <label for="inputPassword">Save home address</label>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider round"></span>
-                                </label>
+
+                            <div class="form-group">
+                                <label for="phone_number">Email</label>
+                                <input type="text" class="form-control bg-transparent" name="email" id="email"
+                                placeholder="email" required>
                             </div>
-                            <button type="button" class="btn btn-block btn-primary">
-                                Proceed to payment
+
+
+                            <!--<div class="row justify-content-between px-3 py-3">-->
+                            <!--    <label for="inputPassword">Save home address</label>-->
+                            <!--    <label class="switch">-->
+                            <!--        <input type="checkbox" checked>-->
+                            <!--        <span class="slider round"></span>-->
+                            <!--    </label>-->
+                            <!--</div>-->
+
+                            <button type="button" class="btn btn-block btn-primary" id='proceed' onclick='showButton()'>
+                               Proceed To Payment Option
                             </button>
-                            <button type="submit" class="btn btn-block btn-primary">
-                               Pay On Delivery
+
+                            <button type="submit" class="btn btn-block btn-primary" id='payment_on_delivery' style='display:none'>
+                              Payment In Shop
                             </button>
-                            
+                            <small id='payment_on_delivery' style='display:none'>Order this and pay at our shop. After 24 hours without coming to shop, your order will be deleted</small>
+                            <hr>
                         </form>
+
+
+                        <form >
+                          <script src="https://js.paystack.co/v1/inline.js"></script>
+                          <button type="button" onclick="payWithPaystack()" class="btn btn-block btn-primary" id='paynow' style='display:none'> Pay Now </button>
+                        </form>
+
+
+
+
                 </div>
             </div>
             <!--Scroll header end-->
         </section>
+
+<script>
+  function payWithPaystack(){
+      address = document.querySelector('#address').value
+      phone_number = document.querySelector('#phone_number').value
+      email = document.querySelector('#email').value
+      total_payment = document.querySelector('#total_payment').innerHTML
+
+
+      if(phone_number == '' || address == ''  ){
+           document.querySelector('#addresserror').style.display='block'
+        }
+
+      else{
+
+    var handler = PaystackPop.setup({
+      key: 'pk_live_49abed75292673791e39d57ada4edce1c7c43ea8',
+      email: email,
+      amount: Number(total_payment) * 100,
+      currency: "NGN",
+      ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "Mobile Number",
+                variable_name: "mobile_number",
+                value: phone_number
+            }
+         ]
+      },
+      callback: function(response){
+          myform = document.querySelector('#myForm')
+          myform.action = '/cart/create_order_pay/'
+          document.getElementById("myForm").submit();
+      },
+      onClose: function(){
+          alert('window closed');
+      }
+    });
+    handler.openIframe();
+      }
+  }
+</script>
+<script>
+    function showButton(){
+    document.querySelector('#paynow').style.display='block'
+    document.querySelector('#payment_on_delivery').style.display='block'
+    document.querySelector('#proceed').style.display='none'
+
+
+    }
+
+
+</script>
 
 {% endblock %}

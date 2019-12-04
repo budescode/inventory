@@ -5,26 +5,42 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'home:home' %}" class="anchor--dark">Home</a></li>
                 <li class="breadcrumb-item active"><a href="#" class="anchor--dark">Cart</a></li>
+                    <h5 style='color:red'>
+                    {% if messages %}
+                    <ul class="messages">
+                    {% for message in messages %}
+                    <li class="{{ message.tags }} well">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </h5>
             </ol>
         </nav>
+
         <!--Featured products start-->
         <section class="pd-t--20 pd-b--20 px-3">
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="is-size--4 py-3">Cart ({{usercart_count}} item(s))</h1>
+
+
+
                 <div class="text-right">
                     <span>Total</span>
                     <p class="is-size--4 text-primary" style="font-weight: 600">#{{total}}</p>
                 </div>
             </div>
+
+
+            {% if request.user.is_authenticated %}
             {% for i in qs %}
             <div class="row bg-white rounded py-2 my-2">
-                <div class="col-3 col-md-2"> 
+                <div class="col-3 col-md-2">
                     <img src="{{i.product.image.url}}" alt="cart image" class="img-fluid img-thumbnail">
- 
+
                 </div>
                 <div class="col-9 col-md-10 row">
                     <div class="col-12">
-                        <h1 class="is-size--3 ml-2" style="font-weight: 600">Jean Trouser</h1>
+                        <h1 class="is-size--3 ml-2" style="font-weight: 600">{{i.product.name}} - {{i.product.color}}</h1>
                     </div>
                     <div class="col-12 col-md-6">
                         <!--Star Rating Start-->
@@ -59,28 +75,34 @@
                     </div>
                     <div class="col-6 col-md-2 pl-3">
                         <span class="is-size--2 ml-1">Price/Unit</span>
-                        <p class="is-size--3 is-size-md-4"><b>#{{i.unit_price}}</b></p>
+                        <p class="" style='font-size:17px'><b>#{{i.unit_price}}</b></p>
                     </div>
                     <div class="col-6 col-md-2 pl-3">
                         <span class="is-size--2 ml-1">Subtotal</span>
-                        <p class="is-size--3 is-size-md-4"><b>#{{i.total_price}}</b></p>
+                        <p class="" style='font-size:17px'><b>#{{i.total_price}}</b></p>
                     </div>
                     <div class="col-5 col-md-2 pl-3">
                         <label class="is-size--2">Quantity</label>
                         <div>
-                            <select name="" id="" class="form-control">
-                                <option value="" {% if i.quantity == 1 %} selected {% endif %}>1</option>
-                                <option value="" {% if i.quantity == 2 %} selected {% endif %}>2</option>
-                                <option value="" {% if i.quantity == 3 %} selected {% endif %}>3</option>
-                                <option value="" {% if i.quantity == 4 %} selected {% endif %}>4</option>
-                                <option value="" {% if i.quantity == 5 %} selected {% endif %}>5</option>
-                                
-                                
+                            <select name="" id="edit_cart_select{{i.id}}" class="form-control">
+                                <option value="1" {% if i.quantity == 1 %} selected {% endif %}>1</option>
+                                <option value="2" {% if i.quantity == 2 %} selected {% endif %}>2</option>
+                                <option value="3" {% if i.quantity == 3 %} selected {% endif %}>3</option>
+                                <option value="4" {% if i.quantity == 4 %} selected {% endif %}>4</option>
+                                <option value="5" {% if i.quantity == 5 %} selected {% endif %}>5</option>
+
+
                             </select>
                         </div>
                     </div>
+
+                    <!--this form is invisible and is used to edit items DO NOT DELETE!!!!!!!!!!!-->
+                    <form method='post' action='/cart/edit_cart/' id='editcartForm'> {% csrf_token %}
+                        <input type='text' id='editcart_id' name='editcart_id' style='display:none'>
+                        <input type='text' id='editcart_quantity' name='editcart_quantity' style='display:none'>
+                    </form>
                     <div class="col-12 my-1 ml-1 row">
-                        <a class="d-inline-block" href="">
+                        <a class="d-inline-block" onclick="editQuantityCart('{{i.id}}')" style='cursor:pointer'>
                             <i data-feather="edit" width="14" height="14"></i> Edit
                         </a>
 
@@ -92,14 +114,106 @@
             </div>
             {% endfor %}
 
+            {% else %}
+
+            {% for i in qs %}
+            <div class="row bg-white rounded py-2 my-2">
+                <div class="col-3 col-md-2">
+
+                    <img src="/media/{{i.image}}" alt="cart image" class="img-fluid img-thumbnail">
+
+                </div>
+                <div class="col-9 col-md-10 row">
+                    <div class="col-12">
+                        <h1 class="is-size--3 ml-2" style="font-weight: 600">{{i.product.name}} - {{i.product.color}}</h1>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <!--Star Rating Start-->
+                        <div class="d-flex my-2 justify-content-start" title="5 star rating">
+                            <span class="d-inline-block mx-1 text-warning ">
+                                <i data-feather="star" width="14" height="14"></i>
+                            </span>
+                            <span class="d-inline-block mx-1 text-warning ">
+                                <i data-feather="star" width="14" height="14"></i>
+                            </span>
+                            <span class="d-inline-block mx-1 text-warning ">
+                                <i data-feather="star" width="14" height="14"></i>
+                            </span>
+                            <span class="d-inline-block mx-1 text-warning ">
+                                <i data-feather="star" width="14" height="14"></i>
+                            </span>
+                            <span class="d-inline-block mx-1 text-warning">
+                                <i data-feather="star" width="14" height="14"></i>
+                            </span>
+                        </div>
+                        <div class="my-3 row align-items-center">
+                            <div class="col-12 ml-1 my-1 d-flex flex-wrap">
+                                <div class="border p-1">
+                                    Sex: <span style="font-weight: 600">{{i.sex}}</span>
+                                </div>
+                                <div class="border p-1 ml-1">
+                                    Size: <span style="font-weight: 600">{{i.size}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2 pl-3">
+                        <span class="is-size--2 ml-1">Price/Unit</span>
+                        <p class="" style='font-size:17px'><b>#{{i.unit_price}}</b></p>
+                    </div>
+                    <div class="col-6 col-md-2 pl-3">
+                        <span class="is-size--2 ml-1">Subtotal</span>
+                        <p class="" style='font-size:17px'><b>#{{i.total_price}}</b></p>
+                    </div>
+                    <div class="col-5 col-md-2 pl-3">
+                        <label class="is-size--2">Quantity</label>
+                        <div>
+                            <select name="" id="edit_cart_select{{i.length}}" class="form-control">
+                                <option value="1" {% if i.quantity == '1' %} selected {% endif %}>1</option>
+                                <option value="2" {% if i.quantity == '2' %} selected {% endif %}>2</option>
+                                <option value="3" {% if i.quantity == '3' %} selected {% endif %}>3</option>
+                                <option value="4" {% if i.quantity == '4' %} selected {% endif %}>4</option>
+                                <option value="5" {% if i.quantity == '5' %} selected {% endif %}>5</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--this form is invisible and is used to edit items DO NOT DELETE!!!!!!!!!!!-->
+                    <form method='post' action='/cart/edit_cart/' id='editcartForm'> {% csrf_token %}
+                        <input type='text' id='editcart_id' name='editcart_id' style='display:none'>
+                        <input type='text' id='editcart_quantity' name='editcart_quantity' style='display:none'>
+                    </form>
+                    <div class="col-12 my-1 ml-1 row">
+                        <a class="d-inline-block" onclick="editQuantityCart1('{{i.length}}')" style='cursor:pointer'>
+                            <i data-feather="edit" width="14" height="14"></i> Edit
+                        </a>
+
+                        <a class="d-inline-block ml-5" href="{% url 'cart:delete_cart' i.length %}">
+                            <i data-feather="trash-2" width="14" height="14"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% endif %}
+
 
             <div class="d-flex justify-content-end my-5">
                 <div class="mr-2">
-                    <a href="#" class="btn btn-outline-primary">Continue Shopping</a>
+                    <a href="{% url 'home:home' %}" class="btn btn-outline-primary">Continue Shopping</a>
                 </div>
+
                 <div>
                     <a href="{% url 'cart:order' %}" class="btn btn-primary">Proceed To Checkout</a>
                 </div>
+                <div>
+                    <a href="{% url 'cart:empty_cart' %}" class="btn btn-danger">Empty Cart</a>
+                </div>
+
             </div>
             <!--Scroll header end-->
         </section>

@@ -13,6 +13,14 @@
           </li>
 
 
+            <li>
+          <span><form method="post" action="{% url 'dashboard:search_order_id' %}">{% csrf_token %}
+          <input type="text" class="form-control" name="order_id" value='' placeholder= 'search order id' >
+            <input type="submit" name="" value="submit" class="btn btn-success btn-sm">
+          </form>  </span>
+
+          </li>
+
           <li>
             <a href="{% url 'dashboard:ordered_delivery' %}">
               <i class="fa fa-list-alt"></i>
@@ -46,83 +54,47 @@
 
 
 
-
-
-
-          <li>
-            <a href="{% url 'administrator:products' %}">
-              <i class="fa fa-product-hunt"></i>
-              <span>PRODUCTS </span>
-
-              <span class="label label-theme pull-right mail-info"></span>
-              </a>
-          </li>
-                                <li class="dropdown" style=''>
+                               <li class="dropdown" style=''>
                                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                <i class='fa fa-caret-down'></i> <span>REPORT</span>
+                                <i class='fa fa-caret-down'></i> <span>REPORT SOLD</span>
                                 </a>
-                                <div class="dropdown-menu" style='font-size:11px'>
+                                <div class="dropdown-menu" style='font-size:6px'>
 
-                                <a class="dropdown-item" href="{% url 'dashboard:todaysreportorder' %}">Daily Report Ordered</a>
-                                <a class="dropdown-item" href="{% url 'dashboard:todaysreportsold' %}">Daily Report Sold</a>
-                                
-                                <a class="dropdown-item" href="{% url 'administrator:weeklyreport' %}">Weekly Report</a>
-                                <a class="dropdown-item" href="{% url 'administrator:monthlyreport' %}">Monthly Report</a>
-                                <a class="dropdown-item" href="{% url 'administrator:yearlyreport' %}">Yearly Report</a>
-                                <a class="dropdown-item" href="{% url 'administrator:comparereport' %}">Compare Report</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:todaysreportsold' %}" style='margin-bottom:-23px;'>Daily Report Sold</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:weeklyreportsold' %}" style='margin-bottom:-23px;'>Weekly Report Sold</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:monthlyreportsold' %}" style='margin-bottom:-23px;'>Monthly Report Sold</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:yearlyreportsold' %}" style='margin-bottom:-23px;'>Yearly Report Sold</a>
 
                                 </div>
                                 </li>
 
-          <li>
-          <a href="{% url 'administrator:cart' %}">
-          <i class="fa fa-shopping-cart"></i>
-          <span>SELL  </span>
 
-          <span class="label label-theme pull-right mail-info" id="cart_total">{{context_cart}}</span>
-          <span class="label label-theme pull-right mail-info cart_price1" id="">{{total_price}}</span>
+                               <li class="dropdown" style=''>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                <i class='fa fa-caret-down'></i> <span>REPORT ORDERED</span>
+                                </a>
+                                <div class="dropdown-menu" style='font-size:6px'>
 
-          </a>
-          </li>
+                                <a class="dropdown-item" href="{% url 'dashboard:todaysreportorder' %}" style='margin-bottom:-23px;'>Daily Report Ordered</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:todaysreportsold' %}" style='margin-bottom:-23px;'>Daily Report Sold</a>
 
-          <!--<li>-->
-          <!--<a href="{% url 'administrator:mysales' %}">-->
+                                <a class="dropdown-item" href="{% url 'dashboard:weeklyreportorder' %}" style='margin-bottom:-23px;'>Weekly Report Ordered</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:monthlyreportorder' %}" style='margin-bottom:-23px;'>Monthly Report Ordered</a>
+                                <a class="dropdown-item" href="{% url 'dashboard:yearlyreportorder' %}" style='margin-bottom:-23px;'>Yearly Report Ordered</a>
 
-          <!--<i class="fa fa-rss-square"></i>-->
-          <!--<span>MY SALES  </span>-->
+                                </div>
+                                </li>
 
-          <!--<span class="label label-theme pull-right mail-info" id="cart_total">{{sales_count}}</span>-->
-          <!--<span class="label label-theme pull-right mail-info cart_price1" id="">{{sales_price}}</span>-->
-
-          <!--</a>-->
-          <!--</li>-->
-          {% if request.user.username == 'cashier' %}
-
-          {% else %}
-            <li> <a href='{% url 'account:profile' %}'><i class="fa fa-user"></i>Profile</li></a>
-            <li> <a href='{% url 'administrator:pettycash' %}'><i class="fa fa-info-circle"></i>Petty Cash</li></a>
-            <li> <a href='{% url 'administrator:addpettycash' %}'><i class="fa fa-plus"></i>Add PettyCash</li></a>
-        {% endif %}
-          <li>
-            </li>
-
-            <li> <a href='{% url 'administrator:dailyreport' %}'><i class="fa fa-calendar-alt"></i>Daily Report</li></a>
+            <li> <a href="{% url 'administrator:dailyreport' %}"><i class="fa fa-calendar-alt"></i>Daily Report</li></a>
 
 
             <li>
-
-
-          <span><form method="post" action="{% url 'administrator:filtersales' %}">{% csrf_token %}
-          <input type="text" class="form-control" name="date" placeholder="" value="{{date}}">
+          <span><form method="post" action="{% url 'dashboard:filter_sold' %}">{% csrf_token %}
+          <input type="text" class="form-control" name="date" placeholder="" value='{{date}}'>
             <input type="submit" name="" value="submit" class="btn btn-success btn-sm">
           </form>  </span>
 
-
           </li>
-
-
-          }
-
 
 
         </ul>

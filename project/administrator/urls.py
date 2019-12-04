@@ -15,13 +15,11 @@ urlpatterns = [
 	path('filter_index/', views.filter_index, name="filter_index" ),
 	path('editmyitems/', views.editmyitems, name="editmyitems" ),
 
-
-
-
-
     path('todaysreport/', views.todaysreport, name="todaysreport" ),
 
 	path('addtocart/', views.addtoCart, name="addtocart" ),
+	path('addcart/', views.addCart, name="addcart" ),
+
 	path('addtocategory/', views.addtoCategory, name="addtocategory" ),
 	path('addsubcategory/', views.addSubCategory, name="addsubcategory" ),
 

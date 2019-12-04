@@ -7,6 +7,7 @@ from order.models import Order
 class Cart(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	product = models.ForeignKey(Index, on_delete=models.CASCADE, default=1, related_name='cart_index')
+	style= models.CharField(max_length=60, default='')
 	size = models.CharField(max_length=10)
 	sex = models.CharField(max_length=10)
 	quantity = models.IntegerField()

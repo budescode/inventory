@@ -13,7 +13,7 @@ function changeCategory(){
    document.querySelector(loadingid).style.display = 'block'
    editcategory_input =  document.querySelector('#editcategory_input').value
     var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-    var url = 'http://www.1kshop.online/administrator/editmycategory/'
+    var url = 'https://www.1kshop.online/administrator/editmycategory/'
     let  formData = new FormData()
     formData.append('editcategoryid', id)
     formData.append('edittotal', editcategory_input)
@@ -44,7 +44,7 @@ function changeSubCategory(){
    document.querySelector(loadingid).style.display = 'block'
    editcategory_input =  document.querySelector('#editcategory_input').value
     var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-    var url = 'http://www.1kshop.online/administrator/editmysubcategory/'
+    var url = 'https://www.1kshop.online/administrator/editmysubcategory/'
     let  formData = new FormData()
     formData.append('editsubcategoryid', id)
     formData.append('edittotal', editcategory_input)
@@ -90,7 +90,7 @@ function editItems(value){
 function editMyItems(value){
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	var stock = document.querySelector('#editavail').value
-	var url = 'http://www.1kshop.online/administrator/edititems/'
+	var url = 'https://www.1kshop.online/administrator/edititems/'
 	let  formData = new FormData()
 	formData.append('stock', stock)
 	formData.append('product_id', value)
@@ -128,7 +128,7 @@ var additemprice = document.querySelector('#additemprice').value
 var additemavailable = document.querySelector('#additemavailable').value
 
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://www.1kshop.online/administrator/additems/'
+var url = 'https://www.1kshop.online/administrator/additems/'
 let  formData = new FormData()
 formData.append('category', category)
 formData.append('subcategory', subcategory)
@@ -180,7 +180,7 @@ var editstock = document.querySelector('#editstock').value
 document.querySelector('#loading').style.display = 'block'
 //console.log(editcategoryid, editsubcategoryid, editsex, editsize, editstock,'yahhhhh')
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://www.1kshop.online/administrator/editmyitems/'
+var url = 'https://www.1kshop.online/administrator/editmyitems/'
 let  formData = new FormData()
 formData.append('editcategoryid', editcategoryid)
 formData.append('editsubcategoryid', editsubcategoryid)
@@ -224,7 +224,7 @@ var stock = document.querySelector('#addstockavailable').value
 
 
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://www.1kshop.online/administrator/addtocategory/'
+var url = 'https://www.1kshop.online/administrator/addtocategory/'
 let  formData = new FormData()
 formData.append('category', category)
 formData.append('stock', stock)
@@ -254,7 +254,7 @@ function addSubCategory(){
 var subcategory = document.querySelector('#addsubcategory').value
 
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://www.1kshop.online/administrator/addsubcategory/'
+var url = 'https://www.1kshop.online/administrator/addsubcategory/'
 let  formData = new FormData()
 formData.append('subcategory', subcategory)
 
@@ -284,7 +284,7 @@ function deleteMyitems(value){
 var id = value.slice(11)
 console.log(id)
 var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-var url = 'http://www.1kshop.online/administrator/deletemyitems/'
+var url = 'https://www.1kshop.online/administrator/deletemyitems/'
 let  formData = new FormData()
 formData.append('product_id', id)
 
@@ -315,6 +315,62 @@ tr.remove()
 }
 
 
+function addCart(){
+    cartcat = document.querySelector('#cartcat').value
+    cartsubcat = document.querySelector('#cartsubcat').value
+    cartqty = document.querySelector('#cartqty').value
+    cartsize = document.querySelector('#cartsize').value
+    cartsex = document.querySelector('#cartsex').value
+	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
+	var url = 'https://www.1kshop.online/administrator/addcart/'
+	let  formData = new FormData()
+// 	formData.append('post_pk', value)
+	formData.append('qty', cartqty)
+	formData.append('cat_id', cartcat)
+	formData.append('subcat_id', cartsubcat)
+	formData.append('sex', cartsex)
+	formData.append('size', cartsize)
+	document.querySelector('#loadingg').style.display = 'block'
+	document.querySelector('#carterror').style.display = 'none'
+	document.querySelector('#cartdone').style.display = 'none'
+
+	fetch(url,
+	{
+	body: new URLSearchParams(formData),
+	method: 'post',
+	headers:{
+	'X-CSRFTOKEN': token
+	}
+
+
+	}).then(res => res.json()).then(function(data) {
+
+	    document.querySelector('#loadingg').style.display = 'none'
+	    if (data.report == 'No Records found'){
+	        report = document.querySelector('#record')
+	        report.style.display = 'block'
+	    }
+
+	    else if(data.error == 'category doesnt exist' || data.error == 'subcategory doesnt exist' ){
+	        carterror = document.querySelector('#carterror')
+	        carterror.style.display = 'block'
+	        carterror.innerHTML = data.error
+	    }
+
+	    else{
+    		cartdone = document.querySelector('#cartdone')
+    		cartdone.style.display = 'block'
+    		cartdone.innerHTML = data.qty + ' ' + data.category + ', ' + data.subcategory + ' ' + 'added to cart'
+    		document.querySelector('#cart_total').innerHTML = data.cart_total
+    		document.querySelector('.cart_total1').innerHTML = data.cart_total
+    		document.querySelector('.cart_price').innerHTML = data.total_price
+    		document.querySelector('.cart_price1').innerHTML = data.total_price
+	    }
+	})
+
+
+}
+
 
 
 function addtocartFunction(value){
@@ -326,13 +382,12 @@ function addtocartFunction(value){
     sizeid = '#size'+ value
     category = document.querySelector(categoryid).innerHTML
     subcategory = document.querySelector(subcategoryid).value
-    console.log(subcategory, 'yyyya')
     sex = document.querySelector(sexid).value
     size = document.querySelector(sizeid).value
 	qty1 = '#qty'+value
 	qty = document.querySelector(qty1).value
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
-	var url = 'http://www.1kshop.online/administrator/addtocart/'
+	var url = 'https://www.1kshop.online/administrator/addtocart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 	formData.append('qty', qty)
@@ -342,6 +397,8 @@ function addtocartFunction(value){
 	formData.append('size', size)
 	var id = '#img'+value
 	document.querySelector(id).style.display = 'block'
+	document.querySelector('#cartdone').style.display = 'none'
+
 	fetch(url,
 	{
 	body: new URLSearchParams(formData),
@@ -367,9 +424,12 @@ function addtocartFunction(value){
 		document.querySelector('.cart_total1').innerHTML = data.cart_total
 		document.querySelector('.cart_price').innerHTML = data.total_price
 		document.querySelector('.cart_price1').innerHTML = data.total_price
-        stock = document.querySelector(id2).innerHTML
-        stock1 = Number(stock) - Number(data.qty)
-        document.querySelector(id2).innerHTML = stock1
+        cartdone = document.querySelector('#cartdone')
+        cartdone.style.display = 'block'
+        cartdone.innerHTML = data.qty + ' ' + data.category + ', ' + data.subcategory + ' ' + 'added to cart'
+        // stock = document.querySelector(id2).innerHTML
+        // stock1 = Number(stock) - Number(data.qty)
+        // document.querySelector(id2).innerHTML = stock1
 	    }
 	})
 }
@@ -383,7 +443,7 @@ function editcartFunction(value, id){
 	var editimg = document.querySelector(img).style.display = 'block'
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	qty1 = '#'+value
-	var url = 'http://www.1kshop.online/administrator/editcart/'
+	var url = 'https://www.1kshop.online/administrator/editcart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 	formData.append('qty', qty)
@@ -426,7 +486,7 @@ function deletecartFunction(value){
 	document.querySelector(id).style.display = 'block'
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 
-	var url = 'http://www.1kshop.online/administrator/deletecart/'
+	var url = 'https://www.1kshop.online/administrator/deletecart/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 
@@ -466,7 +526,7 @@ function viewDetails(value){
 	var token = document.querySelector("input[name=csrfmiddlewaretoken]").value
 	// var token = document.querySelector("#token").value
 	console.log(value)
-	var url = 'http://www.1kshop.online/administrator/viewdetails/'
+	var url = 'https://www.1kshop.online/administrator/viewdetails/'
 	let  formData = new FormData()
 	formData.append('post_pk', value)
 
@@ -485,7 +545,7 @@ function viewDetails(value){
 		var data = qs[0].fields
 		var pk = qs.pk
 		// var image = data.image
-		var img_link = 'http://127.0.0.1:8000/media/'
+		var img_link = 'https://127.0.0.1:8000/media/'
 		var img = img_link+ data.image
 
 

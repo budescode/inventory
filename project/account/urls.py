@@ -19,7 +19,13 @@ urlpatterns = [
 
 
 	path('login/', views.login_page, name='login'),
+	path('userlogout/', views.userlogout, name='userlogout'),
+
+	path('login_dashboard/', views.login_dashboard, name='login_dashboard'),
+
 	path('logout/', views.logout_page, name='logout'),
+	path('logout_dashboard/', views.logout_dashboard, name='logout_dashboard'),
+
  	path('register/', views.register, name='register'),
 	path('profile/', views.profile, name="profile" ),
 	path('edit_profile/<slug:id>/', views.edit_profile, name="edit_profile" ),
@@ -31,11 +37,12 @@ urlpatterns = [
 	path('change_password_confirm/', views.change_password_confirm, name='change_password_confirm'),
 	path('<slug:pk>/<slug:username>/', views.change_password_code, name='change_password_code'),
 	path('change_password_success/', views.change_password_success, name='change_password_success'),
-
-
 	path('register_user/', views.register_user, name='register_user'),
 	path('login_user/', views.login_user, name='login_user'),
-	
+	path('login_userpage/', views.login_userpage, name='login_userpage'),
+	path('<slug:id>/', views.email_confirm, name='email_confirm'),
+
+
 
 
 ]

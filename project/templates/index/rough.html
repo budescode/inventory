@@ -1,0 +1,438 @@
+{% extends 'index/base.html' %}
+{% load staticfiles %}
+    {% block body %}
+      <!--Start Hero-->
+
+    <section class="pd-t--40 pd-b--40">
+      <div class="owl-carousel" id="hero-carousel" width="100%">
+        <div>
+          <img src="{% static 'index/assets/img/carousel/1kshopbanner.jpg' %}" class="img-fluid" style="overflow: hidden; border-radius: 10px" alt="" srcset="">
+        </div>
+        <div>
+          <img src="{% static 'index/assets/img/carousel/DSC_6850.jpg' %}" class="img-fluid" style="overflow: hidden; border-radius: 10px" alt="" srcset="">
+        </div>
+        <div>
+          <img src="{% static 'index/assets/img/carousel/DSC_6889.jpg' %}" class="img-fluid" style="overflow: hidden; border-radius: 10px" alt="" srcset="">
+        </div>
+        <div>
+          <img src="{% static 'index/assets/img/carousel/DSC_6990.jpg' %}" class="img-fluid" style="overflow: hidden; border-radius: 10px" alt="" srcset="">
+        </div>
+        <div>
+          <img src="{% static 'index/assets/img/carousel/DSC_7071.jpg' %}" class="img-fluid" style="overflow: hidden; border-radius: 10px" alt="" srcset="">
+        </div>
+      </div>
+    </section>
+    <!--End Hero-->
+
+
+    <!--Featured products start-->
+    <section class="pd-t--40 pd-b--40">
+      <!--Scroll header start-->
+      <div class="row align-content-center justify-content-between">
+        <div class="col-7">
+          Jeans
+        </div>
+        <div class="col-3 col-md-1 d-flex justify-content-between">
+          <a href="" class="anchor--dark" id="featuredNavLeft">
+            <i data-feather="chevron-left"></i>
+          </a>
+          <a href="" class="anchor--dark" id="featuredNavRight">
+            <i data-feather="chevron-right"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="owl-carousel" id="featured-carousel">
+        {% for i in jean %}
+        {% if i.id %}
+        <a href="{% url 'home:detail' i.id %}" class="d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
+          <img src="{{i.image.url}}" class="img-fluid" alt="{{i.subcategory}} image">
+          <span class="d-block text-center text-capitalize p-1">
+           {{i.name}}  <br>
+           ( {{i.sex}} )
+          </span>
+          <!--Star Rating Start-->
+          <div class="d-flex justify-content-center" title="5 star rating">
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+          </div>
+          <!--Star Rating end-->
+          <!--Rating start-->
+          <div class="d-flex justify-content-center align-items-center">
+            <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+              <i data-feather="heart" width="18" height="18"></i>
+            </span>
+            <span href="#" class="d-inline-block m-2" title="Add to Cart">
+              <i data-feather="shopping-cart" width="18" height="18"></i>
+            </span>
+          </div>
+          <!--Rating End-->
+        </a>
+        {% endif %}
+        {% endfor %}
+
+
+      </div>
+      <!--Scroll header end-->
+    </section>
+
+    <!--Featured products start-->
+    <section class="pd-t--40 pd-b--40">
+      <!--Scroll header start-->
+      <div class="row align-content-center justify-content-between">
+        <div class="col-7">
+          Polo
+        </div>
+        <div class="col-3 col-md-1 d-flex justify-content-between">
+          <a href="" class="anchor--dark" id="poloNavLeft">
+            <i data-feather="chevron-left"></i>
+          </a>
+          <a href="" class="anchor--dark" id="poloNavRight">
+            <i data-feather="chevron-right"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="owl-carousel" id="polo-carousel">
+        {% for i in polo %}
+        {% if i.id %}
+        <a href="{% url 'home:detail' i.id %}" class="d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
+          <img src="{{i.image.url}}" class="img-fluid" alt="{{i.subcategory}} image">
+          <span class="d-block text-center text-capitalize p-1">
+           {{i.name}} <br>
+           ( {{i.sex}} )
+          </span>
+          <!--Star Rating Start-->
+          <div class="d-flex justify-content-center" title="5 star rating">
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+          </div>
+          <!--Star Rating end-->
+          <!--Rating start-->
+          <div class="d-flex justify-content-center align-items-center">
+            <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+              <i data-feather="heart" width="18" height="18"></i>
+            </span>
+            <span href="#" class="d-inline-block m-2" title="Add to Cart">
+              <i data-feather="shopping-cart" width="18" height="18"></i>
+            </span>
+          </div>
+          <!--Rating End-->
+        </a>
+        {% endif %}
+        {% endfor %}
+
+
+
+      </div>
+      <!--Scroll header end-->
+    </section>
+
+
+    <!--Featured products start-->
+    <section class="pd-t--40 pd-b--40">
+      <!--Scroll header start-->
+      <div class="row align-content-center justify-content-between">
+        <div class="col-7">
+          T-shirt
+        </div>
+        <div class="col-3 col-md-1 d-flex justify-content-between">
+          <a href="" class="anchor--dark" id="tShirtNavLeft">
+            <i data-feather="chevron-left"></i>
+          </a>
+          <a href="" class="anchor--dark" id="tShirtNavRight">
+            <i data-feather="chevron-right"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="owl-carousel" id="tShirt-carousel">
+
+        {% for i in tshirt|slice:":20" %}
+        {% if i.id %}
+        <a href="{% url 'home:detail' i.id %}" class="d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
+          <img src="{{i.image.url}}" class="img-fluid" alt="{{i.subcategory}} image">
+          <span class="d-block text-center text-capitalize p-1">
+            {{i.name}} <br>
+            ( {{i.sex}} )
+          </span>
+          <!--Star Rating Start-->
+          <div class="d-flex justify-content-center" title="5 star rating">
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+          </div>
+          <!--Star Rating end-->
+          <!--Rating start-->
+          <div class="d-flex justify-content-center align-items-center">
+            <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+              <i data-feather="heart" width="18" height="18"></i>
+            </span>
+            <span href="#" class="d-inline-block m-2" title="Add to Cart">
+              <i data-feather="shopping-cart" width="18" height="18"></i>
+            </span>
+          </div>
+          <!--Rating End-->
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <!--Scroll header end-->
+    </section>
+
+
+
+
+
+
+    <!--Trousers start-->
+    <section class="pd-t--40 pd-b--40">
+      <!--Scroll header start-->
+      <div class="row align-content-center justify-content-between">
+        <div class="col-7">
+          Trouser
+        </div>
+        <div class="col-3 col-md-1 d-flex justify-content-between">
+          <a href="" class="anchor--dark" id="salesNavLeft">
+            <i data-feather="chevron-left"></i>
+          </a>
+          <a href="" class="anchor--dark" id="salesNavRight">
+            <i data-feather="chevron-right"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="owl-carousel" id="sales-carousel">
+        {% for i in trouser %}
+        {% if i.id %}
+        <a href="{% url 'home:detail' i.id %}" class="d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
+          <img src="{{i.image.url}}" class="img-fluid" alt="jean_trousers">
+          <span class="d-block text-center text-capitalize p-1">
+           {{i.name}} <br>
+            ( {{i.sex}} )
+
+          </span>
+          <!--Star Rating Start-->
+          <div class="d-flex justify-content-center" title="5 star rating">
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+          </div>
+          <!--Star Rating end-->
+          <!--Rating start-->
+          <div class="d-flex justify-content-center align-items-center">
+            <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+              <i data-feather="heart" width="18" height="18"></i>
+            </span>
+            <span href="#" class="d-inline-block m-2" title="Add to Cart">
+              <i data-feather="shopping-cart" width="18" height="18"></i>
+            </span>
+          </div>
+          <!--Rating End-->
+        </a>
+        {% endif %}
+        {% endfor %}
+
+      </div>
+      <!--Scroll header end-->
+    </section>
+
+
+
+
+
+    <!--Trousers start-->
+    <section class="pd-t--40 pd-b--40">
+      <!--Scroll header start-->
+      <div class="row align-content-center justify-content-between">
+        <div class="col-7">
+          Trouser
+        </div>
+        <div class="col-3 col-md-1 d-flex justify-content-between">
+          <a href="" class="anchor--dark" id="salesNavLeft">
+            <i data-feather="chevron-left"></i>
+          </a>
+          <a href="" class="anchor--dark" id="salesNavRight">
+            <i data-feather="chevron-right"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="owl-carousel" id="sales-carousel">
+        {% for i in trouser %}
+        {% if i.id %}
+        <a href="{% url 'home:detail' i.id %}" class="d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
+          <img src="{{i.image.url}}" class="img-fluid" alt="jean_trousers">
+          <span class="d-block text-center text-capitalize p-1">
+           {{i.name}} <br>
+            ( {{i.sex}} )
+
+          </span>
+          <!--Star Rating Start-->
+          <div class="d-flex justify-content-center" title="5 star rating">
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+          </div>
+          <!--Star Rating end-->
+          <!--Rating start-->
+          <div class="d-flex justify-content-center align-items-center">
+            <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+              <i data-feather="heart" width="18" height="18"></i>
+            </span>
+            <span href="#" class="d-inline-block m-2" title="Add to Cart">
+              <i data-feather="shopping-cart" width="18" height="18"></i>
+            </span>
+          </div>
+          <!--Rating End-->
+        </a>
+        {% endif %}
+        {% endfor %}
+
+      </div>
+      <!--Scroll header end-->
+    </section>
+
+
+
+    <!--Trousers start-->
+    <section class="pd-t--40 pd-b--40">
+      <!--Scroll header start-->
+      <div class="row align-content-center justify-content-between">
+        <div class="col-7">
+          Trouser
+        </div>
+        <div class="col-3 col-md-1 d-flex justify-content-between">
+          <a href="" class="anchor--dark" id="salesNavLeft">
+            <i data-feather="chevron-left"></i>
+          </a>
+          <a href="" class="anchor--dark" id="salesNavRight">
+            <i data-feather="chevron-right"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="owl-carousel" id="sales-carousel">
+        {% for i in trouser %}
+        {% if i.id %}
+        <a href="{% url 'home:detail' i.id %}" class="d-block bg-white rounded-lg p-0 mx-1 anchor--dark">
+          <img src="{{i.image.url}}" class="img-fluid" alt="jean_trousers">
+          <span class="d-block text-center text-capitalize p-1">
+           {{i.name}} <br>
+            ( {{i.sex}} )
+
+          </span>
+          <!--Star Rating Start-->
+          <div class="d-flex justify-content-center" title="5 star rating">
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning ">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+            <span class="d-inline-block mx-1 text-warning">
+              <i data-feather="star" width="14" height="14"></i>
+            </span>
+          </div>
+          <!--Star Rating end-->
+          <!--Rating start-->
+          <div class="d-flex justify-content-center align-items-center">
+            <span href="#" class="d-inline-block m-2" title="Add to Favourite">
+              <i data-feather="heart" width="18" height="18"></i>
+            </span>
+            <span href="#" class="d-inline-block m-2" title="Add to Cart">
+              <i data-feather="shopping-cart" width="18" height="18"></i>
+            </span>
+          </div>
+          <!--Rating End-->
+        </a>
+        {% endif %}
+        {% endfor %}
+
+      </div>
+      <!--Scroll header end-->
+    </section>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5dd6e79c43be710e1d1e83d3/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
+{% endblock %}

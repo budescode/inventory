@@ -56,6 +56,96 @@ display: none;
               <p>Total Items: <span class="badge cart_total1" id="cart_total1">{{context_cart}}</span></p>
               <p>Total Price: <span class="badge cart_price">{{total_price}}</span></p>
               <p><a href='{% url 'administrator:cart' %}'> <button class='btn btn-success' >Sell</button> </a></p>
+  <div class="container">
+    <div class="row">
+
+
+
+
+
+    <div class="col-sm-2">
+    <label>Category Id</label>
+    <input type="text" class="form-control form-control-sm" id='cartcat'>
+    </div>
+
+    <div class="col-sm-2">
+    <label>SubCategory Id</label>
+    <input type="text" class="form-control form-control-sm" id='cartsubcat'>
+    </div>
+
+    <div class="col-sm-2">
+    <div class="form-group">
+    <label>Sex</label>
+    <select class="form-control" id="cartsex">
+    <option>M</option>
+    <option>F</option>
+    </select>
+    </div>
+    </div>
+
+    <div class="col-sm-2">
+    <div class="form-group">
+    <label>Size</label>
+    <select class="form-control" id="cartsize">
+    <option>S</option>
+    <option>M</option>
+    <option>L</option>
+    <option>XL</option>
+    <option>2XL</option>
+    <option>3XL</option>
+    <option>4XL</option>
+    </select>
+
+    </div>
+    </div>
+
+    <div class="col-sm-1">
+        <div class="form-group">
+        <label>Qty</label>
+        <select class="form-control" id="cartqty">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        </select>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-group">
+        <label>Submit</label> <br>
+        <button type='button' class='btn btn-primary' onclick='addCart()'>Go</button>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+    <p id='loadingg' style='color:green;display:none;'>loading</p>
+    <h5 id='carterror' style='color:red;display:none;'>Error</h5>
+    <h5 id='cartdone' style='color:green;display:none;'>Done</h5>
+
+
+    </div>
+
+
+
+    </div>
+  </div>
+
                 <hr>
                 <thead>
                   <tr>

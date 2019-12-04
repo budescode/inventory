@@ -14,6 +14,54 @@ $(document).ready(function () {
     var tShirtNavRight = $('#tShirtNavRight')
     var heroSlide = $('#hero-carousel');
 
+    var homeSlides = [
+        {
+            carousel: $("#ex-carousel"),
+            leftArrow: $("#fleeceNavLeft"),
+            rightArrow: $("#fleeceNavRight")
+        },
+        {
+            carousel: $("#ex3-carousel"),
+            leftArrow: $("#undesNavLeft"),
+            rightArrow: $("#undesNavRight")
+        },
+        {
+            carousel: $("#ex2-carousel"),
+            leftArrow: $("#jumpersNavLeft"),
+            rightArrow: $("#jumpersNavRight")
+        },
+        {
+            carousel: $("#skirt-carousel"),
+            leftArrow: $("#skirtNavLeft"),
+            rightArrow: $("#skirtNavRight")
+        },
+        {
+            carousel: $("#short-carousel"),
+            leftArrow: $("#shortNavLeft"),
+            rightArrow: $("#shorttNavRight")
+        },
+        {
+            carousel: $("#socks-carousel"),
+            leftArrow: $("#socksNavLeft"),
+            rightArrow: $("#socksNavRight")
+        },
+        {
+            carousel: $("#sleeves-carousel"),
+            leftArrow: $("#sleevesNavLeft"),
+            rightArrow: $("#sleevesNavRight")
+        },
+        {
+            carousel: $("#hat-carousel"),
+            leftArrow: $("#hatNavLeft"),
+            rightArrow: $("#hatNavRight")
+        },
+        {
+            carousel: $("#tie-carousel"),
+            leftArrow: $("#tieNavLeft"),
+            rightArrow: $("#tieNavRight")
+        }
+    ]
+
     //General setting for slide on home page
     var generalSetting = {
         stagePadding: 0,
@@ -30,7 +78,10 @@ $(document).ready(function () {
                 items: 6,
                 nav: false
             }
-        }
+        },
+
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true,
     }
     featuredSlide.owlCarousel(generalSetting);
     salesSlide.owlCarousel(generalSetting);
@@ -108,6 +159,34 @@ $(document).ready(function () {
         e.preventDefault()
         tShirtSlide.trigger('next.owl.carousel')
     })
+
+
+    /**
+     * @description Function to prepare a new slide
+     */
+
+     function CreateHomeSlide(slides, slideConfig){
+        for( let slide of slides){
+            if(slide.carousel !== null){
+
+                slide.carousel.owlCarousel(slideConfig);
+
+                if(slide.leftArrow !== null &&  slide.rightArrow !== null){
+                    slide.leftArrow.on('click', function (e) {
+                        e.preventDefault()
+                        slide.carousel.trigger('prev.owl.carousel')
+                    })
+                    slide.rightArrow.on('click', function (e) {
+                        e.preventDefault()
+                        slide.carousel.trigger('next.owl.carousel')
+                    })
+                }
+            }
+        }
+     }
+
+     CreateHomeSlide(homeSlides,generalSetting)
+
 
 
     /*

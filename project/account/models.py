@@ -5,6 +5,9 @@ from django.dispatch import receiver
 import uuid
 
 
+class RegistrationConfirm(models.Model):
+	username = models.ForeignKey(User, on_delete = models.CASCADE)
+	user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 class PasswordResetEmail(models.Model):
 	email = models.EmailField()

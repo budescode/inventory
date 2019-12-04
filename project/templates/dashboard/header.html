@@ -4,12 +4,12 @@
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="1k clothing Administrator"></div>
       </div>
       <!--logo start-->
-      <a href="{% url 'administrator:administrator' %}" class="logo"><img src="{% static 'images/logo.png' %}" style="width:50px; height: 50px;"></a>
+      <a href="{% url 'dashboard:dashboard' %}" class="logo"><img src="{% static 'images/logo.png' %}" style="width:50px; height: 50px;"></a>
       <!--logo end-->
       <div class="nav notify-row" id="top_menu">
         <!--  notification start -->
         <ul class="nav top-menu">
-   
+
 
           <!-- notification dropdown start-->
 <!--           <li id="header_notification_bar" class="dropdown">
@@ -61,7 +61,7 @@
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="{% url 'account:logout' %}">Logout</a></li>
+          <li><a class="logout" href="{% url 'account:logout_dashboard' %}">Logout</a></li>
         </ul>
       </div>
     </header>
