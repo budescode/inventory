@@ -1,0 +1,9 @@
+{% extends 'index/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<img src="{% static 'index/assets/img/2.jpg' %}" alt='image' class='img-fluid'> <br>
+<p>At 1k, we are focused on quality service delivery. A true 1k employee is a loyal, sincere, humble, passionate, innovative, committed and hardworking individual who will support his/her team and treat others with dignity and respect</p>
+<center><u>AVAILABLE POSITIONS</u></center>
+<p><a href="{% url 'home:availableposition' %}">STORE MANAGER (AIRPORT ROAD, EDO STATE) </a></p>
+
+{% endblock %}

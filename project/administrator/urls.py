@@ -43,11 +43,13 @@ urlpatterns = [
     path('editmycategory/', views.editmycategory, name="editmycategory" ),
 
     path('deletecategory/<slug:id>/', views.deletecategory, name="deletecategory" ),
-
     path('deletesubcategory/<slug:id>/', views.deletesubcategory, name="deletesubcategory" ),
 
     path('subcategory/', views.subcategory, name="subcategory" ),
     path('editmysubcategory/', views.editmysubcategory, name="editmysubcategory" ),
+
+    path('cartdetails/<slug:id>/', views.cartdetails, name="cartdetails" ),
+    path('print_from_id/', views.print_from_id, name="print_from_id" ),
 
     # path('deletecategory/<slug:id>/', views.deletecategory, name="deletecategory" ),
 

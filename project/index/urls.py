@@ -30,6 +30,11 @@ urlpatterns = [
 
 	path('addtoFavourite/<slug:id>/', views.addtoFavourite, name="addtoFavourite" ),
 	path('myFavourite/', views.myFavourite, name="myFavourite" ),
+	path('careers/', views.careers, name="careers" ),
+	path('store/', views.store, name="store" ),
+	path('availableposition/', views.availableposition, name="availableposition" ),
+	path('application/', views.application, name="application" ),
+
 	path('deletemyFavourite/<slug:id>/', views.deletemyFavourite, name="deletemyFavourite" ),
 
 	#filter category and subcategory unisex(male, female, boys, girls)

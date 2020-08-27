@@ -83,47 +83,31 @@ display: none;
                 <hr>
                 <thead>
                   <tr>
-
-                    <th><i class="fa fa-user"></i> Category</th>
-
-                    <th class=""><i class="fa fa-calendar"></i> Sex</th>
-                    <th><i class="fa fa-credit-card"></i>Single Price</th>
+                    <th><i class="fa fa-user"></i> Cart Id</th>
 
                     <th><i class=" fa fa-edit"></i> Qty</th>
 					<th><i class=" fa fa-card"></i> Total Price</th>
 
-                    <th><i class=" fa fa-card"></i> Date</th>
+                    <th><i class=" fa fa-calendar"></i> Date</th>
+                    <th><i class=" fa fa-calendar"></i> Time</th>
+                    <th><i class=" fa fa-user"></i> Cashier</th>
 
-
-                    <!--<th><i class=" fa fa-edit"></i> Contact</th>-->
-                    <!--<th></th>-->
                   </tr>
+
                 </thead>{% csrf_token %}
                 <tbody>
                 {% for i in qs %}
                   <tr class="post{{i.pk}}" name=>
-
-
                     <td>
-                      <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}">{{i.category}}</a>
+                      <a href="{% url 'administrator:cartdetails' i.id %}" id="{{i.pk}}">{{i.cart_id}}</a>
                     </td>
-
-                    <td>
-                      {{i.sex}}
-                    </td>
-
-                    <td><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
-
-                    <td>
-                    {{i.qty}}
+                     <td>
+                    {{i.quantity}}
                     </td>
                     <td> <span id="price{{i.pk}}"> {{i.price}} </span></td>
                     <td> <span id="price{{i.pk}}"> {{i.date}} </span></td>
-
-                    <!--<td id="td{{i.pk}}">-->
-
-                    <!--  {{i.name}} | {{i.phonenumber}}-->
-                    <!--</td>-->
+                     <td> <span id="price{{i.pk}}"> {{i.time}} </span></td>
+                    <td> <span id="price{{i.pk}}"> {{i.user.username}} </span></td>
                   </tr>
 
 {% endfor %}

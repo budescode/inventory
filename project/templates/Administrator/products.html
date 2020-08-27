@@ -59,10 +59,6 @@ display: none;
   <div class="container">
     <div class="row">
 
-
-
-
-
     <div class="col-sm-2">
     <label>Category Id</label>
     <input type="text" class="form-control form-control-sm" id='cartcat'>
@@ -94,6 +90,8 @@ display: none;
     <option>2XL</option>
     <option>3XL</option>
     <option>4XL</option>
+    <option>5XL</option>
+    <option>6XL</option>
     </select>
 
     </div>
@@ -137,13 +135,20 @@ display: none;
     <p id='loadingg' style='color:green;display:none;'>loading</p>
     <h5 id='carterror' style='color:red;display:none;'>Error</h5>
     <h5 id='cartdone' style='color:green;display:none;'>Done</h5>
-
-
+    </div>
     </div>
 
 
+<div class='row'>
+    <form method='post' action="{% url 'administrator:print_from_id' %}"> {% csrf_token %}
+        <div class='col-md-6'>
+        <input type='text' class='form-control' name='id' placeholder='search id'>
+        <input type='submit' class='btn btn-success'>
+        </div>
+    </form>
+</div>
 
-    </div>
+
   </div>
 
                 <hr>
@@ -203,6 +208,8 @@ display: none;
                         <option>2XL</option>
                         <option>3XL</option>
                         <option>4XL</option>
+                        <option>5XL</option>
+                        <option>6XL</option>
                         </select>
                         </div>
                     </td>
@@ -225,7 +232,7 @@ display: none;
 
                     <td id="testing">
 
-                      <button class="btn btn-primary btn-lg" id={{i.pk}} onclick="addtocartFunction(this.id)"><i class="fa fa-shop "></i>Cart  <img style="display: none;" id="img{{i.pk}}" src="{% static 'images/gif.gif' %}"></button>
+                      <button class="btn btn-primary btn-lg" id={{i.pk}} onclick="addtocartFunction(this.id, '{{i.total_count}}')"><i class="fa fa-shop "></i>Cart  <img style="display: none;" id="img{{i.pk}}" src="{% static 'images/gif.gif' %}"></button>
                     </td>
                   </tr>
 

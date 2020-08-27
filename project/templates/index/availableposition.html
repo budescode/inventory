@@ -1,0 +1,84 @@
+{% extends 'index/base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-md-12'>
+                <center><u>STORE MANAGER</u></center>
+                <img src="{% static 'index/assets/img/3.jpg' %}" alt='image' class='img-fluid'> <br>
+                <b>PURPOSE OF POSITION</b>
+                <p>
+                To promote sales, reduce losses, manage stock, manage people and control expenses in order to meet business targets.
+
+                </p>
+                <p>
+                     <b>KEY RESPONSIBILITIES</b>
+
+                <ul>
+                    <li>Increase Sales</li>
+                    <li>Stock Loss</li>
+                    <li>Drive a low - cost business according to company standards</li>
+
+                </ul>
+                  </p>
+                <button class='btn btn-primary' data-toggle="modal" data-target="#myModal">SUBMIT YOUR APPLICATION</button>
+        </div>
+    </div>
+</div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form method='post' enctype='multipart/form-data' action="{% url 'home:application' %}"> {% csrf_token %}
+          <small>All fields are required</small>
+
+            <div class="form-group">
+            <label for="usr">Name:</label>
+            <input type="text" class="form-control" id="name" name='name' required>
+            </div>
+
+            <div class="form-group">
+            <label for="pwd">Email:</label>
+            <input type="email" class="form-control" id="email" name='email' required>
+            </div>
+
+            <div class="form-group">
+            <label for="pwd">Mobile Number:</label>
+            <input type="text" class="form-control" id="mobile" name='mobile' required>
+            </div>
+
+            <div class="form-group">
+              <label for="comment">Introduce yourself:</label>
+              <textarea class="form-control" rows="5" id="comment" name='comment' required></textarea>
+            </div>
+
+             <div class="form-group">
+              <label for="comment">Attach your cv: (<small>2MB max size, doc, docx, or pdf</small>)</label>
+              <input type="file" class="form-control-file border" name='file' required>
+            </div>
+
+            <input type=submit value='APPLY NOW' class='btn btn-success'>
+            </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

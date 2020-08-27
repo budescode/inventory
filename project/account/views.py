@@ -273,21 +273,24 @@ def change_password(request):
 					return HttpResponse('invalid username')
 			else:
 				form.save()
-				user = User.objects.get(username=username)
-				test = ChangePasswordCode.objects.get(username=username)
-				subject = "Change Password"
-				from_email = settings.EMAIL_HOST_USER
-				# Now we get the list of emails in a list form.
-				to_email = [user.email]
-				#Opening a file in python, with closes the file when its done running
-				detail2 = "https://www.1kshop.online/account/"+ str(test.user_id) + '/' + username
-				with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
-				    sign_up_message = sign_up_email_txt_file.read()
-				message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
-				html_template = get_template("account/change_password_email.html").render({'detail2':detail2})
-				message.attach_alternative(html_template, "text/html")
-				message.send()
-				return redirect('account:change_password_confirm')
+				try:
+					user = User.objects.get(username=username)
+					test = ChangePasswordCode.objects.get(username=username)
+					subject = "Change Password"
+					from_email = settings.EMAIL_HOST_USER
+					# Now we get the list of emails in a list form.
+					to_email = [user.email]
+					#Opening a file in python, with closes the file when its done running
+					detail2 = "https://www.1kshop.online/account/"+ str(test.user_id) + '/' + username
+					with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
+					    sign_up_message = sign_up_email_txt_file.read()
+					message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
+					html_template = get_template("account/change_password_email.html").render({'detail2':detail2})
+					message.attach_alternative(html_template, "text/html")
+					message.send()
+					return redirect('account:change_password_confirm')
+				except User.DoesNotExist:
+					return HttpResponse('username does not exist')
 
 		else:
 			return HttpResponse('Invalid Email Address')

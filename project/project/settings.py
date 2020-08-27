@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cart',
     'order',
     'dashboard',
+    'sorl.thumbnail',
 
 ]
 

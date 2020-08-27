@@ -12,6 +12,9 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.template.loader import get_template
+from django.core.files.storage import FileSystemStorage
 
 
 
@@ -116,7 +119,50 @@ def home(request):
 
 def detail(request, id):
 	detail = get_object_or_404(Index ,id=id)
-	#qs = Index.objects.filter(subcategory=detail.subcategory)
+	S = M = L = XL = XL2 = XL3 = XL4 = 0
+	sizelist = []
+
+	S = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = 'S')
+	if S.exists():
+	    if S[0].stock >0:
+	        sizelist.append({'size':'S'})
+	        S = 1
+
+	M = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = 'M')
+	if M.exists():
+	    if M[0].stock >0:
+	        sizelist.append({'size':'M'})
+	        M = 1
+	L = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = 'L')
+	if L.exists():
+	    if L[0].stock >0:
+	        sizelist.append({'size':'L'})
+	        L =1
+	XL = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = 'XL')
+	if XL.exists():
+	    if XL[0].stock >0:
+	        sizelist.append({'size':'XL'})
+	        XL = 1
+	XL2 = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = '2XL')
+	if XL2.exists():
+	    if XL2[0].stock >0:
+	        sizelist.append({'size':'2XL'})
+	        XL2 = 1
+	XL3 = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = '3XL')
+	if XL3.exists():
+	    if XL3[0].stock >0:
+	        sizelist.append({'size':'3XL'})
+	        XL3 =1
+	XL4 = Index.objects.filter(category = detail.category, subcategory = detail.subcategory, name = detail.name, color = detail.color, sex = detail.sex, size = '4XL')
+	if XL4.exists():
+	    if XL4[0].stock >0:
+	        sizelist.append({'size':'4XL'})
+	        XL4 = 1
+	if len(sizelist) == 0:
+	    sizeavailable = 'no'
+	else:
+	    sizeavailable = 'yes'
+
 	qs_name = []
 	qs = []
 	others = []
@@ -130,7 +176,7 @@ def detail(request, id):
 			others_list.append(i.color)
 			others.append(i)
 	color = Index.objects.filter(category=detail.category, subcategory=detail.subcategory, name=detail.name).values_list('color', flat=True).distinct()
-	context = {'qs':qs, 'detail':detail, 'color':color, 'others':others}
+	context = {'qs':qs, 'detail':detail, 'color':color, 'others':others, 'sizelist':sizelist, 'sizeavailable':sizeavailable, 'S':S, 'M':M, 'L':L, 'XL':XL, 'XL2':XL2, 'XL3':XL3, 'XL4':XL4}
 	return render(request, 'index/product_detail.html', context)
 
 
@@ -327,21 +373,6 @@ def search(request):
 	return render(request, 'index/search.html', context)
 
 
-# 	category = get_object_or_404(IndexCategory, name__iexact=searchitem)
-# 	subcategory = get_object_or_404(IndexSubCategory, mycategory = category, name__iexact=subcategory_name)
-
-
-# 	paginator = Paginator(list_item, 25) # Show 25 contacts per page
-# 	page = request.GET.get('page')
-# 	qs = paginator.get_page(page)
-	#context = {'qs':qs, 'category':category, 'subcategory':subcategory}
-# 	return render(request, 'index/search.html', context)
-
-
-
-
-
-
 def filter_allcategory(request, name): #this view will get all categories
 	list_item = []
 	list_item1 = []
@@ -419,3 +450,42 @@ def contact(request):
 def terms(request):
 	return render(request, 'index/terms.html')
 
+def careers(request):
+    return render(request, 'index/careers.html')
+
+def store(request):
+    return render(request, 'index/store.html')
+
+def availableposition(request):
+    return render(request, 'index/availableposition.html')
+
+def central(request):
+    return render(request, 'index/central.html')
+
+def distribution(request):
+    return render(request, 'index/distribution.html')
+
+def application(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        comment = request.POST.get('comment')
+        file = request.FILES.get('file')
+        print(file.size, 'filesize')
+        fs = FileSystemStorage()
+        filename = fs.save('/home/budescode/inventory/project/media_cdn/' + file.name, file)
+        subject = "Job Application"
+        from_email = settings.EMAIL_HOST_USER
+        # Now we get the list of emails in a list form.
+        to_email = ['accountant@yehgs.co.uk']
+        #Opening a file in python, with closes the file when its done running
+        with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
+            sign_up_message = sign_up_email_txt_file.read()
+        message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
+        html_template = get_template("index/apply.html").render({'name':name, 'email':email, 'mobile':mobile, 'comment':comment})
+        message.attach_alternative(html_template, "text/html")
+        message.attach_file(filename)
+        message.send()
+        fs.delete('/home/budescode/inventory/project/media_cdn/' + file.name)
+    return render(request, 'index/emailsuccess.html')

@@ -74,14 +74,11 @@ display: none;
                 <hr>
                 <thead>
                   <tr>
-                    <th><i class="fa fa-user"></i> Category</th>
-                    <th class="hidden-phone"><i class="fa fa-calendar"></i> Sub Category</th>
-                    <th><i class="fa fa-credit-card"></i>Single Price</th>
-
+                    <th><i class="fa fa-user"></i> CART ID</th>
                     <th><i class=" fa fa-edit"></i> Qty</th>
 					<th><i class=" fa fa-card"></i> Total Price</th>
-
-<th><i class=" fa fa-card"></i> Date</th>
+					<th><i class=" fa fa-card"></i> Cashier</th>
+					<th><i class=" fa fa-card"></i> Date</th>
 
                     <th></th>
                   </tr>
@@ -90,18 +87,14 @@ display: none;
                 {% for i in qs %}
                   <tr class="post{{i.pk}}" name=>
                     <td>
-                      <a data-toggle="modal" data-target="#myModal" id="{{i.pk}}" onclick="viewDetails(this.id)">{{i.category}}</a>
-                    </td>
-                    <td>
-                      {{i.subcategory}}
+                      <a href="{% url 'administrator:cartdetails' i.id %}">{{i.cart_id}}</a>
                     </td>
 
-                    <td><span id="single_price{{i.pk}}">{{i.single_price}}</span> </td>
-
-                    <td>
-                    {{i.qty}}
+                       <td>
+                    {{i.quantity}}
                     </td>
                     <td> <span id="price{{i.pk}}"> {{i.price}} </span></td>
+                    <td> <span id="price{{i.pk}}"> {{i.user}} </span></td>
                     <td> <span id="price{{i.pk}}"> {{i.date}} </span></td>
 
                   </tr>

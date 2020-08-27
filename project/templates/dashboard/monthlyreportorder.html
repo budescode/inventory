@@ -56,6 +56,7 @@
                     <th> Date | Time</th>
 
                     <th> Change</th>
+                    <th> Print Receipt</th>
 
 
 
@@ -95,9 +96,9 @@
 					<a id="{{i.pk}}" href="{% url 'dashboard:order_delivered_change' i.id %}">Change </a>
 					</td>
 
-
-
-
+					<td>
+				<a href="{% url 'dashboard:pay' i.id %}">	<button class='btn btn-success'>Print Receipt</button></a>
+					</td>
 
                   </tr>
 

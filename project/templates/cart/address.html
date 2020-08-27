@@ -21,15 +21,16 @@
                 <div class="text-right">
                     <span>Total</span>
                     <p class="is-size--3 text-primary" style="font-weight: 600">#{{total}} <br>
-                   <small>Delivery Fee:
+                   <small>Delivery Fee Of <b>
                    {% if usercart_count >= 1 and usercart_count <= 4  %} N 1157 {% endif %}
                    {% if usercart_count >= 5 and usercart_count <= 8  %} N 1760 {% endif %}
                    {% if usercart_count >= 9 and usercart_count <= 10  %} N 2020 {% endif %}
                    {% if usercart_count >= 11 and usercart_count <= 19  %} N 3560 {% endif %}
-                   {% if usercart_count >= 20 %} N 0 {% endif %}
+                   {% if usercart_count >= 20 %} N 0 {% endif %}</b> Will Be Added For Those Who Needs Our Delivery Services
                    </small> <hr>
 
-                   total: N<span id='total_payment'>
+                   <!--total: N-->
+                   <span id='total_payment' style='display: none'>
                     {% if usercart_count >= 1 and usercart_count <= 4  %}  {{total|add:"1157"}} {% endif %}
                     {% if usercart_count >= 5 and usercart_count <= 8  %}  {{total|add:"1760"}} {% endif %}
                     {% if usercart_count >= 9 and usercart_count <= 10  %} {{total|add:"2020"}} {% endif %}

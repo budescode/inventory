@@ -100,12 +100,24 @@
 
 
 
-					<td>
-					<a id="{{i.pk}}" href="{% url 'dashboard:order_pending_delivery_change' i.id %}">Change </a>
+					<td style='display: none'>
+					    <!--this will be triggered when the user clicks yes-->
+					    <!--do not delete!!-->
+					<a id="orderid{{i.id}}" href="{% url 'dashboard:order_pending_delivery_change' i.id %}" >Change </a>
 					</td>
 
+					<td>
+					<a data-toggle="modal" data-target="#changemodal" onclick='getOrderId("{{i.id}}")' style='cursor: pointer'>Change </a>
+					</td>
+
+                    <td style='display: none'>
+                        <!--this will be triggered when the user clicks yes-->
+                        <!--do not delete!!-->
+                    <a id="deleteorder{{i.pk}}" href="{% url 'dashboard:delete_order' i.id %}">Delete </a>
+                    </td>
+
                     <td>
-                    <a id="{{i.pk}}" href="{% url 'dashboard:delete_order' i.id %}">Delete </a>
+                    <a id="{{i.pk}}" data-toggle="modal" data-target="#deletemodal" onclick='getOrderId2("{{i.id}}")' style='cursor: pointer'>Delete </a>
                     </td>
 
 
@@ -141,6 +153,86 @@
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
 
+
+  <!-- The Modal -->
+  <div class="modal fade" id="changemodal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">ARE YOU SURE YOU WANT TO CHANGE?</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span id='orderid'></span>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" onclick='changeOrderItem()'>YES</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="deletemodal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">ARE YOU SURE YOU WANT TO DELETE?</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span id='deleteorderid'></span>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" onclick='deleteOrderItem()'>YES</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+<Script>
+function changeOrderItem(){
+    id = document.querySelector('#orderid').innerHTML
+    id1 = '#orderid' + id
+    qs = document.querySelector(id1).click();
+}
+
+function deleteOrderItem(){
+    id = document.querySelector('#deleteorderid').innerHTML
+    id1 = '#deleteorder' + id
+    qs = document.querySelector(id1).click();
+}
+
+function getOrderId(id){
+    document.querySelector('#orderid').innerHTML = id
+}
+
+function getOrderId2(id){
+    document.querySelector('#deleteorderid').innerHTML = id
+}
+
+</Script>
 
 
 

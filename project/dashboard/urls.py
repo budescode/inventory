@@ -37,6 +37,7 @@ urlpatterns = [
     path('filter_items/<slug:categoryid>/<slug:subcategoryid>/<slug:sex>/<slug:size>/', views.filter_items, name="filter_items" ),
     path('delete_items/<slug:categoryid>/<slug:subcategoryid>/<slug:sex>/<slug:id>/<slug:size>/', views.delete_items, name="delete_items" ),
     path('add_items/<slug:id>/', views.additem, name="add_item" ),
+    path('pay/<slug:id>/', views.pay, name="pay" ),
 
 
 

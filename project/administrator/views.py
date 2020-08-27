@@ -5,7 +5,7 @@ from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponse,JsonResponse
 import csv, io
 from django.contrib import messages
-from .models import Category, SubCategory, MyItems, Cart, Image, PettyCash
+from .models import Category, SubCategory, MyItems, Cart, Image, PettyCash, CartItems
 from project.utils import render_to_pdf
 from django.template.loader import get_template
 from django.utils import timezone
@@ -25,95 +25,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.admin.views.decorators import staff_member_required
 
-
-
-
-@login_required(login_url='/account/login/')
-@staff_member_required
-def comparereport(request):
-    return render(request, 'Administrator/comparereport1.html')
-
-
-
-
-@login_required(login_url='/account/login/')
-@staff_member_required
-def weeklyreport(request):
-	one_week_ago = datetime.today() - timedelta(days=7) # filter by 1 week
-	cart = Cart.objects.filter(date__gte=one_week_ago, paid=True)
-	carttotal = 0
-	cartprice = 0
-	for i in cart:
-		carttotal = carttotal + i.qty
-		cartprice = cartprice + i.price
-	page = request.GET.get('page', 1)
-	paginator = Paginator(cart, 80)
-	try:
-		qs = paginator.page(page)
-	except PageNotAnInteger:
-		qs = paginator.page(1)
-	except EmptyPage:
-		qs = paginator.page(paginator.num_pages)
-	context = {'qs':qs, 'carttotal':carttotal, 'cartprice':cartprice}
-	return render(request, 'Administrator/weeklyreport.html', context)
-
-
-
-@login_required(login_url='/account/login/')
-@staff_member_required
-def monthlyreport(request):
-	cart = Cart.objects.filter(paid=True, date__month__gte=1)
-	carttotal = 0
-	cartprice = 0
-	for i in cart:
-		carttotal = carttotal + i.qty
-		cartprice = cartprice + i.price
-	page = request.GET.get('page', 1)
-	paginator = Paginator(cart, 80)
-	try:
-		qs = paginator.page(page)
-	except PageNotAnInteger:
-		qs = paginator.page(1)
-	except EmptyPage:
-		qs = paginator.page(paginator.num_pages)
-	context = {'qs':qs, 'carttotal':carttotal, 'cartprice':cartprice}
-	return render(request, 'Administrator/monthlyreport.html', context)
-
-
-@login_required(login_url='/account/login/')
-@staff_member_required
-def yearlyreport(request):
-	cart = Cart.objects.filter(paid=True, date__year__gte=2019)
-	carttotal  = 0
-	cartprice = 0
-	for i in cart:
-		carttotal = carttotal + i.qty
-		cartprice = cartprice + i.price
-	page = request.GET.get('page', 1)
-	paginator = Paginator(cart, 80)
-	try:
-		qs = paginator.page(page)
-	except PageNotAnInteger:
-		qs = paginator.page(1)
-	except EmptyPage:
-		qs = paginator.page(paginator.num_pages)
-	context = {'qs':qs, 'carttotal':carttotal, 'cartprice':cartprice}
-	return render(request, 'Administrator/yearlyreport.html', context)
-
-
-@login_required(login_url='/account/login/')
-def todaysreport(request):
-    cart = Cart.objects.filter(date=timezone.now(), paid=True)
-    carttotal = 0
-    cartprice = 0
-    for i in cart:
-        carttotal = carttotal + i.qty
-        cartprice = cartprice + i.price
-    context = {'carttotal':carttotal, 'cart':cart, 'cartprice':cartprice}
-    return render(request, 'Administrator/todaysreport.html', context)
-
-
-
 @login_required(login_url='/account/login/')
 @staff_member_required
 def home(request):
@@ -122,40 +33,6 @@ def home(request):
     else:
 	    return render(request, 'Administrator/index.html')
 
-
-@login_required(login_url='/account/login/')
-@staff_member_required
-def dailyReportView(request):
-	total_price = 0
-	total_cart = 0
-	date = datetime.now()
-	cart1 = Cart.objects.filter(date=datetime.now(), paid=True)
-	for i in cart1:
-		total_price = total_price+i.price
-		total_cart = total_cart + i.qty
-	subject = "Daily Sales"
-	from_email = settings.EMAIL_HOST_USER
-	# Now we get the list of emails in a list form.
-	to_email = ['accountant@yehgs.co.uk']
-	#Opening a file in python, with closes the file when its done running
-	with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
-	    sign_up_message = sign_up_email_txt_file.read()
-	message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
-	html_template = get_template("Administrator/dailyreport.html").render({'qs':cart1, 'total_cart':total_cart, 'total_price':total_price, 'date':date})
-	message.attach_alternative(html_template, "text/html")
-	message.send()
-	return render(request, 'Administrator/dailyreportsuccess.html', context={'total_price':total_price})
-
-@staff_member_required
-def filter_index(request):
-    sex = request.POST.get('sex')
-    size = request.POST.get('size')
-    category = request.POST.get('category')
-    subcategory = request.POST.get('subcategory')
-    return render (request, 'index_filter.html')
-
-
-# Create your views here.
 @login_required(login_url='/account/login/')
 @staff_member_required
 def administrator(request):
@@ -168,9 +45,6 @@ def administrator(request):
 	subcategory = SubCategory.objects.all()
 	context = {'subcategory':subcategory, 'category':category, 'totalitems':totalitems}
 	return render(request, 'Administrator/index1.html', context)
-
-
-
 
 @login_required(login_url='/account/login/')
 @staff_member_required
@@ -190,7 +64,6 @@ def subcategory(request):
         form = SubCategoryForm()
     qs = SubCategory.objects.all()
     return render(request, 'Administrator/subcategory.html', {'qs':qs, 'form':form})
-
 
 @login_required(login_url='/account/login/')
 @staff_member_required
@@ -248,6 +121,10 @@ def editmyitems(request):
 		editsize = '3XL'
 	elif editsize == 'XL4':
 		editsize = '4XL'
+	elif editsize == 'XL5':
+		editsize = '5XL'
+	elif editsize == 'XL6':
+		editsize = '6XL'
 	else:
 		editsize = editsize
 	editstock = request.POST.get('editstock')
@@ -341,7 +218,11 @@ def addtoCart(request):
 	size = request.POST.get('size')
 	try:
 	    qs = MyItems.objects.get(sex=sex, category=category, subcategory=subcategory, size=size)
-	    Cart.objects.create(user = request.user, category=category, size=size, subcategory=subcategory,  sex=sex, qty=qty, price= 1000 * qty, single_price=1000, date=timezone.now(), product_id=qs.id)
+	    if qs.stock < 1:
+	        return JsonResponse({'report': 'out of stock', 'id':post_pk})
+	    if qty > qs.stock:
+	        return JsonResponse({'report': 'Quantity greater than item available', 'id':post_pk})
+	    Cart.objects.create(user = request.user, category=category, size=size, subcategory=subcategory,  sex=sex, qty=qty, price= 1000 * qty, single_price=1000, date=timezone.now(),  time=timezone.now(), product_id=qs.id)
 	    report =  "Record Created"
 	    total = 0
 	    a = 0
@@ -491,6 +372,124 @@ def generatePdf(request):
 
 @login_required(login_url='/account/login/')
 @staff_member_required
+def comparereport(request):
+    return render(request, 'Administrator/comparereport1.html')
+
+
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def weeklyreport(request):
+    one_week_ago = datetime.today() - timedelta(days=7) # filter by 1 week
+    cart = CartItems.objects.filter(date__gte=one_week_ago, paid=True)
+    carttotal = 0
+    cartprice = 0
+    for i in cart:
+        carttotal = carttotal + i.quantity
+        cartprice = cartprice + (i.quantity * 1000)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(cart, 80)
+    try:
+        qs = paginator.page(page)
+    except PageNotAnInteger:
+        qs = paginator.page(1)
+    except EmptyPage:
+        qs = paginator.page(paginator.num_pages)
+    context = {'qs':qs, 'carttotal':carttotal, 'cartprice':cartprice}
+    return render(request, 'Administrator/weeklyreport.html', context)
+
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def monthlyreport(request):
+    cart = CartItems.objects.filter(paid=True, date__month__gte=1)
+    carttotal = 0
+    cartprice = 0
+    for i in cart:
+        carttotal = carttotal + i.quantity
+        cartprice = cartprice + (i.quantity * 1000)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(cart, 80)
+    try:
+        qs = paginator.page(page)
+    except PageNotAnInteger:
+        qs = paginator.page(1)
+    except EmptyPage:
+        qs = paginator.page(paginator.num_pages)
+    context = {'qs':qs, 'carttotal':carttotal, 'cartprice':cartprice}
+    return render(request, 'Administrator/monthlyreport.html', context)
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def yearlyreport(request):
+    cart = CartItems.objects.filter(paid=True, date__year__gte=2019)
+    carttotal = 0
+    cartprice = 0
+    for i in cart:
+        carttotal = carttotal + i.quantity
+        cartprice = cartprice + (i.quantity * 1000)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(cart, 80)
+    try:
+        qs = paginator.page(page)
+    except PageNotAnInteger:
+        qs = paginator.page(1)
+    except EmptyPage:
+        qs = paginator.page(paginator.num_pages)
+    context = {'qs':qs, 'carttotal':carttotal, 'cartprice':cartprice}
+    return render(request, 'Administrator/yearlyreport.html', context)
+
+
+@login_required(login_url='/account/login/')
+def todaysreport(request):
+    cart = CartItems.objects.filter(date=timezone.now(), paid=True)
+    carttotal = 0
+    cartprice = 0
+    for i in cart:
+        carttotal = carttotal + i.quantity
+        cartprice = cartprice + (i.quantity * 1000)
+    context = {'carttotal':carttotal, 'cart':cart, 'cartprice':cartprice}
+    return render(request, 'Administrator/todaysreport.html', context)
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def dailyReportView(request):
+	total_price = 0
+	total_cart = 0
+	date = datetime.now()
+	cart1 = Cart.objects.filter(date=datetime.now(), paid=True)
+	for i in cart1:
+		total_price = total_price+i.price
+		total_cart = total_cart + i.qty
+	subject = "Daily Sales"
+	from_email = settings.EMAIL_HOST_USER
+	# Now we get the list of emails in a list form.
+	to_email = ['accountant@yehgs.co.uk']
+	#Opening a file in python, with closes the file when its done running
+	with open(settings.BASE_DIR + "/templates/account/change_password_email.txt") as sign_up_email_txt_file:
+	    sign_up_message = sign_up_email_txt_file.read()
+	message = EmailMultiAlternatives(subject=subject, body=sign_up_message,from_email=from_email, to=to_email )
+	html_template = get_template("Administrator/dailyreport.html").render({'qs':cart1, 'total_cart':total_cart, 'total_price':total_price, 'date':date})
+	message.attach_alternative(html_template, "text/html")
+	message.send()
+	return render(request, 'Administrator/dailyreportsuccess.html', context={'total_price':total_price})
+
+@staff_member_required
+def filter_index(request):
+    sex = request.POST.get('sex')
+    size = request.POST.get('size')
+    category = request.POST.get('category')
+    subcategory = request.POST.get('subcategory')
+    return render (request, 'index_filter.html')
+
+
+
+@login_required(login_url='/account/login/')
+@staff_member_required
 def pettyCash(request):
     if request.user.username == 'cashier':
         return redirect('administrator:products')
@@ -575,14 +574,18 @@ def pay(request):
 	qs = Cart.objects.filter(paid=False, user=request.user)
 	total_cart = Cart.objects.filter(paid=False, user=request.user).count()
 	total_price = 0
+	total_qty = 0
 	#image = Image.objects.get(id=1)
 	qs1 = []
 	order_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
 	order_id = str(order_id)
+	cartitems = CartItems.objects.create(cart_id = order_id, user=request.user, date=timezone.now(), time=timezone.now(), paymentoption=paymentoption)
 	for i in qs:
-		total_price = total_price + (i.price)
+		total_price = total_price + (1000  * i.qty)
+		total_qty = total_qty + i.qty
 		i.paid = True
 		i.product_id = order_id
+		i.cartit = cartitems
 		qs1.append(i)
 		i.paymentoption = paymentoption
 		cate = i.category
@@ -595,9 +598,12 @@ def pay(request):
 		items.stock = items.stock - i.qty
 		items.save()
 		i.save()
+		cartitems.quantity = cartitems.quantity + i.qty
+		cartitems.price = cartitems.price + (i.qty * 1000)
+		cartitems.save()
 
 	template = get_template('Administrator/order.html')
-	context={'qs':qs1, 'total_cart':total_cart, 'total_price':total_price, 'date':date, 'paymentoption':paymentoption, 'order_id':order_id, 'user': request.user.username}
+	context={'qs':qs1, 'total_cart':total_cart, 'total_price':total_price, 'date':date, 'paymentoption':paymentoption, 'order_id':order_id, 'user': request.user.username, 'total_qty':total_qty}
 	#return render (request, 'Administrator/order.html', context)
 	html = template.render(context)
 	pdf = render_to_pdf('Administrator/order.html', context)
@@ -627,9 +633,9 @@ def filtersales(request):
 			return HttpResponse('input date')
 	total = 0
 	amount = 0
-	cart = Cart.objects.filter(paid=True, date=str(date)).order_by('-date')
+	cart = CartItems.objects.filter(date=str(date)).order_by('-date')
 	for i in cart:
-		total = total + i.qty
+		total = total + i.quantity
 		amount = amount + i.price
 	page = request.GET.get('page', 1)
 	paginator = Paginator(cart, 80)
@@ -641,3 +647,64 @@ def filtersales(request):
 		qs = paginator.page(paginator.num_pages)
 	context = {'qs':qs, 'total':total, 'amount':amount}
 	return render(request, 'Administrator/filtersales.html', context)
+
+@login_required(login_url='/account/login/')
+@staff_member_required
+def cartdetails(request, id):
+    cartit = CartItems.objects.get(id=id)
+    total = 0
+    amount = 0
+    cart = Cart.objects.filter(cartit=cartit).order_by('-date')
+    for i in cart:
+        total = total + i.qty
+        amount = amount + i.price
+    page = request.GET.get('page', 1)
+    paginator = Paginator(cart, 80)
+    try:
+        qs = paginator.page(page)
+    except PageNotAnInteger:
+        qs = paginator.page(1)
+    except EmptyPage:
+        qs = paginator.page(paginator.num_pages)
+    context = {'qs':qs, 'total':total, 'amount':amount}
+    return render(request, 'Administrator/cartdetails.html', context)
+
+
+
+
+#this function is used to print receipt when the id is searched
+@login_required(login_url='/account/login/')
+@staff_member_required
+def print_from_id(request):
+	sum = 0
+	p_id = request.POST.get('id')
+	num = random.randrange(12345678910234)
+	num = str(num)
+	if len(str(num)) == 11:
+	    num = str(num) + 1
+	    num = int(num)
+	else:
+	    num = num
+
+	ean = barcode.get('ean13', str(num), writer=ImageWriter())
+	filename = ean.save('ean13')
+	file = open('/home/budescode/inventory/project/static/images/barcode.png', 'wb')
+	ean.write(file)
+	cartitems = get_object_or_404(CartItems, cart_id = p_id)
+	cart = Cart.objects.filter(cartit=cartitems)
+	template = get_template('Administrator/print_from_id.html')
+	context={'cartitems':cartitems, 'cart':cart}
+	#return render (request, 'Administrator/order.html', context)
+	html = template.render(context)
+	pdf = render_to_pdf('Administrator/print_from_id.html', context)
+	if pdf:
+		response = HttpResponse(pdf, content_type='application/pdf')
+
+		filename = "%s_receipt.pdf" %('1k-clothes')
+		content = "inline; filename=%s" %(filename)
+		download = request.GET.get("download")
+		if download:
+			content = "attachment; filename='%s'" %(filename)
+		response['Content-Disposition'] = content
+		return response
+	return HttpResponse("Not found")

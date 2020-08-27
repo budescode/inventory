@@ -1,0 +1,21 @@
+{% extends 'index/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <img src="{% static 'index/assets/img/1.jpg' %}" alt='image' class='img-fluid'> <br>
+            <p>Employers at 1k are united by a unique culture that promotes growth, dignity, respect and fun... more</p>
+            <p>
+                Available Positions <br>
+               <a href="{% url 'home:store' %}"> <button class='btn btn-secondary'>STORE</button></a>
+               <a href="{% url 'home:store' %}">   <button class='btn btn-primary'>CENTRAL OFFICE</button></a>
+               <a href="{% url 'home:store' %}"> <button class='btn btn-success'>DISTRIBUTION</button></a>
+
+            </p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

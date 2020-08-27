@@ -99,6 +99,7 @@
 
                             </div>
                         </div>
+{% if sizeavailable == 'yes' %}
 
 
                         <div class="col-md-6 col-12 my-1 d-flex align-items-center">
@@ -138,40 +139,92 @@
                             <div class="mr-2">
                                 Size:
                             </div>
+
                             <div class="d-flex flex-wrap align-content-center">
-                                 <label class="custom-radio" for="small">
+
+                                <!--{% for i in sizelist %}-->
+                                <!--<label class="custom-radio" for="{{i.size}}">-->
+                                <!--    <input type="radio" name="size" id="{{i.size}}">-->
+                                <!--    <div class="content" onclick="changeSize('{{i.size}}')">{{i.size}}</div>-->
+                                <!--</label>-->
+                                <!--{% endfor %}-->
+
+                                <label class="custom-radio" for="small">
+                                    {% if S == 1 %}
                                     <input type="radio" name="size" id="small">
                                     <div class="content" onclick="changeSize('S')">S</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="small" disabled>
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>S</div>
+                                    {% endif %}
+
+
                                 </label>
 
                                 <label class="custom-radio" for="medium">
+                                    {% if M == 1 %}
                                     <input type="radio" name="size" id="medium">
                                     <div class="content" onclick="changeSize('M')">M</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="medium" disabled>
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>M</div>
+                                    {% endif %}
+
                                 </label>
 
                                 <label class="custom-radio" for="large">
+                                     {% if L == 1 %}
                                     <input type="radio" name="size" id="large">
                                     <div class="content" onclick="changeSize('L')">L</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="large" disabled>
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>L</div>
+                                    {% endif %}
+
                                 </label>
 
                                 <label class="custom-radio" for="xtraLarge">
+                                    {% if XL == 1 %}
                                     <input type="radio" name="size" id="xtraLarge">
                                     <div class="content" onclick="changeSize('XL')">XL</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="xtraLarge">
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>XL</div>
+                                    {% endif %}
+
+
                                 </label>
 
                                 <label class="custom-radio" for="2xtraLarge">
+                                    {% if XL2 == 1 %}
                                     <input type="radio" name="size" id="2xtraLarge">
                                     <div class="content" onclick="changeSize('2XL')">2XL</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="2xtraLarge" disabled>
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>2XL</div>
+                                    {% endif %}
+
                                 </label>
 
                                 <label class="custom-radio" for="3xtraLarge">
+                                    {% if XL3 == 1 %}
                                     <input type="radio" name="size" id="3xtraLarge">
                                     <div class="content" onclick="changeSize('3XL')">3XL</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="3xtraLarge" disabled>
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>3XL</div>
+                                    {% endif %}
                                 </label>
 
                                 <label class="custom-radio" for="4xtraLarge">
+                                     {% if XL4 == 1 %}
                                     <input type="radio" name="size" id="4xtraLarge">
                                     <div class="content" onclick="changeSize('4XL')">4XL</div>
+                                    {% else %}
+                                    <input type="radio" name="size" id="4xtraLarge" disabled>
+                                    <div class="content" style='background-color: rgb(128, 128, 128); color: white; border: 1px solid rgb(128, 128, 128);'>4XL</div>
+                                    {% endif %}
+
                                 </label>
                             </div>
                         </div>
@@ -198,7 +251,7 @@
                         <span class="anchor--dark f-block col-6" style='color:green;display:none;' id='loading_favourite' >loading...</span> <br>
                         <span class="anchor--dark f-block col-6" onclick="addToFavourite('{{detail.id}}')">
                             <i data-feather="heart" width="20" height="20"></i>
-                            Add to favorite
+                            Add To Wishlist
                         </span>
 
 
@@ -226,7 +279,12 @@
 
                         <button class="btn btn-block btn-primary" onclick='buyNowFunction()'>Buy Now</button>
                         <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal">View Size Guideline</button>
-
+{% else %}
+<div>
+<h3 style='color: red;'>Out Of Stock</h3>
+</div>
+{% endif %}
+<!--if the total list of sizes is not 0-->
                     </div>
 
                 </div>
@@ -303,6 +361,7 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">SIZE GUIDELINE</h4>
+           {{detail.name}}
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
@@ -311,6 +370,7 @@
          <div class='container-fluid'>
              <div class='row'>
                  <div class='col-md-12'>
+
                      {% if detail.subcategory.name == 'Polo' %}
                      {% if detail.sex == 'Female' %}
                      <img src="{% static 'index/assets/img/sizeguideline/1.jpeg' %}" class='img-fluid'> <hr>
@@ -325,38 +385,99 @@
 
                      {% if detail.subcategory.name == 'T-Shirt' %}
                      {% if detail.sex == 'Male' %}
-                     <img src="{% static 'index/assets/img/sizeguideline/3.jpeg' %}"  class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/4.jpeg' %}" class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/5.jpeg' %}"  class='img-fluid'><hr>
+                     {% if detail.name == 'Livergy' %}
+                     <img src="{% static 'index/assets/img/sizeguideline/18.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+                    {% if detail.name == 'Men' %}
+                    <img src="{% static 'index/assets/img/sizeguideline/14.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
+                    {% if detail.name == 'Ovs' %}
                     <img src="{% static 'index/assets/img/sizeguideline/7.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
+                    {% if detail.name == 'comfortable style' %}
+                    <img src="{% static 'index/assets/img/sizeguideline/4.jpeg' %}" class='img-fluid'><hr>
+                    {% endif %}
+
+                    {% if detail.name == 'Hensus' %}
+                    <img src="{% static 'index/assets/img/sizeguideline/5.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
+                    {% if detail.name == 'Nimbus' %}
+                    <img src="{% static 'index/assets/img/sizeguideline/3.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
+                    {% if detail.name == 'Silent Theory' %}
                     <img src="{% static 'index/assets/img/sizeguideline/13.jpeg' %}"  class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/14.jpeg' %}"  class='img-fluid'><hr>
-                    <img src="{% static 'index/assets/img/sizeguideline/18.jpeg' %}"  class='img-fluid'><hr>
-                    <img src="{% static 'index/assets/img/sizeguideline/19.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
+
+
+
+
+
+
+
+
+
+                    <!--<img src="{% static 'index/assets/img/sizeguideline/19.jpeg' %}"  class='img-fluid'><hr>-->
                      {% endif %}
                      {% endif %}
 
                      {% if detail.subcategory.name == 'Polo' %}
                      {% if detail.sex == 'Male' %}
-                     <img src="{% static 'index/assets/img/sizeguideline/6.jpeg' %}"  class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/17.jpeg' %}"  class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/9.jpeg' %}"  class='img-fluid'><hr>
+
+                     {% if detail.name == 'Karibean' %}
                      <img src="{% static 'index/assets/img/sizeguideline/15.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+                     {% if detail.name == 'Knowledge Cotton Aparrel' %}
+                      <img src="{% static 'index/assets/img/sizeguideline/17.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+                     {% if detail.name == 'Marville' %}
+                      <img src="{% static 'index/assets/img/sizeguideline/9.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+                     {% if detail.name == 'Mark Up Pocket' %}
+                       <img src="{% static 'index/assets/img/sizeguideline/6.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+
+
+
+
                      {% endif %}
                      {% endif %}
 
                      {% if detail.subcategory.name == 'Jean' %}
                      {% if detail.sex == 'Male' %}
-                     <img src="{% static 'index/assets/img/sizeguideline/8.jpeg' %}"  class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/16.jpeg' %}"  class='img-fluid'><hr>
-                     <img src="{% static 'index/assets/img/sizeguideline/11.jpeg' %}"  class='img-fluid'><hr>
+                     {% if detail.name == 'Old Navy' %}
                      <img src="{% static 'index/assets/img/sizeguideline/12.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+                     {% if detail.name == 'Pull And Bear' %}
+                     <img src="{% static 'index/assets/img/sizeguideline/16.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
+
+                    {% if detail.name == 'Azazel' %}
+                    <img src="{% static 'index/assets/img/sizeguideline/8.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
+                    {% if detail.name == 'Hardly Evers' %}
+                    <img src="{% static 'index/assets/img/sizeguideline/11.jpeg' %}"  class='img-fluid'><hr>
+                    {% endif %}
+
                      {% endif %}
                      {% endif %}
 
                     {% if detail.subcategory.name == 'Jean' %}
                      {% if detail.sex == 'Female' %}
+                     {% if detail.name == 'Ladies Plain Jeans' %}
                      <img src="{% static 'index/assets/img/sizeguideline/10.jpeg' %}"  class='img-fluid'><hr>
+                     {% endif %}
                      {% endif %}
                      {% endif %}
 

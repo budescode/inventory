@@ -50,16 +50,31 @@ class PettyCash(models.Model):
     price = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
 
+class CartItems(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, default=1, related_name='usercartitems')
+    cart_id = models.CharField(max_length=30)
+    date = models.DateField()
+    time = models.TimeField()
+    quantity = models.IntegerField(default=0)
+    price = models.IntegerField(default = 0)
+    paid = models.BooleanField(default = True)
+    paymentoption = models.CharField(max_length=20, null=True, blank=True, default='')
+
+    def __str__(self):
+        return str(self.cart_id)
+
 class Cart(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, default=1, related_name='usercart')
 	category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1, related_name='cartcategory')
 	subcategory = models.ForeignKey(SubCategory, on_delete = models.CASCADE, default=1, related_name='cartsubcategory')
+	cartit = models.ForeignKey(CartItems, on_delete = models.CASCADE, null=True, blank=True, related_name='cartitname')
 	sex = models.TextField()
 	qty = models.IntegerField(default=1)
 	single_price = models.IntegerField(default=1)
 	price = models.IntegerField()
 	paid = models.BooleanField(default=False)
 	date = models.DateField()
+	time = models.TimeField()
 	size = models.CharField(max_length=10)
 	product_id = models.CharField(max_length=20, default='00')
 	paymentoption = models.CharField(max_length=20, null=True, blank=True, default='')
@@ -68,4 +83,6 @@ class Cart(models.Model):
 	def __str__(self):
 	    return str(self.category)
 
+
+	price = models.PositiveIntegerField()
 

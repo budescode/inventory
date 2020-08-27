@@ -15,7 +15,7 @@ def addtoCart(request):
 	size = request.POST.get('size')
 	try:
 		qs = Index.objects.get(id=int(product_id))
-		detail = Index.objects.filter(category=qs.category,subcategory=qs.subcategory, size=size, sex=qs.sex, color=qs.color)[0]
+		detail = Index.objects.filter(category=qs.category,subcategory=qs.subcategory, name=qs.name, size=size, sex=qs.sex, color=qs.color)[0]
 		if detail.stock == 0:
 			return JsonResponse({'error':'Out Of Stock'})
 		else:
@@ -45,7 +45,7 @@ def buynow(request):
 	size = request.POST.get('size')
 	try:
 		qs = Index.objects.get(id=int(product_id))
-		detail = Index.objects.filter(category=qs.category,subcategory=qs.subcategory, size=size, sex=qs.sex, color=qs.color )[0]
+		detail = Index.objects.filter(category=qs.category,subcategory=qs.subcategory, name=qs.name, size=size, sex=qs.sex, color=qs.color )[0]
 		if detail.stock == 0:
 		    messages.info(request,'Out Of Stock')
 		    return redirect('cart:viewCart')
@@ -147,9 +147,12 @@ def order(request):
 	return render(request, 'cart/address.html', context)
 
 def empty_cart(request):
-    cart = Cart.objects.filter(user=request.user, paid=False, ordered=False)
-    for i in cart:
-        i.delete()
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user, paid=False, ordered=False)
+        for i in cart:
+            i.delete()
+    else:
+        request.session['session_cart'] = []
     return redirect('cart:viewCart')
 
 

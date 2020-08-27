@@ -373,7 +373,11 @@ function addCart(){
 
 
 
-function addtocartFunction(value){
+function addtocartFunction(value, total){
+    if (Number(total) <1){
+        alert('item unavailable')
+    }
+    else{
     report = document.querySelector('#record')
     report.style.display = 'none'
     categoryid = '#category'+ value
@@ -415,7 +419,18 @@ function addtocartFunction(value){
             var id = '#img'+data.id
             document.querySelector(id).style.display = 'none'
 	    }
-
+	    if (data.report == 'out of stock'){
+	        var id = '#img'+data.id
+	        var id2 = '#stock'+data.id
+	        document.querySelector(id).style.display = 'none'
+	        alert('out of stock')
+	    }
+	    if (data.report == 'Quantity greater than item available'){
+	        var id = '#img'+data.id
+	        var id2 = '#stock'+data.id
+	        document.querySelector(id).style.display = 'none'
+	        alert('Quantity greater than item available')
+	    }
 	    else{
 		var id = '#img'+data.id
 		var id2 = '#stock'+data.id
@@ -432,6 +447,8 @@ function addtocartFunction(value){
         // document.querySelector(id2).innerHTML = stock1
 	    }
 	})
+
+    }
 }
 
 

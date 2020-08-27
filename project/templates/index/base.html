@@ -15,6 +15,52 @@
 </head>
 
 <body>
+
+
+  <!-- Search Modal -->
+  <div class="modal fade" id="searchmodal">
+    <div class="modal-dialog modal-lg">
+        <form method='post' action='{% url 'home:search' %}'> {% csrf_token %}
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Search items...</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+                <div class="form  d-sm-block">
+
+
+        <div class="input-group mb-3">
+          <input type="search" class="form-control form-control-lg bg-transparent"
+            placeholder="Try red polo, blue short..." name='searchitem'>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary btn-lg" type="submit">
+              <i data-feather="search" width="18" height="18"></i>
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" >Submit</button>
+
+        </div>
+
+      </div>
+        </form>
+    </div>
+  </div>
+
+
   <!--Filter Modal-->
   <div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="regLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -130,33 +176,25 @@
       <a class="logo" href="{% url 'home:home' %}">
         <img src="{% static 'index/assets/img/logo.png' %}" alt="1k store logo" class="img-fluid">
       </a>
-      <div class="form  d-sm-block">
 
-         <form method='post' action='{% url 'home:search' %}'> {% csrf_token %}
-        <div class="input-group mb-3">
-          <input type="search" class="form-control form-control-lg bg-transparent"
-            placeholder="Try red polo, blue short..." name='searchitem'>
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary btn-lg" type="submit">
-              <i data-feather="search" width="18" height="18"></i>
-            </button>
-          </div>
-        </div>
-        </form>
-
-      </div>
       <aside class="secondary-navlink">
         <ul class="d-flex justify-content-between align-items-center">
-          <li class="link mx-2">
 
+          <li class="link mx-2">
+            <a href="#" class="anchor--dark" data-toggle="modal" data-target="#searchmodal">
+           <i data-feather="search" width="25" height="25"></i>
+            </a>
+          </li>
+
+          <li class="link mx-2">
             <a href="{% url 'cart:viewCart' %}" class="anchor--dark">
            <b id="cart_count"> {{usercart_count}} </b> <i data-feather="shopping-cart" width="25" height="25"></i>
             </a>
-
           </li>
+
           <li class="dropdown mx-2">
             <a href="#" class="anchor--dark">
-              <i data-feather="user" width="25" height="25"></i>{% if request.user.is_authenticated %} {{request.user.username}} {% else %} Account {% endif %}
+              <i data-feather="user" width="25" height="25"></i>
               <span class="dropdown-arrow">
                 <i data-feather="chevron-down" width="12" height="12"></i>
               </span>
@@ -408,10 +446,9 @@
           </p>
 
           <address style="font-style: normal">Location - 4 Oko Ogba, Airport Road, <br> Benin City, Edo state.</address>
-          <h6 class="text-success"><b>CAREERS AT 1K</b></h6>
-<div class="bg-success text-center text-white pd--10">
-          <p>WE DON'T DO WHOLESALE SALES</p>
-          </div>
+          <a href="{% url 'home:careers' %}"><h6 class="text-success"><b>CAREERS AT 1K</b></h6></a>
+
+
         </div>
       </div>
 
@@ -422,6 +459,8 @@
           <a href="{% url 'home:terms' %}" class="anchor--dark">Terms & conditions</a><br><br>
           <a href="{% url 'home:customer_service' %}" class="anchor--dark">Customer Service</a><br><br>
           <a href="{% url 'home:orders_and_returns' %}" class="anchor--dark">Orders & Returns</a><br><br>
+          <a href='https://www.nairaland.com/5520916/n1000-shirts-jeans-gowns-polos#83904140' class="anchor--dark">BRAND PHILOSOPHY</a> <br><br>
+          <a>1KSHOP IS A TRADEMARK BRAND OF YEHGS CO LTD</a>
         </div>
       </div>
       <div class="col-12 col-md-4">
@@ -432,10 +471,10 @@
             <div class="my-3 is-size--2 social social-row">
               <ul>
                 <li>
-                  <a href="https://www.facebook.com/1kclothingshop-109358923843563/?modal=admin_todo_tour" title="facebook" aria-details="facebook"><span class="flaticon-facebook"></span></a>
-                  <a href="https://www.instagram.com/1kclothingshoponline" title="instagram" aria-details="instagram"><span class="flaticon-instagram"></span></a>
-                  <a href="https://twitter.com/1kclothingshop" title="twitter" aria-details="twitter"><span class="flaticon-twitter"></span></a>
-                  <a href="https://www.youtube.com/channel/UC1-SHotiGzvqALSzCfUh1ZA" title="youtube" aria-details="youtube"><i data-feather="youtube" width="16" height="16"></i></a>
+                  <a href="https://www.facebook.com/1kclothingshop-109358923843563/?modal=admin_todo_tour" title="facebook" aria-details="facebook" style='background-color: #3b5998; color: white'><span class="flaticon-facebook"></span></a>
+                  <a href="https://www.instagram.com/1kclothingshoponline" title="instagram" aria-details="instagram" style='background-color: #3f729b; color: white'><span class="flaticon-instagram"></span></a>
+                  <a href="https://twitter.com/1kclothingshop" title="twitter" aria-details="twitter" style='background-color: #00acee; color: white'><span class="flaticon-twitter"></span></a>
+                  <a href="https://www.youtube.com/channel/UC1-SHotiGzvqALSzCfUh1ZA" title="youtube" aria-details="youtube" style='background-color: #c4302b; color: white'><i data-feather="youtube" width="16" height="16" ></i></a>
 
                 </li>
                 <li></li>
@@ -447,12 +486,13 @@
             <div class="my-3 is-size--2 social social-row">
               <ul>
                 <li>
-                  <a href="https://chat.whatsapp.com/IhPDyXXYVRh06tuvMRgUGl" title="whatsapp" aria-details="whatsapp"><span class="flaticon-whatsapp"></span></a>
-                  <a href="{% url 'home:contact' %}" title="email" aria-details="email"><span class="flaticon-email"></span></a>
+                  <a href="https://chat.whatsapp.com/IhPDyXXYVRh06tuvMRgUGl" title="whatsapp" aria-details="whatsapp" style='background-color: #075E54; color: white'><span class="flaticon-whatsapp"></span></a>
+                  <a href="{% url 'home:contact' %}" title="email" aria-details="email" style='background-color: lightred; color: white'><span class="flaticon-email"></span></a>
                 </li>
                 <li></li>
               </ul>
             </div>
+            <!--<h6>1K SHOP IS A TRADEMARK WORDS AT THE BOTTOM</h6>-->
           </div>
         </div>
       </div>
@@ -464,9 +504,16 @@
 
   <!--Extra footer added-->
   <div class="bg-success text-center text-white pd--10">
-    <h6> <b> ARE YOU INTERESTED IN OPENING A FRANCHISE SHOP IN YOUR CITY ? KINDLY CONTACT US</b></h6>
+    <h6> <b>  <p>WE DON'T DO WHOLESALE</p></b></h6>
   </div>
 
+  <div style='background-color: rgb(32, 32, 32);' class="text-center text-white pd--10">
+    <h6> <b>  <p>MORE FRANCHISE COMING SOON ACROSS NIGERIA</p></b></h6>
+  </div>
+
+  <div class="bg-success text-center text-white pd--10">
+    <h6> <b> ARE YOU INTERESTED IN OPENING A FRANCHISE SHOP IN YOUR CITY ? KINDLY CONTACT US</b></h6>
+  </div>
 
 </body>
 

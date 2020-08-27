@@ -98,6 +98,18 @@
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4", "m")'>Add</button></td>
 </tr>
 
+<tr>
+<td>5XL</td>
+<td id='xl5m{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl5", "m")'>Add</button></td>
+</tr>
+
+<tr>
+<td>6XL</td>
+<td id='xl6m{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}","{{i.id}}", "{{a.name}}", "{{a.id}}", "xl6", "m")'>Add</button></td>
+</tr>
+
 </tbody>
 </table>
 </div>
@@ -116,11 +128,13 @@
 </tr>
 </thead>
 <tbody>
+
 <tr>
 <td>S</td>
 <td id='sf{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "s", "f")'>Add</button></td>
 </tr>
+
 <tr>
 <td>M</td>
 <td id='mf{{i.id}}{{a.id}}'>0</td>
@@ -132,22 +146,41 @@
 <td id='lf{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "l", "f")'>Add</button></td>
 </tr>
+
 <tr>
 <td>XL</td>
 <td id='xlf{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl", "f")'>Add</button></td>
 </tr>
+
+<tr>
 <td>2XL</td>
 <td id='xl2f{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl2", "f")'>Add</button></td>
 </tr>
+
+<tr>
 <td>3XL</td>
 <td id='xl3f{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl3", "f")'>Add</button></td>
 </tr>
+
+<tr>
 <td>4XL</td>
 <td id='xl4f{{i.id}}{{a.id}}'>0</td>
 <td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl4", "f")'>Add</button></td>
+</tr>
+
+<tr>
+<td>5XL</td>
+<td id='xl5f{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl5", "f")'>Add</button></td>
+</tr>
+
+<tr>
+<td>6XL</td>
+<td id='xl6f{{i.id}}{{a.id}}'>0</td>
+<td><button class='btn btn-sm btn-success' data-toggle="modal" data-target="#myModal3" onclick='AddItems1("{{i.name}}", "{{i.id}}", "{{a.name}}", "{{a.id}}", "xl6", "f")'>Add</button></td>
 </tr>
 
 </tbody>
@@ -363,7 +396,6 @@
   <div class="col-md-12">
 
 
-<form>
   <div class="form-group">
   <label for="available">Stock available</label>
   <input type="text" class="form-control" name="" id="editstock">
@@ -374,10 +406,6 @@
 
 
   </div>
-
-</form>
-
-
 
   </div>
 
@@ -484,7 +512,6 @@ function subCategoryDetails(category, categoryid){
 function AddItems1(category, categoryid, subcategory, subcategoryid, size, sex ){
 
     "{{i.name}}", "{{a.name}}", "F", "{{i.id}}{{a.id}}"
-    console.log(category, categoryid, subcategory, subcategoryid, size, sex )
     qs = "#"+size+sex + categoryid + subcategoryid
     qs = document.querySelector(qs).innerHTML
     document.querySelector('#editcategoryid').innerHTML = categoryid
@@ -534,8 +561,8 @@ function categoryChange(category, subcategory, sex, id){
         xl2f = "#xl2f"+id
         xl3f = "#xl3f"+id
         xl4f = "#xl4f"+id
-
-
+        xl5f = "#xl5f"+id
+        xl6f = "#xl6f"+id
 
         sm = "#sm"+id
         mm = "#mm"+id
@@ -544,6 +571,8 @@ function categoryChange(category, subcategory, sex, id){
         xl2m = "#xl2m"+id
         xl3m = "#xl3m"+id
         xl4m = "#xl4m"+id
+        xl5m = "#xl5m"+id
+        xl6m = "#xl6m"+id
 
         if(category == category1 ){
             if(subcategory == subcategory1 ){
@@ -599,7 +628,9 @@ function categoryChange(category, subcategory, sex, id){
                         document.querySelector(xl3f).innerHTML = stock
                     }
                     else if(sex1 == 'M'){
+
                         document.querySelector(xl3m).innerHTML = stock
+
                     }
 
                 }
@@ -609,7 +640,29 @@ function categoryChange(category, subcategory, sex, id){
                         document.querySelector(xl4f).innerHTML = stock
                     }
                     else if(sex1 == 'M'){
+
                         document.querySelector(xl4m).innerHTML = stock
+
+                    }
+
+                }
+
+               else if(size1=='5XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl5f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl5m).innerHTML = stock
+                    }
+
+                }
+
+               else if(size1=='6XL'){
+                    if(sex1 == 'F'){
+                        document.querySelector(xl6f).innerHTML = stock
+                    }
+                    else if(sex1 == 'M'){
+                        document.querySelector(xl6m).innerHTML = stock
                     }
 
                 }

@@ -10,6 +10,14 @@ from .forms import IndexForm, IndexCategoryForm, IndexSubCategoryForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from order.models import Order
+import string
+import random
+from project.utils import render_to_pdf
+from django.template.loader import get_template
+from django.utils import timezone
+import barcode
+from barcode.writer import ImageWriter
 
 
 @login_required(login_url='/account/login_dashboard/')
@@ -100,7 +108,7 @@ def deletecategory(request, id):
 @login_required(login_url='/account/login_dashboard/')
 @staff_member_required
 def ordered_delivery(request):
-	qs = Order.objects.filter(delivered=False)
+	qs = Order.objects.filter(delivered=False).order_by('-date', '-time')
 	context = {'qs':qs}
 	return render(request, 'dashboard/ordered_delivery.html', context)
 
@@ -395,3 +403,46 @@ def yearlyreportsold(request):
 	return render(request, 'dashboard/yearlyreportsold.html', context)
 
 
+@login_required(login_url='/account/login/')
+@staff_member_required
+def pay(request, id):
+	sum = 0
+	paymentoption = request.POST.get('paymentoption')
+	date=datetime.now()
+	num = random.randrange(12345678910234)
+	num = str(num)
+	if len(str(num)) == 11:
+	    num = str(num) + 1
+	    num = int(num)
+	else:
+	    num = num
+
+	ean = barcode.get('ean13', str(num), writer=ImageWriter())
+	filename = ean.save('ean13')
+	file = open('/home/budescode/inventory/project/static/images/barcode.png', 'wb')
+	ean.write(file)
+	total_price = 0
+	total_qty = 0
+	order = get_object_or_404(Order, id=id, paid=True)
+	orderitems = Cart.objects.filter(order_key=order)
+	for i in orderitems:
+	    total_price = total_price + i.total_price
+	    total_qty = total_qty + i.quantity
+
+
+	template = get_template('dashboard/printreceipt')
+	context={'orderitems':orderitems, 'order':order, 'total_price':total_price, 'date':date,  'user': request.user.username, 'total_qty':total_qty}
+	#return render (request, 'Administrator/order.html', context)
+	html = template.render(context)
+	pdf = render_to_pdf('dashboard/printreceipt', context)
+	if pdf:
+		response = HttpResponse(pdf, content_type='application/pdf')
+
+		filename = "%s_receipt.pdf" %('1k-clothes')
+		content = "inline; filename=%s" %(filename)
+		download = request.GET.get("download")
+		if download:
+			content = "attachment; filename='%s'" %(filename)
+		response['Content-Disposition'] = content
+		return response
+	return HttpResponse("Not found")
